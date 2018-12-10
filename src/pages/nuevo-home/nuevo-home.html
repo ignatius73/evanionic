@@ -1,0 +1,79 @@
+<ion-header no-padding>
+
+    <ion-navbar no-padding color="primary">
+        <ion-buttons left>
+            <button (click)='signOut()'>
+                        <ion-icon name='log-out'></ion-icon>
+                    </button>
+        </ion-buttons>
+
+
+
+        <ion-title text-center>Welcome!</ion-title>
+
+
+    </ion-navbar>
+
+</ion-header>
+<ion-content no-padding>
+
+    <ion-grid no-padding>
+        <ion-row no-padding>
+            <ion-col *ngIf="role == 0">
+                <ion-list no-padding inset>
+                    <button no-padding ion-item (click)="mensajesPastor()">
+                              Your Pastor says...
+                            </button>
+                </ion-list>
+            </ion-col>
+
+            <ion-col no-padding *ngIf="role == 1">
+                <ion-list no-padding inset>
+                    <button no-padding ion-item (click)="crearMensajes()">
+                                      Send a message for your community
+                                    </button>
+                </ion-list>
+
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+
+
+    <ion-list *ngFor="let i of _us.us">
+        <ion-item no-padding>
+            <ion-card no-padding>
+                <ion-item no-padding *ngIf="userLogged.imagen && i.imagen == ''">
+                    <img src="../../assets/imgs/no-photo.png">
+                </ion-item>
+                <ion-item no-padding *ngIf="fb == true" item-center>
+                    <img [src]="userLogged.imagen">
+                </ion-item>
+                <ion-item class="photo" no-padding *ngIf="fb == false" item-center>
+                    <img *ngIf="i.imagen !== ''" [src]="i.imagen">
+                    <span text-center><img *ngIf="i.imagen == ''" src="../../assets/imgs/no-photo.png"></span>
+                </ion-item>
+
+                <ion-card-content>
+                    <ion-card-title>
+                        {{ i.name }} {{ i.surname }}
+                    </ion-card-title>
+                    <p>
+                        The most popular industrial group ever, and largely responsible for bringing the music to a mass audience.
+                    </p>
+                </ion-card-content>
+            </ion-card>
+
+
+
+        </ion-item>
+
+        <ion-item>
+
+            <button ion-button danger block (click)='search()'>Search for a Worker</button>
+            <button ion-button danger block (click)='offer()'>Publish your skills</button>
+        </ion-item>
+
+    </ion-list>
+
+</ion-content>

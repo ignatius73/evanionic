@@ -1,0 +1,27 @@
+page-login {
+    ion-content {
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a7cfdf+0,23538a+100;Blue+3d+%238 */
+        //   background: #D4B2D3;
+        /* Old browsers */
+        //   background: -moz-linear-gradient(top, rgba(167, 207, 223, 1) 0%, rgba(35, 83, 138, 1) 100%);
+        /* FF3.6-15 */
+        //    background: -webkit-linear-gradient(top, rgba(167, 207, 223, 1) 0%, rgba(35, 83, 138, 1) 100%);
+        /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, rgba(226, 177, 202, 1) 0%, rgba(228, 220, 228, 1) 100%);
+        /*   background-color: rgba(226, 177, 202, 1);
+        background: filter-gradient(#e2b1ca, #e4dce4, horizontal);
+        background: background-image(linear-gradient(left, rgba(226, 177, 202, 1) 0%, rgba(228, 220, 228, 1) 100%));*/
+    }
+    img {
+        width: 35%;
+        // height: 80px;
+        margin-top: 10px;
+        margin-bottom: 40px;
+    }
+    h3 {
+        color: white;
+    }
+    .loginItem {
+        background-color: white;
+    }
+}

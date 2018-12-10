@@ -1,0 +1,52 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+        <ion-title text-center>Your Pastor says...</ion-title>
+
+
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content *ngIf="usuarios.us[0].role == '0' ">
+    <ion-list *ngFor="let i of usuarios.mensajes">
+        <ion-item *ngIf="!i.messagejpg">
+            <ion-card>
+                <ion-card-header>
+                    Date {{ i.datemsg }}
+                </ion-card-header>
+                <ion-card-content>
+                    {{ i.messageTXT }}
+                </ion-card-content>
+            </ion-card>
+        </ion-item>
+        <ion-item *ngIf="i.messagejpg">
+            <ion-card>
+                <ion-card-header>
+                    Date {{ i.datemsg }}
+                </ion-card-header>
+                <ion-card-content>
+                    {{ i.messageTXT }}
+
+                    <img [src]="i.messagejpg" />
+                </ion-card-content>
+            </ion-card>
+        </ion-item>
+
+    </ion-list>
+
+
+
+
+</ion-content>
+<ion-content *ngIf="usuarios.us[0].role == '1' ">
+    <form #forma="ngForm">
+        <ion-textarea [(ngModel)]="mensaje.messageTXT" name="messageTXT" required></ion-textarea>
+        <hr> {{ imgpreview }}
+        <button ion-button primary outline block (click)='subirFoto()'>Load Image</button>
+        <button ion-button primary outline block (click)='tomarFoto()'>Camera</button>
+
+        <button ion-button primary outline block (click)='crearMensaje()' [disabled]='!forma.form.valid'>Create</button>
+    </form>
+</ion-content>

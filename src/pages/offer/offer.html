@@ -1,0 +1,36 @@
+<ion-header class='headerPadd'>
+
+    <ion-navbar hideBackButton color="primary">
+        <ion-title text-center>Pick your skills</ion-title>
+    </ion-navbar>
+    <ion-grid>
+        <ion-row>
+            <ion-col col-3 *ngFor="let o of hab">
+                <ion-badge item-end>{{ o.description }}</ion-badge>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+</ion-header>
+
+
+<ion-content class="contentPad">
+
+
+    <ion-list *ngFor="let i of offer.skills">
+        <button #elegido ion-item (click)="picked(i)">
+                            {{ i.idWork }} {{ i.description }}
+                          </button>
+    </ion-list>
+
+    <ion-infinite-scroll (ionInfinite)="sig_pag($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+
+
+</ion-content>
+<ion-footer>
+    <button ion-button (click)="cargaSkills()"></button> {{ objeto | json }}
+
+</ion-footer>

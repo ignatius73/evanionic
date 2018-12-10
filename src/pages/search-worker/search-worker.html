@@ -1,0 +1,66 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>Search for the Worker closer to you</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+    <ion-searchbar *ngIf="selected === false" (ionInput)="filtraWork($event)"></ion-searchbar>
+    <ion-list *ngIf="selected === false">
+        <ion-item *ngFor="let i of works.skills">
+            <button ion-input (click)="buscaWorker(i)">{{ i.description }}</button>
+        </ion-item>
+    </ion-list>
+
+    <ion-card *ngIf="selected === true">
+
+        <img *ngIf="item.imagen === ''" src="../../assets/icon/no-picture-available-icon-20.jpg " />
+        <img *ngIf="item.imagen !== ''" [src]="item.imagen" />
+        <ion-card-content>
+            <ion-card-title>
+                {{ item.name }} {{ item.surname }}
+            </ion-card-title>
+            <p>
+                The most popular industrial group ever, and largely responsible for bringing the music to a mass audience.
+            </p>
+
+
+            <ion-grid>
+
+                <ion-row>
+                    <ion-col col-5>
+                        <ul *ngFor="let i of [1,2,3,4,5]">
+                            <li>
+                                <ion-icon *ngIf="valoracion < i" name="star-outline"></ion-icon>
+                            </li>
+                        </ul>>
+                        <ion-item>
+
+                            <ion-icon *ngIf="valoracion >= i" name="star"></ion-icon>
+                        </ion-item>
+
+
+
+                    </ion-col>
+                    <ion-col col-2>
+
+                        <ion-icon name="thumbs-up" (click)="positivo()"></ion-icon>
+
+
+
+                    </ion-col>
+                    <ion-col col-2>
+
+                        <ion-icon name="thumbs-down" (click)="negativo()"></ion-icon>
+
+
+                    </ion-col>
+
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>
