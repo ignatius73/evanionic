@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { OfferedProvider } from '../../providers/offered/offered';
 
 
@@ -24,7 +24,10 @@ export class SearchWorkerPage {
   
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              public works: OfferedProvider) {
+              public works: OfferedProvider,
+              private loading: LoadingController,
+              private alert: AlertController) {
+                
                 
    }           
 
@@ -35,21 +38,33 @@ export class SearchWorkerPage {
 
   filtraWork( ev: any ) {
 
-    
-
-    let valor = ev.target.value;
-    console.log( valor );
+   this.skills = []; 
+   this.works.skills = [];
+   let valor = ev.target.value;
+   // this.skills = this.works.skills.filter( skill=> skill.description === valor );
+   // console.log( valor );
+  //  console.log( this.skills );
+  if (valor.length >=2 && valor !== undefined ) {
+  let loader = this.loading.create({
+      content: "Please wait...",
+      duration: 3000
+  })  ;
+  loader.present().then( () => {
     this.works.cargar_todos( valor )
-        .then( ( resp ) => {
-          if ( resp['skills'] ){
-            this.skills = resp['skills'];
+    .then( ( resp ) => {
+      loader.dismiss();
+      if ( resp['skills'] ){
+        this.skills = resp['skills'];
 
-          } else {
-            let respuesta = "Sorry, we don't know any " + valor + "yet.";
-          }
-          console.log( resp );
-        })
-   
+      } else {
+        let respuesta = "Sorry, we don't know any " + valor + "yet.";
+      }
+      console.log( resp );
+    })
+
+   });
+  
+  }
   }
 
   buscaWorker( item ){
@@ -64,6 +79,16 @@ export class SearchWorkerPage {
   negativo(){
     console.log( "Desaprobados")
 
+  }
+
+  contratar(){
+    const alert = this.alert.create({
+      title: 'Not Yet!',
+      subTitle: 'We are working on it! Coming soon!',
+      buttons: ['OK']
+    });
+    alert.present();
+  
   }
 
 }

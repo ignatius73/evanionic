@@ -53,13 +53,14 @@
 
 </ion-content>
 <ion-content *ngIf="usuarios.us[0].role == '1' ">
-    role igual a 1
+    {{ imgpreview }}
     <form #forma="ngForm">
         <ion-textarea [(ngModel)]="mensaje.messageTXT" name="messageTXT" required></ion-textarea>
-        <hr> {{ imgpreview }}
+
         <button ion-button primary outline block (click)='subirFoto()'>Load Image</button>
         <button ion-button primary outline block (click)='tomarFoto()'>Camera</button>
 
         <button ion-button primary outline block (click)='crearMensaje()' [disabled]='!forma.form.valid'>Create</button>
     </form>
+
 </ion-content>

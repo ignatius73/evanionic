@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, InfiniteScroll, InfiniteScrollContent } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, InfiniteScroll, InfiniteScrollContent, LoadingController } from 'ionic-angular';
 import { OfferedProvider } from '../../providers/offered/offered';
 import { Works } from '../../interfaces/work.interface';
 
@@ -25,10 +25,11 @@ export class OfferPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public offer: OfferedProvider) {
+              public offer: OfferedProvider,
+              private loading: LoadingController) {
       console.log(navParams);
 
-      this.offer.cargar_todos();
+     
 
       console.log( this.hab.length );
 
@@ -36,11 +37,13 @@ export class OfferPage {
   }
 
   ionViewDidLoad() {
+    this.offer.cargar_todos();
     console.log('ionViewDidLoad OfferPage');
     console.log( this.offer.skills);
   }
 
   sig_pag( ev ){
+
     this.offer.cargar_todos()
       .then( () => {
         ev.complete();
@@ -76,17 +79,28 @@ export class OfferPage {
   }
 
   filtraWork( ev: any ) {
-
-    
+    console.log( ev );
     this.valor = null;
-    this.valor = ev.target.value;
-    console.log( this.valor );
-    this.offer.cargar_todos( this.valor )
-        .then( ( resp ) => {
-          console.log( resp );
-        })
+    if (ev.target.value !== "" && ev.target.value.length >= 2){
+      this.valor = ev.target.value;
+    
    
-  }
+    
+    let loader = this.loading.create({
+      content: "Please wait...",
+      duration: 3000
+  })  ;
+  loader.present().then( () => {
+    this.offer.cargar_todas_skills( this.valor )
+        .then( ( resp ) => {
+          loader.dismiss();
+          console.log( resp );
+        });
+   
+    });
 
-
+    }else{
+      console.log("sale por acá");
+    }
+}
 }

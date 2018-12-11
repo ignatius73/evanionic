@@ -18,7 +18,7 @@
 <ion-content no-padding>
 
     <ion-grid no-padding>
-        <ion-row no-padding>
+        <ion-row no-padding justify-content-center>
             <ion-col *ngIf="role == 0">
                 <ion-list no-padding inset>
                     <button no-padding ion-item (click)="mensajesPastor()">
@@ -47,15 +47,17 @@
                     <img [src]="userLogged.imagen">
                 </ion-item>
                 <ion-item no-padding *ngIf="fb == false" item-center>
-                    <img [src]="i.imagen">
+                    <img *ngIf="i.imagen === ''" src="../../assets/icon/no-picture-available-icon-20.jpg " />
+                    <img *ngIf="i.imagen !== ''" [src]="i.imagen">
                 </ion-item>
 
+
                 <ion-card-content>
-                    <ion-card-title>
+                    <ion-card-title text-center>
                         {{ i.name }} {{ i.surname }}
                     </ion-card-title>
                     <p>
-                        The most popular industrial group ever, and largely responsible for bringing the music to a mass audience.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem quae blanditiis architecto adipisci pariatur...
                     </p>
                 </ion-card-content>
             </ion-card>

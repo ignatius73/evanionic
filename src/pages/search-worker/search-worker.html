@@ -1,82 +1,88 @@
 <ion-header>
 
-    <ion-navbar>
+    <ion-navbar color="primary">
         <ion-title>Search for the Worker closer to you</ion-title>
     </ion-navbar>
 </ion-header>
 
 
-<ion-content *ngIf="selected === false">
+<ion-content padding *ngIf="selected === false">
     <ion-searchbar (ionInput)="filtraWork($event)"></ion-searchbar>
     <ion-item *ngIf="works.respuesta">
         {{ works.respuesta }}
     </ion-item>
-    <ion-list avatar-list no-margin no-padding *ngFor="let i of works.skills">
+    <ion-item *ngIf="!term">
+        <ion-list avatar-list no-margin no-padding *ngFor="let i of works.skills">
 
-        <ion-item (tap)="buscaWorker(i)">
-            <ion-avatar item-start>
-                <img [src]="i.imagen">
-            </ion-avatar>
-            <h2>{{ i.name }}</h2>
-            <p>{{ i.description }}</p>
-        </ion-item>
+            <ion-item (tap)="buscaWorker(i)">
+                <ion-avatar item-start>
+                    <img [src]="i.imagen">
+                </ion-avatar>
+                <h2>{{ i.name }}</h2>
+                <p>{{ i.description }}</p>
+            </ion-item>
+        </ion-list>
+    </ion-item>
+    <ion-item *ngIf="term">
+        <ion-list avatar-list no-margin no-padding *ngFor="let i of skills">
 
-
-
-
-
-
-
-    </ion-list>
+            <ion-item (tap)="buscaWorker(i)">
+                <ion-avatar item-start>
+                    <img [src]="i.imagen">
+                </ion-avatar>
+                <h2>{{ i.name }}</h2>
+                <p>{{ i.description }}</p>
+            </ion-item>
+        </ion-list>
+    </ion-item>
 </ion-content>
 
 <ion-content *ngIf="selected === true">
-    <ion-card>
 
-        <img *ngIf="item.imagen === ''" src="../../assets/icon/no-picture-available-icon-20.jpg " />
-        <img *ngIf="item.imagen !== ''" [src]="item.imagen" />
+
+
+    <ion-card padding-top>
+        <ion-row>
+            <ion-col col-12>
+                <img *ngIf="item.imagen === ''" src="../../assets/icon/no-picture-available-icon-20.jpg " />
+                <img *ngIf="item.imagen !== ''" [src]="item.imagen" />
+            </ion-col>
+        </ion-row>
+
         <ion-card-content>
-            <ion-card-title>
+            <ion-card-title text-center>
                 {{ item.name }} {{ item.surname }}
             </ion-card-title>
             <p>
-                The most popular industrial group ever, and largely responsible for bringing the music to a mass audience.
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corporis, minima placeat. Facilis quasi alias illum.
             </p>
 
 
             <ion-grid>
 
-                <ion-row>
-                    <ion-col col-5>
-                        <ul *ngFor="let i of [1,2,3,4,5]">
+                <ion-row justify-content-center>
+                    <ion-col>
+                        <ul class="horiz" *ngFor="let i of [1,2,3,4,5]">
                             <li>
                                 <ion-icon *ngIf="valoracion < i" name="star-outline"></ion-icon>
+                                <ion-icon *ngIf="valoracion >= i" name="star"></ion-icon>
                             </li>
-                        </ul>>
-                        <ion-item>
-
-                            <ion-icon *ngIf="valoracion >= i" name="star"></ion-icon>
-                        </ion-item>
-
-
-
+                        </ul>
                     </ion-col>
-                    <ion-col col-2>
-
-                        <ion-icon name="thumbs-up" (click)="positivo()"></ion-icon>
-
-
-
-                    </ion-col>
-                    <ion-col col-2>
-
-                        <ion-icon name="thumbs-down" (click)="negativo()"></ion-icon>
-
-
-                    </ion-col>
-
                 </ion-row>
+                <ion-row>
+                    <ion-col text-center col-6>
+                        <ion-icon name="thumbs-up" (click)="positivo()"></ion-icon>
+                    </ion-col>
+                    <ion-col text-center col-6>
+                        <ion-icon name="thumbs-down" (click)="negativo()"></ion-icon>
+                    </ion-col>
+                </ion-row>
+
+
+
             </ion-grid>
+            <button block ion-button (tap)="contratar()">Hire</button>
         </ion-card-content>
     </ion-card>
 

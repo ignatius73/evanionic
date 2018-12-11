@@ -60,6 +60,7 @@ export class OfferedProvider {
                     }
                     this.skills.push( ...data['skills'] );
                     this.pagina +=1;
+                    console.log( this.skills );
 
                   }
 
@@ -105,5 +106,52 @@ export class OfferedProvider {
     });
 
   }
+
+  cargar_todas_skills( term = 0){
+    this.skills = [];
+    let url = "";
+    if ( term === 0 ){
+      console.log( "Term está vacío");
+      url = URL_SERVICIOS + "Skills/todos/" + this.pagina;
+    } else {
+    
+      console.log( "Term está lleno");
+      url = URL_SERVICIOS + "Skills/todasSkillsWhere/" + term;
+    }
+
+    return new Promise(  (resolve, reject)=>{
+
+     // let url = URL_SERVICIOS + "/Skills/todos/" + this.pagina;
+
+      this.http.get( url )
+                
+                .subscribe( data =>{
+                  this.respuesta = undefined;
+
+
+                  if( data['error'] === true ){
+                    reject( data['error']);// Aqui hay un problema
+                  }else{
+
+                    //let nuevaData = this.agrupar( data.skills, 2 );
+                    if ( data['respuesta'] ){
+                      this.respuesta = data['respuesta'];
+                    }
+                    this.skills.push( ...data['skills'] );
+                    this.pagina +=1;
+                    console.log( this.skills );
+
+                  }
+
+                  resolve( data );
+
+                })
+
+    });
+
+  }
+
+
+
 
 }

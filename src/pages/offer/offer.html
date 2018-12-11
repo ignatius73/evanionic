@@ -1,6 +1,6 @@
 <ion-header class='headerPadd'>
 
-    <ion-navbar hideBackButton color="primary">
+    <ion-navbar color="primary">
         <ion-title text-center>Pick your skills</ion-title>
 
     </ion-navbar>
@@ -8,8 +8,8 @@
         <ion-row>
             <ion-searchbar (ionInput)="filtraWork($event)"></ion-searchbar>
         </ion-row>
-        <ion-row>
-            <ion-col col-3 *ngFor="let o of hab">
+        <ion-row justify-content-center>
+            <ion-col *ngFor="let o of hab">
 
                 <ion-badge item-end>{{ o.description }}</ion-badge>
             </ion-col>
@@ -28,9 +28,9 @@
         </ion-item>
     </ion-list>
 
-    <ion-infinite-scroll (ionInfinite)="sig_pag($event)">
+    <!-- <ion-infinite-scroll (ionInfinite)="sig_pag($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+    </ion-infinite-scroll>-->
 
 
 
