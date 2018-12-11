@@ -53,7 +53,7 @@
 
 </ion-content>
 <ion-content *ngIf="usuarios.us[0].role == '1' ">
-    {{ imgpreview }}
+    <img *ngIf="imgpreview !== ''" [src]="imgpreview" />
     <form #forma="ngForm">
         <ion-textarea [(ngModel)]="mensaje.messageTXT" name="messageTXT" required></ion-textarea>
 
