@@ -1,0 +1,83 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>Search for the Worker closer to you</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content *ngIf="selected === false">
+    <ion-searchbar (ionInput)="filtraWork($event)"></ion-searchbar>
+    <ion-item *ngIf="works.respuesta">
+        {{ works.respuesta }}
+    </ion-item>
+    <ion-list avatar-list no-margin no-padding *ngFor="let i of works.skills">
+
+        <ion-item (tap)="buscaWorker(i)">
+            <ion-avatar item-start>
+                <img [src]="i.imagen">
+            </ion-avatar>
+            <h2>{{ i.name }}</h2>
+            <p>{{ i.description }}</p>
+        </ion-item>
+
+
+
+
+
+
+
+    </ion-list>
+</ion-content>
+
+<ion-content *ngIf="selected === true">
+    <ion-card>
+
+        <img *ngIf="item.imagen === ''" src="../../assets/icon/no-picture-available-icon-20.jpg " />
+        <img *ngIf="item.imagen !== ''" [src]="item.imagen" />
+        <ion-card-content>
+            <ion-card-title>
+                {{ item.name }} {{ item.surname }}
+            </ion-card-title>
+            <p>
+                The most popular industrial group ever, and largely responsible for bringing the music to a mass audience.
+            </p>
+
+
+            <ion-grid>
+
+                <ion-row>
+                    <ion-col col-5>
+                        <ul *ngFor="let i of [1,2,3,4,5]">
+                            <li>
+                                <ion-icon *ngIf="valoracion < i" name="star-outline"></ion-icon>
+                            </li>
+                        </ul>>
+                        <ion-item>
+
+                            <ion-icon *ngIf="valoracion >= i" name="star"></ion-icon>
+                        </ion-item>
+
+
+
+                    </ion-col>
+                    <ion-col col-2>
+
+                        <ion-icon name="thumbs-up" (click)="positivo()"></ion-icon>
+
+
+
+                    </ion-col>
+                    <ion-col col-2>
+
+                        <ion-icon name="thumbs-down" (click)="negativo()"></ion-icon>
+
+
+                    </ion-col>
+
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

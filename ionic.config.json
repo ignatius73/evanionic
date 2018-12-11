@@ -1,0 +1,7 @@
+{
+  "name": "evanionic",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

@@ -1,0 +1,55 @@
+<ion-header>
+
+    <ion-navbar hideBackButton text-center color="primary">
+        <ion-title>Personal Information</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+        <form #forma="ngForm">
+            <ion-item>
+                <ion-input block type='text' [(ngModel)]="user.name" name='nombre' placeholder="Your name" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input block type='text' [(ngModel)]="user.surname" name='apellido' placeholder="Your surname" required></ion-input>
+            </ion-item>
+            <ion-item *ngIf="user.email">
+                <ion-input block type='email' [(ngModel)]="user.email" name='email' placeholder="Your email" required disabled></ion-input>
+            </ion-item>
+            <ion-item *ngIf="!user.email">
+                <ion-input block type='email' [(ngModel)]="aux" name='email' placeholder="Your email" required></ion-input>
+            </ion-item>
+            <ion-item *ngIf="!user.email">
+                <ion-input block type='password' [(ngModel)]="user.password" name='password' placeholder="Your password" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input block type='number' [(ngModel)]="user.age" name='age' placeholder="Your age"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input block type='number' [(ngModel)]="user.celular" name='phone' placeholder="Your phone" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input block type='text' [(ngModel)]="user.address" name='address' placeholder="Your Address" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input block type='number' [(ngModel)]="user.zip" name='zip' placeholder="Your ZipCode" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input block type='text' [(ngModel)]="chap.nameChapel" name='church' placeholder="Wich chapel are you going?" (click)="chapel()" required></ion-input>
+            </ion-item>
+            <ion-item *ngIf="imgpreview">
+                <img [src]="imgpreview" [(ngModel)]="user.imagen" name='imagen'>
+            </ion-item>
+            <ion-item>
+                <button ion-button primary outline block (click)='subirFoto()'>Load Image</button>
+                <button ion-button primary outline block (click)='tomarFoto()'>Camera</button>
+            </ion-item>
+
+            <button ion-button primary outline block (click)='crearUsuario()' [disabled]='!forma.form.valid'>Create</button>
+        </form>
+
+    </ion-list>
+</ion-content>
