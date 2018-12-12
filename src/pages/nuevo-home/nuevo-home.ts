@@ -151,5 +151,9 @@ mensajesPastor(){
 
 }
 
+editar(){
+  this.navCtrl.push( NuevoUsuarioPage, { user: this._us.us[0]});
+}
+
 }
 

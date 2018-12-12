@@ -1,6 +1,6 @@
 <ion-header>
 
-    <ion-navbar hideBackButton text-center color="primary">
+    <ion-navbar text-center color="primary">
         <ion-title>Personal Information</ion-title>
     </ion-navbar>
 
@@ -42,6 +42,9 @@
             </ion-item>
             <ion-item *ngIf="imgpreview">
                 <img [src]="imgpreview" [(ngModel)]="user.imagen" name='imagen'>
+            </ion-item>
+            <ion-item *ngIf="user.imagen">
+                <img [src]="user.imagen" name='imagen'>
             </ion-item>
             <ion-item>
                 <button ion-button primary outline block (click)='subirFoto()'>Load Image</button>

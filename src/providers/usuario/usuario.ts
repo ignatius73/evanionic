@@ -18,6 +18,7 @@ import { storage } from 'firebase';
 
 @Injectable()
 export class UsuarioProvider {
+  
   user: User = {};
   existe: boolean = false;
   us: any[] = [];
@@ -262,7 +263,31 @@ export class UsuarioProvider {
           })
       })
     }
-         
+
+    editarUsuario( user ){
+      console.log( user );
+     
+    return new Promise( (resolve, reject) => {
+      this.http.post( URL_SERVICIOS+'usuarios/editar_usuario', user)
+        .subscribe( ( data:any) => {
+            console.log( data.existe );
+            if ( data.existe === false ){
+
+                    if ( data.error === true ) {
+                      reject( data.error);
+                    } else {
+                      console.log( data['query']);
+                      resolve( data );
+                    }
+                }
+                else{
+                  console.log("Salgo por acá");
+                }
+              });
+                
+              });
          
         }
+
+      }
  

@@ -40,6 +40,7 @@ export class NuevoUsuarioPage {
   uid: any;
   chap: Chapel = {}; 
   aux: string;
+  editar: boolean = false;
   
 
   constructor(public viewCtrl: ViewController, 
@@ -55,7 +56,12 @@ export class NuevoUsuarioPage {
               public navCtrl: NavController
       
     ) {
+      console.log( navParams );
 
+      if ( navParams.data.user ){
+        //this.user. = navParams.data.user.user;
+        this.user.email = navParams.data.user.email;
+      }
       this.user.email = oauth.usuario.email;
       this.user.age = oauth.usuario.age;
 
@@ -64,7 +70,27 @@ export class NuevoUsuarioPage {
 
       
   }
-
+  
+  ionViewWillEnter(){
+    if ( this.navParams.data.user ){
+      this.editar = true;
+      this.user.email = this.navParams.data.user.email;
+      this.user.name = this.navParams.data.user.name;
+      this.user.surname = this.navParams.data.user.surname;
+      this.user.age = this.navParams.data.user.age;
+      this.user.address = this.navParams.data.user.address;
+      this.user.celular = this.navParams.data.user.celular;
+      this.user.zip = this.navParams.data.user.zip;
+      this.user.church = this.navParams.data.user.church;
+      if(this.navParams.data.user.imagen == ""){
+        this.user.imagen = this.oauth.usuario.imagen;
+      }else{
+        this.user.imagen = this.navParams.data.user.imagen;
+      }
+      
+    }
+    
+  }  
   cerrarModal() {
     this.viewCtrl.dismiss( this.user );
   }
@@ -87,13 +113,20 @@ export class NuevoUsuarioPage {
     //this.user.imagen = this.img64;
     }
     console.log( this.user );
+    if ( this.editar === false ){
     this._us.nuevoUsuario( this.user ).then( (resp:any) =>{
        if (resp.token) {
          this.navCtrl.push( NuevoHomePage, { user: this.user} );
        } 
     });
       
-       
+  }else{
+    this._us.editarUsuario( this.user ).then( (resp:any) =>{
+      if (resp.token) {
+        this.navCtrl.push( NuevoHomePage, { user: this.user} );
+      } 
+   });
+  }  
    // this.navCtrl.popToRoot( );
     
   }
