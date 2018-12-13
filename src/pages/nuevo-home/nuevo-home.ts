@@ -50,7 +50,8 @@ export class NuevoHomePage {
                private navParams: NavParams,
                private picker: ImagePicker,
                private app: App) {
-  console.log( navParams.data.user);
+  console.log( "navParams en nuevoHome " );
+  console.log ( navParams.data.user );
   if ( navParams.data.user.photoURL ) {
     console.log ( "Existe navParams");
     this.fb = true;
@@ -85,6 +86,11 @@ cargaUsuario(){
         this.navCtrl.push( NuevoUsuarioPage );
 
     } else {
+      if (this._us.us[0].imagen == ""){
+        if (this.navParams.data.user.imagen !== ''){
+          this.fb = true;
+        }
+      }
       this.role = this._us.us[0].role;
       
     } 

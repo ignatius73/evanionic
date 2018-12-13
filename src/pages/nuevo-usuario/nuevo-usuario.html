@@ -37,8 +37,11 @@
             <ion-item>
                 <ion-input block type='number' [(ngModel)]="user.zip" name='zip' placeholder="Your ZipCode" required></ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item *ngIf="editar === false">
                 <ion-input block type='text' [(ngModel)]="chap.nameChapel" name='church' placeholder="Wich chapel are you going?" (click)="chapel()" required></ion-input>
+            </ion-item>
+            <ion-item *ngIf="editar === true">
+                <ion-input block type='text' [(ngModel)]="chap.nameChapel" name='church' placeholder="Wich chapel are you going?" (click)="chapel()"></ion-input>
             </ion-item>
             <ion-item *ngIf="imgpreview">
                 <img [src]="imgpreview" [(ngModel)]="user.imagen" name='imagen'>
@@ -51,7 +54,8 @@
                 <button ion-button primary outline block (click)='tomarFoto()'>Camera</button>
             </ion-item>
 
-            <button ion-button primary outline block (click)='crearUsuario()' [disabled]='!forma.form.valid'>Create</button>
+            <button *ngIf="!editar" ion-button primary outline block (click)='crearUsuario()' [disabled]='!forma.form.valid'>Create</button>
+            <button *ngIf="editar" ion-button primary outline block (click)='crearUsuario()' [disabled]='!forma.form.valid'>Save</button>
         </form>
 
     </ion-list>

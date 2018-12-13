@@ -60,9 +60,9 @@ msg: string = '';
       let user = this.oauth.usuario;
       this.navCtrl.setRoot( NuevoHomePage, { user });
   }*/
-  signUp(){
+ /* signUp(){
     this.navCtrl.setRoot( NuevoUsuarioPage );
-  }
+  }*/
   signInWithEmail(){
     let msg: string = '';
 

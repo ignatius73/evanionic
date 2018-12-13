@@ -15,6 +15,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { Facebook } from '@ionic-native/facebook';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { UsersProvider } from '../providers/users/users';
+import { PortadaPage } from '../pages/portada/portada';
 import { MensajesPage } from '../pages/mensajes/mensajes';
 import { SearchWorkerPage } from '../pages/search-worker/search-worker';
 import { OfferPage } from '../pages/offer/offer';
@@ -57,7 +58,8 @@ export const firebaseConfig = {
     SearchChapelPage,
     OfferPage,
     SearchWorkerPage,
-    MensajesPage
+    MensajesPage,
+    PortadaPage
     
 
   ],
@@ -81,7 +83,8 @@ export const firebaseConfig = {
     SearchChapelPage,
     OfferPage,
     SearchWorkerPage,
-    MensajesPage
+    MensajesPage,
+    PortadaPage
     
   ],
   providers: [

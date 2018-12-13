@@ -270,19 +270,14 @@ export class UsuarioProvider {
     return new Promise( (resolve, reject) => {
       this.http.post( URL_SERVICIOS+'usuarios/editar_usuario', user)
         .subscribe( ( data:any) => {
-            console.log( data.existe );
-            if ( data.existe === false ){
-
-                    if ( data.error === true ) {
-                      reject( data.error);
+            console.log( data );
+            if ( data['error'] !== 0 ){
+                  reject( data['error']);
                     } else {
-                      console.log( data['query']);
                       resolve( data );
-                    }
+                    
                 }
-                else{
-                  console.log("Salgo por acá");
-                }
+                
               });
                 
               });

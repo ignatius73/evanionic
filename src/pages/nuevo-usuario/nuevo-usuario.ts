@@ -122,9 +122,16 @@ export class NuevoUsuarioPage {
       
   }else{
     this._us.editarUsuario( this.user ).then( (resp:any) =>{
-      if (resp.token) {
+      if (resp['error'] === 0) {
+        if( this.oauth.usuario !== "") {
+          console.log( "Oauth en Editar Usuario");
+          console.log( this.oauth.usuario );
+          this.user.imagen = this.oauth.usuario.imagen;
+        }
         this.navCtrl.push( NuevoHomePage, { user: this.user} );
-      } 
+      } else {
+        this.navCtrl.pop();
+      }
    });
   }  
    // this.navCtrl.popToRoot( );
