@@ -21,6 +21,7 @@ import { MensajesPage } from '../mensajes/mensajes';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
 import { Facebook } from '@ionic-native/facebook';
+import { PortadaPage } from '../portada/portada';
 
 
 @IonicPage()
@@ -116,7 +117,7 @@ this.userLogged = {};
 if ( this.fb == true ){
 this.anFAuth.auth.signOut().then( ( res => {
 
-  this.navCtrl.first()
+  this.navCtrl.setRoot( PortadaPage );//first()
 
 }));
 }else {
