@@ -11,6 +11,7 @@ export interface User {
     imagen?: string;
     uid?: string;
     address?: string;
+    city?: string;
     state?: string;
     zip?: string;
     church?: string;

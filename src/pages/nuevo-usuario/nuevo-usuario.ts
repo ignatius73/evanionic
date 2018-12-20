@@ -13,6 +13,7 @@ import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { SearchChapelPage } from '../search-chapel/search-chapel';
 import { Chapel } from '../../interfaces/chapel.interface';
 import { NuevoHomePage } from '../nuevo-home/nuevo-home';
+import { NuevoUsuario2Page } from '../nuevo-usuario2/nuevo-usuario2';
 
 
 
@@ -89,6 +90,16 @@ export class NuevoUsuarioPage {
       }
       
     }
+      this.user.name = "Gabriel";
+      this.user.surname = "Garcia";
+      this.user.email = "ghgarciar@yahoo.com.ar";
+      this.user.celular = 541165831607;
+      this.user.address = "Hernán Cortez 208";
+      this.user.city = "Sarandí";
+      this.user.zip = "1872";
+      this.user.state = "Buenos Aires";
+      this.user.age = 44;
+
     
   }  
   cerrarModal() {
@@ -96,31 +107,29 @@ export class NuevoUsuarioPage {
   }
 
   crearUsuario() {
-    console.log( "Punto de control" );
-    console.log( this.user );
-   // this.crear_post();
-   if ( this.user.email === undefined ){
+     if ( this.user.email === undefined ){
     this.user.email = this.aux;
    }
-   console.log( "Segundo Punto de control" );
-    console.log( this.user );
-    if ( this.imgpreview === "" ){
+       if ( this.imgpreview === "" ){
       console.log("Es nulo");
       this.user.imagen = "";
     }else {
      
     this.user.imagen = this.imgpreview;
-    //this.user.imagen = this.img64;
     }
-    console.log( this.user );
+   
     if ( this.editar === false ){
-    this._us.nuevoUsuario( this.user ).then( (resp:any) =>{
+      //Envío a la segunda página del registro de usuario mi user.
+      
+      this.navCtrl.push( NuevoUsuario2Page , { user: this.user, editar: false});
+   /* this._us.nuevoUsuario( this.user ).then( (resp:any) =>{
        if (resp.token) {
          this.navCtrl.push( NuevoHomePage, { user: this.user} );
        } 
-    });
+    });*/
       
   }else{
+
     this._us.editarUsuario( this.user ).then( (resp:any) =>{
       if (resp['error'] === 0) {
         if( this.oauth.usuario !== "") {

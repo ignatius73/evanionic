@@ -1,0 +1,46 @@
+<ion-header>
+
+    <ion-navbar text-center color="primary">
+        <button start ion-button color="light" clear>Dark Clear</button>
+        <ion-title>Chapel Information</ion-title>
+        <button end ion-button color="light" clear>Dark Clear</button>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+        <form #forma="ngForm">
+            <ion-item *ngIf="!chapel.nameChapel">
+                <ion-input block type='text' [(ngModel)]="user.church" name='chapel' placeholder="1 Community Name/Nombre de tu Comunidad" (ionChange)="filtraComunidad($event)" required></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-list no-margin no-padding *ngFor="let v of chapels">
+                    <ion-item no-margin no-padding class="elemLista" #nombre (tap)="cargaDatosChapel(v)">{{ v.name_church }}</ion-item>
+                </ion-list>
+
+            </ion-item>
+            <ion-item *ngIf="chapel.nameChapel">
+                <ion-input block type='text' [(ngModel)]="chapel.nameChapel" name='chapel' placeholder="Community Name/Nombre de tu Comunidad" required></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-input block type='text' [(ngModel)]="chapel.address" name='address' placeholder="Address/Domicilio" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input block type='text' [(ngModel)]="chapel.city" name='city' placeholder="City/Ciudad" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input block type='text' [(ngModel)]="chapel.state" name='state' placeholder="State/Estado" required></ion-input>
+            </ion-item>
+
+
+            <button *ngIf="!editar" ion-button primary outline block (click)='crearUsuario()' [disabled]='!forma.form.valid'>Continue</button>
+            <!-- <button *ngIf="editar" ion-button primary outline block (click)='crearUsuario()' [disabled]='!forma.form.valid'>Salvar Cambios</button>-->
+        </form>
+
+    </ion-list>
+
+</ion-content>

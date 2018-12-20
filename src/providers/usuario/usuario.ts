@@ -204,7 +204,7 @@ export class UsuarioProvider {
 
         searchChapel( data) {
           this.chapel = [];
-          let data1 = { "zip": data
+          let data1 = { "name_church": data
                          };
           console.log( "Data " + JSON.stringify(data1) );
           return new Promise( ( resolve, reject ) => {

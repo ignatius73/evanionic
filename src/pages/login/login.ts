@@ -76,7 +76,7 @@ msg: string = '';
            if ( this.usuario.us.length > 0 ){
              this.user.email = this.usuario.us[0].email;
              
-             this.navCtrl.setRoot( NuevoHomePage, { user: this.user } );
+             this.navCtrl.push( NuevoHomePage, { user: this.user } );
            }else{
             this.msg = data['mensaje'] ;}
           }else{
@@ -101,7 +101,7 @@ msg: string = '';
               user.photoURL,
               user.uid);
               console.log(this.oauth.usuario);
-              this.navCtrl.setRoot( NuevoHomePage, { user });
+              this.navCtrl.push( NuevoHomePage, { user });
           })
           .catch( e =>  console.log( JSON.stringify(e)))
       })
@@ -119,7 +119,7 @@ msg: string = '';
           user.photoURL,
           user.uid);
           console.log(this.oauth.usuario);
-          this.navCtrl.setRoot( NuevoHomePage, { user }); 
+          this.navCtrl.push( NuevoHomePage, { user }); 
       });
     }
   }

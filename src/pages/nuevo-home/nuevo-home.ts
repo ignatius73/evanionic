@@ -116,12 +116,13 @@ this._us.us = [];
 this.userLogged = {};
 if ( this.fb == true ){
 this.anFAuth.auth.signOut().then( ( res => {
-
-  this.navCtrl.setRoot( PortadaPage );//first()
+  console.log( "SAlgo por que fb es true");
+  
+  this.navCtrl.setRoot( PortadaPage );
 
 }));
 }else {
-this.navCtrl.setRoot( LoginPage );
+this.navCtrl.setRoot( PortadaPage );
 }
 
 
