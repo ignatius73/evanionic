@@ -90,7 +90,7 @@ export class NuevoUsuarioPage {
       }
       
     }
-      this.user.name = "Gabriel";
+    /*  this.user.name = "Gabriel";
       this.user.surname = "Garcia";
       this.user.email = "ghgarciar@yahoo.com.ar";
       this.user.celular = 541165831607;
@@ -98,7 +98,7 @@ export class NuevoUsuarioPage {
       this.user.city = "Sarandí";
       this.user.zip = "1872";
       this.user.state = "Buenos Aires";
-      this.user.age = 44;
+      this.user.age = 44;*/
 
     
   }  
@@ -117,10 +117,11 @@ export class NuevoUsuarioPage {
      
     this.user.imagen = this.imgpreview;
     }
-   
+    
     if ( this.editar === false ){
       //Envío a la segunda página del registro de usuario mi user.
-      
+      console.log( "Valor de Editar" );
+      console.log( this.editar );
       this.navCtrl.push( NuevoUsuario2Page , { user: this.user, editar: false});
    /* this._us.nuevoUsuario( this.user ).then( (resp:any) =>{
        if (resp.token) {
@@ -193,7 +194,7 @@ export class NuevoUsuarioPage {
         console.log( dato );
         if ( dato !== null ) {
           this.chap = dato;
-          this.user.church = this.chap.idChapel;
+          this.user.church = this.chap.idChurch;
         } 
         
       })

@@ -12,6 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../interfaces/user.interface';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { NuevoUsuarioPage } from '../nuevo-usuario/nuevo-usuario';
+import { CentralMensajesPage } from '../central-mensajes/central-mensajes';
 
 
 
@@ -75,8 +76,8 @@ msg: string = '';
           if (data !== 3 ) {
            if ( this.usuario.us.length > 0 ){
              this.user.email = this.usuario.us[0].email;
-             
-             this.navCtrl.push( NuevoHomePage, { user: this.user } );
+             this.navCtrl.push( CentralMensajesPage, { user: this.user } );
+            // this.navCtrl.push( NuevoHomePage, { user: this.user } );
            }else{
             this.msg = data['mensaje'] ;}
           }else{

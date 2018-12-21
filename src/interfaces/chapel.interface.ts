@@ -1,9 +1,13 @@
 export interface Chapel{
-    idChapel?: string;
-    nameChapel?: string;
-    address?: string;
-    zipcode?: string;
-    city?: string;
+    idChurch?: string;
+    name_church?: string;
     pastor?: string;
+    address_church?: string;
+    city?: string;
     state?: string;
+    zip?: string;
+    phone?: number;
+    secondary_phone?: number;
+    email?: string;
+    
 }

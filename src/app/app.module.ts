@@ -32,6 +32,7 @@ import { Users2Provider } from '../providers/users2/users2';
 import { UsuarioProvider } from '../providers/usuario/usuario';
 import { SearchChapelPage } from '../pages/search-chapel/search-chapel';
 import { OfferedProvider } from '../providers/offered/offered';
+import { CentralMensajesPage } from '../pages/central-mensajes/central-mensajes';
 
 
 
@@ -61,7 +62,8 @@ export const firebaseConfig = {
     SearchWorkerPage,
     MensajesPage,
     PortadaPage,
-    NuevoUsuario2Page
+    NuevoUsuario2Page,
+    CentralMensajesPage
     
 
   ],
@@ -87,7 +89,8 @@ export const firebaseConfig = {
     SearchWorkerPage,
     MensajesPage,
     PortadaPage,
-    NuevoUsuario2Page
+    NuevoUsuario2Page,
+    CentralMensajesPage
     
   ],
   providers: [

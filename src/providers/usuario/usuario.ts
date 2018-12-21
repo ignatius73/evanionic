@@ -134,7 +134,7 @@ export class UsuarioProvider {
                       }
                   }
                   else{
-                    console.log("Salgo por acá");
+                    resolve( data );
                   }
                 });
                   
@@ -226,6 +226,21 @@ export class UsuarioProvider {
                     });
         
         }
+
+    creaChapel( data ){
+      return new Promise( (resolve, reject) => {
+        this.http.post(URL_SERVICIOS+'Chapel/newChapel', data)
+          .subscribe ( ( resp ) => {
+            console.log( resp );
+              if ( resp['error'] === true ) {
+                console.log( resp['error']);
+                reject( resp['error']);
+              }else{
+                resolve( resp );
+              }
+          })
+      })
+    }
 
     crearMensaje( data ){
       this.mensaje = data;

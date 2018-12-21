@@ -54,8 +54,8 @@ export class SearchChapelPage {
 picked( elegido){
   console.log ( elegido );
   console.log ( elegido.idChurch );
-  this.iglesia.idChapel = elegido.idChurch;
-  this.iglesia.nameChapel = elegido.name_church;
+  this.iglesia.idChurch = elegido.idChurch;
+  this.iglesia.name_church = elegido.name_church;
   
   this.cerrarModal();
 

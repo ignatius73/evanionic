@@ -15,7 +15,7 @@ export interface User {
     state?: string;
     zip?: string;
     church?: string;
-    role?: string;
+    role?: number;
     age?: number;
     skills?: Skills[];
     phone?: number,
