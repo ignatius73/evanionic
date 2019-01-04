@@ -322,21 +322,29 @@ export class UsuarioProvider {
       pagar( user, result ){
         // console.log( "User en el provider")
         // console.log( user );
-        console.log( result );
-        console.log( user );
+       /* console.log( result );
+        console.log( user );*/
+
+        console.log("Voy a mostrar el result");
+           console.log( result );
+
+
         let usuario = {
-          "firstName": this.user.name,
-            "lastName" : this.user.surname,
-            "email" : this.user.email,
-            "phone" : this.user.celular,
-            "paymentMethodNonce": result.nonce
+          "firstName": result.firstName,
+            "lastName" : result.lastName,
+            "email" : result.email,
+            "phone" : result.phone,
+            "paymentMethodNonce": result.nonce,
+            "type" : result.type
 
         }
+        console.log( "Voy a listar el usuario");
         console.log( usuario );
          return new Promise( (resolve, reject) => {
            //Creo el Usuario
-           console.log( result );
-           this.http.post( URL_PAGOS+'createCostumer.php', user)
+    /*       console.log("Voy a mostrar el result");
+           console.log( result );*/
+           this.http.post( URL_PAGOS+'createCostumer.php', usuario)
              .subscribe( data => {
                console.log( data );
                if (data['error'] === false) {

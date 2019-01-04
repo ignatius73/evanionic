@@ -1,7 +1,5 @@
 {
-  "name": "evanionic",
-  "integrations": {
-    "cordova": {}
-  },
+  "name": "New Ionic App",
+  "integrations": {},
   "type": "ionic-angular"
 }
