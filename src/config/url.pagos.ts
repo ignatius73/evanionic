@@ -1,0 +1,1 @@
+export const URL_PAGOS = 'https://evanionic.herokuapp.com/';

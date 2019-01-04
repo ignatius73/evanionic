@@ -102,7 +102,7 @@ msg: string = '';
               user.photoURL,
               user.uid);
               console.log(this.oauth.usuario);
-              this.navCtrl.push( NuevoHomePage, { user });
+              this.navCtrl.push( CentralMensajesPage, { user });
           })
           .catch( e =>  console.log( JSON.stringify(e)))
       })
@@ -120,7 +120,7 @@ msg: string = '';
           user.photoURL,
           user.uid);
           console.log(this.oauth.usuario);
-          this.navCtrl.push( NuevoHomePage, { user }); 
+          this.navCtrl.push( CentralMensajesPage, { user }); 
       });
     }
   }
@@ -144,7 +144,7 @@ msg: string = '';
           user.photoURL,
           user.uid);
           console.log(this.oauth.usuario);
-          this.navCtrl.setRoot( NuevoHomePage, { user }); 
+          this.navCtrl.setRoot( CentralMensajesPage, { user }); 
       })
       .catch( error => console.log("Firebase failure: " + JSON.stringify(error)));
     });

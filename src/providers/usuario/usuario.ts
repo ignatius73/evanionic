@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { URL_SERVICIOS } from '../../config/url.servicios';
+import { URL_PAGOS } from '../../config/url.pagos';
+
 import { User } from '../../interfaces/user.interface';
 import { Login } from '../../interfaces/login.interface';
 import { Msg } from '../../interfaces/msg.interface';
@@ -298,6 +300,53 @@ export class UsuarioProvider {
               });
          
         }
+      
+      pago( user ){
+       // console.log( "User en el provider")
+       // console.log( user );
+        return new Promise( (resolve, reject) => {
+          //Creo el Usuario
+         
+          this.http.post( URL_SERVICIOS+'usuarios/pago', user)
+            .subscribe( data => {
+              console.log( data );
+              if (data['error'] === false) {
+                resolve (data['pago']);
+              }else{
+                reject(data['error']);
+              }
+            });
+        });
+      }
+
+      pagar( user, result ){
+        // console.log( "User en el provider")
+        // console.log( user );
+        console.log( result );
+        console.log( user );
+        let usuario = {
+          "firstName": this.user.name,
+            "lastName" : this.user.surname,
+            "email" : this.user.email,
+            "phone" : this.user.celular,
+            "paymentMethodNonce": result.nonce
+
+        }
+        console.log( usuario );
+         return new Promise( (resolve, reject) => {
+           //Creo el Usuario
+           console.log( result );
+           this.http.post( URL_PAGOS+'createCostumer.php', user)
+             .subscribe( data => {
+               console.log( data );
+               if (data['error'] === false) {
+                 resolve (data['pago']);
+               }else{
+                 reject(data['error']);
+               }
+             });
+         });
+       }
 
       }
  

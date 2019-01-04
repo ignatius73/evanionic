@@ -33,6 +33,10 @@ import { UsuarioProvider } from '../providers/usuario/usuario';
 import { SearchChapelPage } from '../pages/search-chapel/search-chapel';
 import { OfferedProvider } from '../providers/offered/offered';
 import { CentralMensajesPage } from '../pages/central-mensajes/central-mensajes';
+import { Braintree } from '@ionic-native/braintree';
+import { CobraServicioPage } from '../pages/cobraservicio/cobraservicio';
+
+
 
 
 
@@ -63,7 +67,8 @@ export const firebaseConfig = {
     MensajesPage,
     PortadaPage,
     NuevoUsuario2Page,
-    CentralMensajesPage
+    CentralMensajesPage,
+    CobraServicioPage
     
 
   ],
@@ -90,7 +95,8 @@ export const firebaseConfig = {
     MensajesPage,
     PortadaPage,
     NuevoUsuario2Page,
-    CentralMensajesPage
+    CentralMensajesPage,
+    CobraServicioPage
     
   ],
   providers: [
@@ -107,7 +113,8 @@ export const firebaseConfig = {
     CargaArchivoProvider,
     Users2Provider,
     UsuarioProvider,
-    OfferedProvider
+    OfferedProvider,
+    Braintree
     
 
   ]

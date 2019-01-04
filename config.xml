@@ -93,5 +93,6 @@
     <plugin name="cordova-plugin-telerik-imagepicker" spec="2.2.2">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="your usage message" />
     </plugin>
+    <plugin name="cordova-plugin-braintree" spec="https://github.com/taracque/cordova-plugin-braintree" />
     <engine name="android" spec="7.1.4" />
 </widget>

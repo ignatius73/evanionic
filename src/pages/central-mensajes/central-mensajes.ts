@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
+import { OfferPage } from '../offer/offer';
 
 /**
  * Generated class for the CentralMensajesPage page.
@@ -20,6 +21,7 @@ export class CentralMensajesPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public mensajes: UsuarioProvider
+              
               ) {
   }
 
@@ -30,6 +32,11 @@ export class CentralMensajesPage {
         console.log( resp );
       })
     console.log('ionViewDidLoad CentralMensajesPage');
+  }
+
+  anunciar(){
+    console.log( this.navParams.data.user );
+    this.navCtrl.push( OfferPage, { user: this.navParams.data.user} );
   }
 
 }

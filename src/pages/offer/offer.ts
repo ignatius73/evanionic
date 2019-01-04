@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, InfiniteScroll, InfiniteScrollContent, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, InfiniteScroll, InfiniteScrollContent, LoadingController, ModalController } from 'ionic-angular';
 import { OfferedProvider } from '../../providers/offered/offered';
 import { Works } from '../../interfaces/work.interface';
+import { Braintree } from '@ionic-native/braintree';
+import { UsuarioProvider } from '../../providers/usuario/usuario';
+import { CobraServicioPage } from '../cobraservicio/cobraservicio';
 
 
 
@@ -26,20 +29,48 @@ export class OfferPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public offer: OfferedProvider,
-              private loading: LoadingController) {
-      console.log(navParams);
+              private loading: LoadingController,
+              private brain: Braintree,
+              private usuarios: UsuarioProvider,
+              private modal: ModalController ) {
+    //  console.log(navParams.data.user);
+      console.log('Constructor OfferPage');
 
-     
+      //Chequeo si el usuario pagó
+      let user = this.navParams.data.user;
+    //  console.log( user );
+      console.log( "Voy a chequear si pagó");
+      this.usuarios.pago( user )
+        .then( ( resp =>{
+          console.log ( resp );
+          if  ( resp[0]['pago'] === '0' ){
+            let modal = this.modal.create( CobraServicioPage, { user } );
+            modal.present();
+              
+          }
+        }))
 
-      console.log( this.hab.length );
+    //  console.log( this.hab.length );
 
       
   }
 
   ionViewDidLoad() {
-    this.offer.cargar_todos();
+  /*  this.offer.cargar_todos();
     console.log('ionViewDidLoad OfferPage');
-    console.log( this.offer.skills);
+    console.log( this.offer.skills);*/
+ /*   let user = this.navParams.data.user;
+    console.log( user );
+    this.usuarios.pago( user )
+      .then( ( resp =>{
+        if  ( resp === false ){
+          let modal = this.modal.create( CobraServicioPage, { user } );
+          modal.present();
+            
+        }
+      }))*/
+
+
   }
 
   sig_pag( ev ){
