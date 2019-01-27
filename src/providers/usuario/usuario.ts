@@ -319,23 +319,23 @@ export class UsuarioProvider {
         });
       }
 
-      pagar( user, result ){
+      pagar( user, token ){
         // console.log( "User en el provider")
         // console.log( user );
        /* console.log( result );
         console.log( user );*/
 
         console.log("Voy a mostrar el result");
-           console.log( result );
+          // console.log( result );
 
 
         let usuario = {
-          "firstName": result.firstName,
-            "lastName" : result.lastName,
-            "email" : result.email,
-            "phone" : result.phone,
-            "paymentMethodNonce": result.nonce,
-            "type" : result.type
+          "firstName": user.name,
+            "lastName" : user.surname,
+            "email" : user.email,
+            "phone" : user.phone,
+            "token": token
+            
 
         }
         console.log( "Voy a listar el usuario");
@@ -344,7 +344,8 @@ export class UsuarioProvider {
            //Creo el Usuario
     /*       console.log("Voy a mostrar el result");
            console.log( result );*/
-           this.http.post( URL_PAGOS+'createCostumer.php', usuario)
+           //this.http.post( URL_PAGOS+'createSubscription', usuario)
+           this.http.post( 'http://localhost:8100/api', usuario)
              .subscribe( data => {
                console.log( data );
                if (data['error'] === false) {

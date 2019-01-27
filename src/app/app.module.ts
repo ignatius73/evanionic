@@ -35,6 +35,7 @@ import { OfferedProvider } from '../providers/offered/offered';
 import { CentralMensajesPage } from '../pages/central-mensajes/central-mensajes';
 import { Braintree } from '@ionic-native/braintree';
 import { CobraServicioPage } from '../pages/cobraservicio/cobraservicio';
+import { Stripe } from '@ionic-native/stripe';
 
 
 
@@ -114,7 +115,8 @@ export const firebaseConfig = {
     Users2Provider,
     UsuarioProvider,
     OfferedProvider,
-    Braintree
+    Braintree,
+    Stripe
     
 
   ]
