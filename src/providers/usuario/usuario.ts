@@ -346,14 +346,15 @@ export class UsuarioProvider {
            console.log( result );*/
            //this.http.post( URL_PAGOS+'createSubscription', usuario)
            this.http.post( 'http://localhost:8100/api', usuario)
-             .subscribe( data => {
-               console.log( data );
-               if (data['error'] === false) {
-                 resolve (data['pago']);
-               }else{
-                 reject(data['error']);
+             .subscribe(  (data) => {
+               if ( data['ok'] === false)
+               {
+                reject(data['ok']);
                }
-             });
+              console.log("Va a resolver correctamente en usuario.ts")
+              resolve (data);
+                              
+               });
          });
        }
 

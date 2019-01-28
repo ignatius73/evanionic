@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { Braintree, ApplePayOptions, PaymentUIOptions, PaymentUIResult } from '@ionic-native/braintree';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { User } from '../../interfaces/user.interface';
@@ -51,7 +51,8 @@ user: User = {};
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private braintree: Braintree,
-              public usuario: UsuarioProvider) {
+              public usuario: UsuarioProvider,
+              public viewCtrl: ViewController) {
     console.log( navParams.data.user);
     this.user = navParams.data.user;
               }
@@ -129,8 +130,11 @@ user: User = {};
     } else {*/
       this.usuario.pagar( this.user, this.token )
         .then( ( resp ) => {
-          console.log( resp );
-        })
+          this.viewCtrl.dismiss({
+            data: resp
+          })
+         
+        });
      /* console.log("User successfully completed payment!");
       console.log("Payment Nonce: " + result.nonce);
       console.log("Payment Result.", result);

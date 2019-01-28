@@ -46,19 +46,25 @@ export class OfferPage {
           if  ( resp[0]['pago'] === '0' ){
             let modal = this.modal.create( CobraServicioPage, { user } );
             modal.present();
-              
+             modal.onDidDismiss( (data) =>{
+               console.log(data);
+                if( data['mensaje'] === "exito" ){
+                  console.log(data['mensaje']);
+                 // this.ionViewDidLoad();
+                }
+             } );
           }
         }))
-
+        
     //  console.log( this.hab.length );
 
       
   }
 
   ionViewDidLoad() {
-  /*  this.offer.cargar_todos();
+    this.offer.cargar_todos();
     console.log('ionViewDidLoad OfferPage');
-    console.log( this.offer.skills);*/
+    console.log( this.offer.skills);
  /*   let user = this.navParams.data.user;
     console.log( user );
     this.usuarios.pago( user )

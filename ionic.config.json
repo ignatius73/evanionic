@@ -4,6 +4,9 @@
     "type": "ionic-angular",
     "proxies": [{
         "path": "/api",
-        "proxyUrl": "http://cors.api.com/api"
+        "proxyUrl": "http://localhost:3000/createSubscription"
+    }, {
+        "path": "/suscripcion",
+        "proxyUrl": "https://evanstripe.herokuapp.com/createSubscription"
     }]
 }
