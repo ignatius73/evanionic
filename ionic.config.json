@@ -7,6 +7,6 @@
         "proxyUrl": "http://localhost:3000/createSubscription"
     }, {
         "path": "/suscripcion",
-        "proxyUrl": "https://evanstripe.herokuapp.com/createSubscription"
+        "proxyUrl": "https://evanstripe.herokuapp.com/createSSubscription"
     }]
 }

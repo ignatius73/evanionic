@@ -5,6 +5,8 @@ import { Works } from '../../interfaces/work.interface';
 import { Braintree } from '@ionic-native/braintree';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { CobraServicioPage } from '../cobraservicio/cobraservicio';
+import { NuevoHomePage } from '../nuevo-home/nuevo-home';
+import { CentralMensajesPage } from '../central-mensajes/central-mensajes';
 
 
 
@@ -37,8 +39,17 @@ export class OfferPage {
       console.log('Constructor OfferPage');
 
       //Chequeo si el usuario pagó
-      let user = this.navParams.data.user;
-    //  console.log( user );
+      
+        
+    //  console.log( this.hab.length );
+
+      
+  }
+
+  ionViewDidLoad() {
+    this.offer.cargar_todos();
+    let user = this.navParams.data.user;
+    console.log( user );
       console.log( "Voy a chequear si pagó");
       this.usuarios.pago( user )
         .then( ( resp =>{
@@ -49,20 +60,18 @@ export class OfferPage {
              modal.onDidDismiss( (data) =>{
                console.log(data);
                 if( data['mensaje'] === "exito" ){
-                  console.log(data['mensaje']);
+                    
+                    console.log(data['mensaje']);
                  // this.ionViewDidLoad();
+                }else{
+                  console.log( user );
+                  this.navCtrl.push(CentralMensajesPage, { user: user } );
+                  console.log("No fue posible suscribirlo a Cinc");
                 }
              } );
           }
         }))
-        
-    //  console.log( this.hab.length );
-
-      
-  }
-
-  ionViewDidLoad() {
-    this.offer.cargar_todos();
+    
     console.log('ionViewDidLoad OfferPage');
     console.log( this.offer.skills);
  /*   let user = this.navParams.data.user;
