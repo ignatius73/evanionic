@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { UsuarioProvider } from '../../../evanionic/src/providers/usuario/usuario';
+import { UsuarioProvider } from '../../providers/usuario/usuario';
 
 /**
  * Generated class for the TimelinePage page.

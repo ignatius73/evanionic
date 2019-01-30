@@ -1,12 +1,17 @@
 {
-    "name": "New Ionic App",
-    "integrations": {},
-    "type": "ionic-angular",
-    "proxies": [{
-        "path": "/api",
-        "proxyUrl": "http://localhost:3000/createSubscription"
-    }, {
-        "path": "/suscripcion",
-        "proxyUrl": "https://evanstripe.herokuapp.com/createSSubscription"
-    }]
+  "name": "New Ionic App",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://localhost:3000/createSubscription"
+    },
+    {
+      "path": "/suscripcion",
+      "proxyUrl": "https://evanstripe.herokuapp.com/createSubscription"
+    }
+  ]
 }

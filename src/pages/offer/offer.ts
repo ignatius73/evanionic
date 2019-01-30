@@ -7,6 +7,7 @@ import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { CobraServicioPage } from '../cobraservicio/cobraservicio';
 import { NuevoHomePage } from '../nuevo-home/nuevo-home';
 import { CentralMensajesPage } from '../central-mensajes/central-mensajes';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 
@@ -27,6 +28,7 @@ export class OfferPage {
   hab: Works[] = [];
   objeto: any; 
   valor: any;
+  catsel: boolean = false;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -34,7 +36,8 @@ export class OfferPage {
               private loading: LoadingController,
               private brain: Braintree,
               private usuarios: UsuarioProvider,
-              private modal: ModalController ) {
+              private modal: ModalController,
+              private sanitizer: DomSanitizer ) {
     //  console.log(navParams.data.user);
       console.log('Constructor OfferPage');
 
@@ -47,10 +50,12 @@ export class OfferPage {
   }
 
   ionViewDidLoad() {
-    this.offer.cargar_todos();
+    this.offer.cargar_categorias();
     let user = this.navParams.data.user;
     console.log( user );
       console.log( "Voy a chequear si pagó");
+      /*Descomentar para Cobrar en Producción
+     */
       this.usuarios.pago( user )
         .then( ( resp =>{
           console.log ( resp );
@@ -59,9 +64,9 @@ export class OfferPage {
             modal.present();
              modal.onDidDismiss( (data) =>{
                console.log(data);
-                if( data['mensaje'] === "exito" ){
+                if( data['data']['mensaje'] === "exito" ){
                     
-                    console.log(data['mensaje']);
+                    console.log(data['data']['mensaje']);
                  // this.ionViewDidLoad();
                 }else{
                   console.log( user );
@@ -72,18 +77,7 @@ export class OfferPage {
           }
         }))
     
-    console.log('ionViewDidLoad OfferPage');
-    console.log( this.offer.skills);
- /*   let user = this.navParams.data.user;
-    console.log( user );
-    this.usuarios.pago( user )
-      .then( ( resp =>{
-        if  ( resp === false ){
-          let modal = this.modal.create( CobraServicioPage, { user } );
-          modal.present();
-            
-        }
-      }))*/
+ /* */
 
 
   }
@@ -96,10 +90,17 @@ export class OfferPage {
       })
   }
 
+  categPicked( i ){
+    this.catsel = true;
+    this.offer.cargar_todas_skills( i.id )
+    console.log( i.id );
+
+  }
+
   picked( i ) {
-    console.log( i.idWork );
-    this.worke.idWork = i.idWork;
-    this.worke.description = i.description;
+    console.log(i);
+    this.worke.idWork = i.id;
+    this.worke.description = i.nombre;
     
      for ( let w of this.hab ) {
         if ( w.idWork == this.worke.idWork ){
@@ -113,7 +114,8 @@ export class OfferPage {
     }
 
   cargaSkills() {
-    let email = this.navParams.data['email'];
+   
+    let email = this.navParams.data.user['email'];
     this.objeto = { 'email': email,
                   'hab' : this.hab };
 
@@ -121,7 +123,7 @@ export class OfferPage {
     this.offer.agrega_skills_user( email, this.hab )
       .then( () => {});
     this.hab = [];
-    this.navCtrl.pop();
+    this.navCtrl.push( NuevoHomePage, { user: this.navParams.data.user });
   }
 
   filtraWork( ev: any ) {

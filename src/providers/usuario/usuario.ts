@@ -345,18 +345,40 @@ export class UsuarioProvider {
     /*       console.log("Voy a mostrar el result");
            console.log( result );*/
            //this.http.post( URL_PAGOS+'createSubscription', usuario)
-           this.http.post( 'http://localhost:8100/api', usuario)
+           //this.http.post( '/api', usuario)
+           this.http.post( '/suscripcion', usuario)
              .subscribe(  (data) => {
                if ( data['ok'] === false)
                {
-                reject(data['ok']);
+                 let respuesta = {
+                   'mensaje': 'error'
+                 }
+                reject(respuesta);
                }
-              console.log("Va a resolver correctamente en usuario.ts")
-              resolve (data);
+              
+              let respuesta = {
+                'mensaje': 'exito'
+              }
+              console.log("Voy a listar el user email");
+              
+              console.log( user.email );
+              this.http.post( URL_SERVICIOS + 'usuarios/pagar', user)
+                .subscribe( ( data ) => {
+                  if ( data['error']== true ){
+                        console.log( data['mensaje'])
+                  }
+
+                  
+                });
+
+                
+              resolve (respuesta);
                               
                });
          });
        }
+
+
 
       }
  
