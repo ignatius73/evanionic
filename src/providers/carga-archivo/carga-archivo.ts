@@ -24,7 +24,7 @@ export class CargaArchivoProvider {
   //      .subscribe( ()=> this.cargar_imagenes() )
 
   }
-
+/*
   private cargar_ultimo_key(){
 
     return this.afDB.list('/post', ref=> ref.orderByKey().limitToLast(1) )
@@ -39,10 +39,9 @@ export class CargaArchivoProvider {
               });
 
   }
-
-
+*/
   cargar_imagenes(){
-    console.log( "Cantidad de Imagens " + this.imagenes.length);
+    console.log( "Cantidad de Imagenes " + this.imagenes.length);
     return new Promise( (resolve, reject)=>{
 
       this.afDB.list('/post',
@@ -123,7 +122,7 @@ export class CargaArchivoProvider {
 
   }
 
-
+/*
   private crear_post( titulo: string, url: string, nombreArchivo:string ){
 
     let post: ArchivoSubir = {
@@ -142,7 +141,7 @@ export class CargaArchivoProvider {
   }
 
 
-
+*/
   mostrar_toast( mensaje: string ){
 
       this.toastCtrl.create({

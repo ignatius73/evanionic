@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, InfiniteScroll, InfiniteScrollContent, LoadingController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
 import { OfferedProvider } from '../../providers/offered/offered';
 import { Works } from '../../interfaces/work.interface';
-import { Braintree } from '@ionic-native/braintree';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { CobraServicioPage } from '../cobraservicio/cobraservicio';
 import { NuevoHomePage } from '../nuevo-home/nuevo-home';
 import { CentralMensajesPage } from '../central-mensajes/central-mensajes';
-import { DomSanitizer } from '@angular/platform-browser';
+import { URL_SERVICIOS } from '../../config/url.servicios';
+
+
 
 
 
@@ -21,7 +22,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 @IonicPage()
 @Component({
   selector: 'page-offer',
-  templateUrl: 'offer.html',
+  templateUrl: 'offer.html'
 })
 export class OfferPage {
   worke: Works = {};
@@ -29,15 +30,16 @@ export class OfferPage {
   objeto: any; 
   valor: any;
   catsel: boolean = false;
+  ruta: any = URL_SERVICIOS;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public offer: OfferedProvider,
               private loading: LoadingController,
-              private brain: Braintree,
               private usuarios: UsuarioProvider,
-              private modal: ModalController,
-              private sanitizer: DomSanitizer ) {
+              private modal: ModalController
+              
+ ) {
     //  console.log(navParams.data.user);
       console.log('Constructor OfferPage');
 
@@ -59,7 +61,7 @@ export class OfferPage {
       this.usuarios.pago( user )
         .then( ( resp =>{
           console.log ( resp );
-          if  ( resp[0]['pago'] === '0' ){
+          if  ( resp === false ){
             let modal = this.modal.create( CobraServicioPage, { user } );
             modal.present();
              modal.onDidDismiss( (data) =>{
@@ -74,6 +76,8 @@ export class OfferPage {
                   console.log("No fue posible suscribirlo a Cinc");
                 }
              } );
+          }else{
+
           }
         }))
     
@@ -114,7 +118,7 @@ export class OfferPage {
     }
 
   cargaSkills() {
-   
+   console.log("Entro a cargaSkills");
     let email = this.navParams.data.user['email'];
     this.objeto = { 'email': email,
                   'hab' : this.hab };
@@ -150,5 +154,9 @@ export class OfferPage {
     }else{
       console.log("sale por acá");
     }
+}
+
+borralo( o ){
+  console.log(o);
 }
 }

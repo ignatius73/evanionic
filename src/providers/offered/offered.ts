@@ -1,16 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { URL_SERVICIOS } from '../../config/url.servicios';
-import { User } from '../../interfaces/user.interface';
-import { Login } from '../../interfaces/login.interface';
-
-import { AlertController, GESTURE_REFRESHER, Platform } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
-
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
-import { storage } from 'firebase';
+
 /*
   Generated class for the OfferedProvider provider.
 
@@ -104,7 +98,7 @@ export class OfferedProvider {
 
   }
 
-  private agrupar( arr:any, tamano:number ){
+/*  private agrupar( arr:any, tamano:number ){
 
     let nuevoArreglo = [];
     for( let i = 0; i<arr.length; i+=tamano ){
@@ -113,10 +107,10 @@ export class OfferedProvider {
     console.log( nuevoArreglo );
     return nuevoArreglo;
 
-  }
+  }*/
 
   agrega_skills_user( email, hab ){
-    
+    console.log("Entro a agrega_skills_user");
     let data = { 'email': email,
                   'habilidades' : hab };
     console.log(data);

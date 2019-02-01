@@ -58,6 +58,7 @@ export class SearchWorkerPage {
 
       } else {
         let respuesta = "Sorry, we don't know any " + valor + "yet.";
+        console.log(respuesta);
       }
       console.log( resp );
     })

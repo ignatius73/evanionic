@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { URL_SERVICIOS } from '../../config/url.servicios';
-import { URL_PAGOS } from '../../config/url.pagos';
+
 
 import { User } from '../../interfaces/user.interface';
 import { Login } from '../../interfaces/login.interface';
@@ -9,13 +9,16 @@ import { Msg } from '../../interfaces/msg.interface';
 
 
 
-import { AlertController, GESTURE_REFRESHER, Platform } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/toPromise';
-import { storage } from 'firebase';
+import { Cordova } from '@ionic-native/core';
+import { URL_PAGOS } from '../../config/url.pagos';
+import { resolveDefinition } from '@angular/core/src/view/util';
+
+
 
 
 @Injectable()
@@ -36,7 +39,6 @@ export class UsuarioProvider {
 
   
   constructor(public http: HttpClient,
-              private alert: AlertController,
               private platform: Platform,
               private storage: Storage
               ) {
@@ -164,7 +166,7 @@ export class UsuarioProvider {
     }
 
     cargar_storage(){
-      let promesa = new Promise( (resolve, reject ) => {
+      return new Promise( (resolve, reject ) => {
 
         if ( this.platform.is("cordova") ) {
 
@@ -302,22 +304,43 @@ export class UsuarioProvider {
         }
       
       pago( user ){
+        let midata: any = {
+          'pago':false
+        };
        // console.log( "User en el provider")
        // console.log( user );
         return new Promise( (resolve, reject) => {
-          //Creo el Usuario
-         
+          
+          this.chequeoPago( ).then( (data)=>{
+            console.log("Estoy chequeando token de Customer");
+            if ( data === true ) {
+              
+              midata.pago = true;                 
+              //resolve (data['pago']);
+            }
+          });
+          console.log("Aún no pagó el usuario");
           this.http.post( URL_SERVICIOS+'usuarios/pago', user)
-            .subscribe( data => {
-              console.log( data );
-              if (data['error'] === false) {
-                resolve (data['pago']);
-              }else{
-                reject(data['error']);
-              }
+                  .subscribe( data => {
+                    console.log( data );
+                    if (data['error'] === false) {
+                      console.log( "Respuesta de PHP");
+                      console.log( data['pago']);
+                      console.log( "Respuesta de Token");
+                      console.log( midata.pago );
+                      if (data['pago'] === midata.pago ){
+                        resolve( midata.pago );
+                      }else{
+                        midata.pago = false;
+                        resolve(midata.pago);
+                        console.log("Acá chequearé si el customer tiene una subscripcion activa");
+                      }
+                    }else{
+                      reject(data['error']);
+                    }
+          });
             });
-        });
-      }
+    }
 
       pagar( user, token ){
         // console.log( "User en el provider")
@@ -340,44 +363,112 @@ export class UsuarioProvider {
         }
         console.log( "Voy a listar el usuario");
         console.log( usuario );
-         return new Promise( (resolve, reject) => {
-           //Creo el Usuario
-    /*       console.log("Voy a mostrar el result");
-           console.log( result );*/
-           //this.http.post( URL_PAGOS+'createSubscription', usuario)
-           //this.http.post( '/api', usuario)
-           this.http.post( '/suscripcion', usuario)
-             .subscribe(  (data) => {
-               if ( data['ok'] === false)
-               {
-                 let respuesta = {
-                   'mensaje': 'error'
-                 }
-                reject(respuesta);
-               }
-              
-              let respuesta = {
-                'mensaje': 'exito'
-              }
-              console.log("Voy a listar el user email");
-              
-              console.log( user.email );
-              this.http.post( URL_SERVICIOS + 'usuarios/pagar', user)
-                .subscribe( ( data ) => {
-                  if ( data['error']== true ){
-                        console.log( data['mensaje'])
-                  }
 
+
+        let url: any;
+        ///Chequeo si existe el token en storage
+        if ( this.platform.is('cordova') ) {
+          url = URL_PAGOS+'createSubscription';
+        } else {
+          url = '/suscripcion';
+         
+        }
+   
+            return new Promise( (resolve, reject) => {
+                    this.http.post( url, usuario)
+            
                   
-                });
+             
+                     // this.http.post( '/api', usuario)
+                      
+                         .subscribe(  (data) => {
+                               console.log("Listo Data");
+                               console.log( data );
+                               if ( data['res'] !== 'ok')
+                               {  
+                                   let respuesta = {
+                                     'mensaje': 'error'
+                                   }
+                                  reject(respuesta);
+                                }
+              
+                                let respuesta = {
+                                  'mensaje': 'exito'
+                                }
+                                console.log("Voy a listar el user email");
+                                console.log( user.email );
+                                       
+                                resolve (respuesta);
+                                this.guardarPago( data['customer']['id']);
+                                this.guardoPagoEnDB( user );
+                      });
+                   });
+                  }        
+    
 
+    
+
+       guardarPago( cus: any ){
+         console.log("Guardo el Cus");
+          if ( this.platform.is('cordova') ) {
+            this.storage.set('cus', cus);
+           
+          } else {
+            localStorage.setItem('cus', cus);
+            
+          }
+      }
+       
+
+       chequeoPago() {
+        return new Promise( (resolve, reject ) => {
+
+          if ( this.platform.is("cordova") ) {
+  
+            this.storage.ready()
+              .then( () => {
+                this.storage.get('cus')
+                  .then( cus => {
+                    if ( !cus ) {
+                      resolve(false);
+                    }else{
+                      resolve(true);
+                    }
+
+                  });
+               
+                 
+                  });
                 
-              resolve (respuesta);
-                              
-               });
-         });
-       }
+          }else{
+  
+              if ( !localStorage.getItem('cus') ) {
+                resolve(false);
+                
+              }else{
+                resolve(true);
+              }
+        }
+       });
+      }
 
+      guardoPagoEnDB( user){
+        this.http.post( URL_SERVICIOS + 'usuarios/pagar', user)
+        .subscribe( ( data ) => {
+          if ( data['error']== true ){
+                console.log( data['mensaje'])
+          }
+
+          
+        });
+      }
+
+      chequeaUserFB( userID ){
+        return new Promise((resolve, reject) => {
+          
+        resolve('Fernando');
+        });
+      }
 
 
       }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { App, IonicPage, NavController, NavParams, ModalController, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { OauthProvider } from '../../providers/oauth/oauth';
 //Interface
 import { User } from '../../interfaces/user.interface';
@@ -8,19 +8,14 @@ import { Msg } from '../../interfaces/msg.interface';
 
 //Providers
 import { UsuarioProvider } from '../../providers/usuario/usuario';
-import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { UsersProvider } from '../../providers/users/users';
+
 //Pages
 import { LoginPage } from '../login/login';
 import { NuevoUsuarioPage } from '../nuevo-usuario/nuevo-usuario';
 import { OfferPage } from '../offer/offer';
 import { SearchWorkerPage } from '../search-worker/search-worker';
 import { MensajesPage } from '../mensajes/mensajes';
-
-import { Camera, CameraOptions } from '@ionic-native/camera';
-import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
-import { Facebook } from '@ionic-native/facebook';
 import { PortadaPage } from '../portada/portada';
 
 
@@ -45,12 +40,9 @@ export class NuevoHomePage {
                public _us: UsuarioProvider,
                public navCtrl: NavController,
                private anFAuth: AngularFireAuth,
-               private db: AngularFireDatabase,
-               public users: UsersProvider,
                public modalCtrl: ModalController,
-               private navParams: NavParams,
-               private picker: ImagePicker,
-               private app: App) {
+               private navParams: NavParams
+               ) {
   console.log( "navParams en nuevoHome " );
   console.log ( navParams.data.user );
   if ( navParams.data.user.photoURL ) {

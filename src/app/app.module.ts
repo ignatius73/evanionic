@@ -3,18 +3,14 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
 import { OauthProvider } from '../providers/oauth/oauth';
 import { LoginPage } from '../pages/login/login';
-
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { Facebook } from '@ionic-native/facebook';
 import { GooglePlus } from '@ionic-native/google-plus';
-import { UsersProvider } from '../providers/users/users';
 import { NuevoUsuario2Page } from '../pages/nuevo-usuario2/nuevo-usuario2';
 import { PortadaPage } from '../pages/portada/portada';
 import { MensajesPage } from '../pages/mensajes/mensajes';
@@ -33,7 +29,6 @@ import { UsuarioProvider } from '../providers/usuario/usuario';
 import { SearchChapelPage } from '../pages/search-chapel/search-chapel';
 import { OfferedProvider } from '../providers/offered/offered';
 import { CentralMensajesPage } from '../pages/central-mensajes/central-mensajes';
-import { Braintree } from '@ionic-native/braintree';
 import { CobraServicioPage } from '../pages/cobraservicio/cobraservicio';
 import { Stripe } from '@ionic-native/stripe';
 
@@ -57,7 +52,6 @@ export const firebaseConfig = {
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
     LoginPage,
     NuevoUsuarioPage,
     KeyPipe,
@@ -86,7 +80,6 @@ export const firebaseConfig = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
     LoginPage,
     NuevoUsuarioPage,
     NuevoHomePage,
@@ -108,14 +101,12 @@ export const firebaseConfig = {
     AngularFireDatabase,
     Facebook,
     GooglePlus,
-    UsersProvider,
     Camera,
     ImagePicker,
     CargaArchivoProvider,
     Users2Provider,
     UsuarioProvider,
     OfferedProvider,
-    Braintree,
     Stripe
     
 

@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, ViewController, Platform } from 'ionic-angular';
-import { UsersProvider } from '../../providers/users/users';
+import { IonicPage, NavController, NavParams, ModalController, ViewController } from 'ionic-angular';
 import { User } from '../../interfaces/user.interface';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
-import { CargaArchivoProvider } from '../../providers/carga-archivo/carga-archivo';
-import { URLSearchParams } from '@angular/http';
 import { Users2Provider } from '../../providers/users2/users2';
 import { OauthProvider } from '../../providers/oauth/oauth';
-
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { SearchChapelPage } from '../search-chapel/search-chapel';
 import { Chapel } from '../../interfaces/chapel.interface';
@@ -46,10 +42,8 @@ export class NuevoUsuarioPage {
 
   constructor(public viewCtrl: ViewController, 
               public navParams: NavParams,
-              public users: UsersProvider,
               private camera: Camera,
               private picker: ImagePicker,
-              private _cap: CargaArchivoProvider,
               public users2: Users2Provider,
               public oauth: OauthProvider,
               public _us: UsuarioProvider,
@@ -61,7 +55,10 @@ export class NuevoUsuarioPage {
 
       if ( navParams.data.user ){
         //this.user. = navParams.data.user.user;
-        this.user.email = navParams.data.user.email;
+       // this.user.email = navParams.data.user.email;
+       console.log(navParams.data.user);
+       console.log( this.editar );
+        this.user.fbid = navParams.data.user;
       }
       this.user.email = oauth.usuario.email;
       this.user.age = oauth.usuario.age;

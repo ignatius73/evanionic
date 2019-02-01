@@ -3,18 +3,15 @@ import { IonicPage, NavController, NavParams, Platform, LoadingController } from
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
-import { Facebook } from '@ionic-native/facebook';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { OauthProvider } from '../../providers/oauth/oauth';
-import { HomePage } from '../home/home';
 import { GooglePlus } from '@ionic-native/google-plus';
-import { NuevoHomePage } from '../nuevo-home/nuevo-home';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../interfaces/user.interface';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
-import { NuevoUsuarioPage } from '../nuevo-usuario/nuevo-usuario';
 import { CentralMensajesPage } from '../central-mensajes/central-mensajes';
+import { NuevoUsuarioPage } from '../nuevo-usuario/nuevo-usuario';
 
-
+declare var FB;
 
 @IonicPage()
 @Component({
@@ -65,8 +62,7 @@ msg: string = '';
     this.navCtrl.setRoot( NuevoUsuarioPage );
   }*/
   signInWithEmail(){
-    let msg: string = '';
-
+    
     let loader = this.loading.create({});
 
     loader.present().then(() => {
@@ -92,39 +88,41 @@ msg: string = '';
 //Descomentar para producción
   signInWithFacebook() {
     if ( this.platform.is('cordova') ) {
-      this.fb.login(['email', 'public_profile']).then(res => {
-        const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
-        firebase.auth().signInWithCredential(facebookCredential)
-          .then(  user  =>  {
-            this.oauth.cargarUsuario(
-              user.displayName,
-              user.email,
-              user.photoURL,
-              user.uid);
-              console.log(this.oauth.usuario);
-              this.navCtrl.push( CentralMensajesPage, { user });
+      this.fb.login(['public_profile', 'user_friends', 'email'])
+         .then((res: FacebookLoginResponse) => {
+           console.log('Logged into Facebook!', res);
+           console.log( res );
+                this.usuario.chequeaUserFB( res.authResponse.userID);
+
+                this.navCtrl.push( NuevoUsuarioPage, { user: res.authResponse.userID });
+           // });
           })
-          .catch( e =>  console.log( JSON.stringify(e)))
-      })
+          .catch(e => console.log('Error logging into Facebook', e));
+
+        } else {
+          FB.login(function(response) {
+            if (response.authResponse) {
+             console.log('Welcome!  Fetching your information.... ');
+             FB.api('/me', function(response) {
+               console.log(response.id);
+               this.usuario.chequeaUserFB(response.id)
+                 .then( data => {
+                 console.log(data);
+               })
+             });
+            } else {
+             console.log('User cancelled login or did not fully authorize.');
+            }
+        });
+            
+        }
+
+      
     
-    } else {
-       this.afAuth.auth
-      .signInWithPopup(new firebase.auth.FacebookAuthProvider())
-      .then(res => {
-        console.log(res);
-        let user = res.user;
-        console.log(user.displayName);
-        this.oauth.cargarUsuario(
-          user.displayName,
-          user.email,
-          user.photoURL,
-          user.uid);
-          console.log(this.oauth.usuario);
-          this.navCtrl.push( CentralMensajesPage, { user }); 
-      });
-    }
+   
   }
 
+ 
   signOut() {
     firebase.auth().signOut();
    // this.afAuth.auth.signOut();

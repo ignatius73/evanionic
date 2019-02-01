@@ -24,4 +24,5 @@ export interface User {
     valor?: Valoraciones[];
     contracts?: Contrataciones[];
     password?: string;
+    fbid?:number;
   }

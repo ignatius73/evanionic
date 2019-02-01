@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { User } from '../../interfaces/user.interface';
 import { Chapel } from '../../interfaces/chapel.interface';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
-import { NuevoHomePage } from '../nuevo-home/nuevo-home';
 import { CentralMensajesPage } from '../central-mensajes/central-mensajes';
 
 

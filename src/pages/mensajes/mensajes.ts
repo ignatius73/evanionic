@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
@@ -27,7 +27,7 @@ export class MensajesPage {
   imgpreview: string = "";
   img64: any;
   msgs: Msg[] = [];
-  pipito: any;
+
 
 
   constructor(public navCtrl: NavController, 
