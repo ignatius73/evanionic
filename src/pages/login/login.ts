@@ -21,6 +21,7 @@ declare var FB;
 export class LoginPage {
 user: User = {};
 msg: string = '';
+fbid: any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -68,10 +69,12 @@ msg: string = '';
     loader.present().then(() => {
       this.usuario.getUserPass( this.user )
       .then( data => {
+        console.log("Data en logi wiht email");
+        console.log(data);
           loader.dismiss();
           if (data !== 3 ) {
            if ( this.usuario.us.length > 0 ){
-             this.user.email = this.usuario.us[0].email;
+             this.user = data[0];
              this.navCtrl.push( CentralMensajesPage, { user: this.user } );
             // this.navCtrl.push( NuevoHomePage, { user: this.user } );
            }else{
@@ -92,35 +95,40 @@ msg: string = '';
          .then((res: FacebookLoginResponse) => {
            console.log('Logged into Facebook!', res);
            console.log( res );
-                this.usuario.chequeaUserFB( res.authResponse.userID);
+                this.usuario.pruebaMetodo( res.authResponse.userID)
+                    .then( data => {
+                      if( data['error'] === true ){
+                        console.log("Algo malo paso aquí");
+                      }
+                      
+                        if ( data['existe'] === false){
+                          this.navCtrl.push( NuevoUsuarioPage, { user: res.authResponse.userID });
+                        }else{
+                          this.user.email = data['usuario'][0]['email'];
+                          console.log( this.user );
+                          this.usuario.getUser( this.user )
+                            .then( ( data ) => {
+                             // console.log( data)
+                              this.navCtrl.push( CentralMensajesPage, { user: data[0] });
+                            })
+                            .catch( ( e ) =>{
+                              console.log("Existe este error "  + e);
+                            })
+                        }
+                        
+                    });
 
-                this.navCtrl.push( NuevoUsuarioPage, { user: res.authResponse.userID });
-           // });
-          })
+               
+            })
+          
           .catch(e => console.log('Error logging into Facebook', e));
 
-        } else {
-          FB.login(function(response) {
-            if (response.authResponse) {
-             console.log('Welcome!  Fetching your information.... ');
-             FB.api('/me', function(response) {
-               console.log(response.id);
-               this.usuario.chequeaUserFB(response.id)
-                 .then( data => {
-                 console.log(data);
-               })
-             });
-            } else {
-             console.log('User cancelled login or did not fully authorize.');
-            }
-        });
-            
         }
-
-      
+        
+      }  
     
-   
-  }
+     
+  
 
  
   signOut() {

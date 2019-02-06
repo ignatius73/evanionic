@@ -23,6 +23,8 @@ stripe = Stripe('pk_test_DF1o1fSjVXokHlz4p2lWqdz9');
 card: any;
 source: any;
 token: any;
+cardholder: any;
+billing: any;
 
 
 
@@ -99,7 +101,12 @@ user: User = {};
 
 
   pagar(){
-      this.usuario.pagar( this.user, this.token )
+    let metadata = {
+      nombre: this.cardholder,
+      billing: this.billing
+    }
+
+      this.usuario.pagar( this.user, this.token, metadata )
         .then( ( resp ) => {
           this.viewCtrl.dismiss({
             data: resp

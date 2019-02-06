@@ -81,7 +81,7 @@ export class UsuarioProvider {
     
     let data = { "email": user.email,
                   "password": user.password };
-    console.log ( data );
+   // console.log ( data );
     return new Promise((resolve, reject) => {
       this.http.post(URL_SERVICIOS+'usuarios/getUser/', data)
         //.map( resp => resp )
@@ -342,7 +342,7 @@ export class UsuarioProvider {
             });
     }
 
-      pagar( user, token ){
+      pagar( user, token, metadata ){
         // console.log( "User en el provider")
         // console.log( user );
        /* console.log( result );
@@ -357,7 +357,11 @@ export class UsuarioProvider {
             "lastName" : user.surname,
             "email" : user.email,
             "phone" : user.phone,
-            "token": token
+            "token": token,
+            "metadata": {
+              nombre: metadata.nombre,
+              billing: metadata.billing
+            }
             
 
         }
@@ -432,7 +436,12 @@ export class UsuarioProvider {
                     if ( !cus ) {
                       resolve(false);
                     }else{
-                      resolve(true);
+                      console.log(cus);
+                      let customer = {
+                        'pago': true,
+                        'customer': cus
+                      }
+                      resolve(customer);
                     }
 
                   });
@@ -446,7 +455,13 @@ export class UsuarioProvider {
                 resolve(false);
                 
               }else{
-                resolve(true);
+                let cus = localStorage.getItem('cus');
+                let customer = {
+                  'pago': true,
+                  'customer': cus
+                }
+                
+                resolve(customer);
               }
         }
        });
@@ -463,13 +478,66 @@ export class UsuarioProvider {
         });
       }
 
-      chequeaUserFB( userID ){
-        return new Promise((resolve, reject) => {
-          
-        resolve('Fernando');
+      obtengoCustomer( cus ){
+        let url: string;
+        if ( this.platform.is('cordova') ) {
+          url = URL_PAGOS+'obtengoCustomer';
+        } else {
+          url = '/customer';
+         
+        }
+        console.log("Imprimo Cus en obtengoCustomer");
+        console.log(cus);
+        let customer = {
+          'cus': cus
+        }
+        return new Promise ( ( resolve, reject ) => {
+          this.http.post(url, customer)
+            .subscribe( ( data ) => {
+              resolve( data );
+              reject( data );
+            })
+        })
+      }
+
+      crearDonacion( charge ){
+        
+        let url: string;
+        if ( this.platform.is('cordova') ) {
+          url = URL_PAGOS+'creoDonacion';
+        } else {
+          url = '/creoDonacion';
+         
+        }
+        return new Promise( (resolve, reject) => {
+            this.http.post( url, charge )
+              .subscribe( (data) =>{
+                resolve(data);
+                console.log("Chequeo si tengo un user");
+                console.log(this.user);
+                reject(data);
+              })
+        });
+        
+        
+        
+        
+      }
+
+      pruebaMetodo( userID ){
+        let user = {
+          "userID": userID
+        }
+        return new Promise( (resolve, reject) =>{
+          this.http.post( URL_SERVICIOS + 'usuarios/nombreNuevo', user)
+            .subscribe( data => {
+             if ( data['error'] === true ){
+                reject( data['mensaje']);
+              }
+               resolve(data);
+               
+            })
         });
       }
 
-
-      }
- 
+    } 

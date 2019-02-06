@@ -18,7 +18,6 @@ import { SearchWorkerPage } from '../pages/search-worker/search-worker';
 import { OfferPage } from '../pages/offer/offer';
 import { IonicStorageModule } from '@ionic/storage';
 import { NuevoHomePage } from '../pages/nuevo-home/nuevo-home';
-import { KeyPipe } from '../pipes/key/key';
 import { CargaArchivoProvider } from '../providers/carga-archivo/carga-archivo';
 import { NuevoUsuarioPage } from '../pages/nuevo-usuario/nuevo-usuario';
 import { Camera } from '@ionic-native/camera';
@@ -34,9 +33,12 @@ import { Stripe } from '@ionic-native/stripe';
 
 
 
+import { PipesModule } from '../pipes/pipes.module';
 
 
 // import { UsersProvider } from '../providers/users/users';
+import { DonarPage } from '../pages/donar/donar';
+//import { AmountPipe } from '../pipes/amount/amount';
 
 
 
@@ -54,7 +56,6 @@ export const firebaseConfig = {
     MyApp,
     LoginPage,
     NuevoUsuarioPage,
-    KeyPipe,
     NuevoHomePage,
     SearchChapelPage,
     OfferPage,
@@ -63,7 +64,9 @@ export const firebaseConfig = {
     PortadaPage,
     NuevoUsuario2Page,
     CentralMensajesPage,
-    CobraServicioPage
+    CobraServicioPage,
+    DonarPage
+   
     
 
   ],
@@ -74,7 +77,8 @@ export const firebaseConfig = {
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    PipesModule
    
   ],
   bootstrap: [IonicApp],
@@ -90,7 +94,8 @@ export const firebaseConfig = {
     PortadaPage,
     NuevoUsuario2Page,
     CentralMensajesPage,
-    CobraServicioPage
+    CobraServicioPage,
+    DonarPage
     
   ],
   providers: [
