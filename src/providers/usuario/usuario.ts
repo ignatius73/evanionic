@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { URL_SERVICIOS } from '../../config/url.servicios';
 
@@ -17,6 +17,7 @@ import 'rxjs/add/operator/catch';
 import { Cordova } from '@ionic-native/core';
 import { URL_PAGOS } from '../../config/url.pagos';
 import { resolveDefinition } from '@angular/core/src/view/util';
+import { ThrowStmt } from '@angular/compiler';
 
 
 
@@ -311,13 +312,16 @@ export class UsuarioProvider {
        // console.log( user );
         return new Promise( (resolve, reject) => {
           
-          this.chequeoPago( ).then( (data)=>{
-            console.log("Estoy chequeando token de Customer");
-            if ( data === true ) {
+          this.chequeoPago()
+            .then( (data)=>{
+              console.log("Estoy chequeando token de Customer");
               
-              midata.pago = true;                 
-              //resolve (data['pago']);
-            }
+              if ( data['pago'] === true ) {
+                console.log(data);
+                midata.pago = true; 
+                console.log("midata"); 
+                console.log(midata);               
+              }
           });
           console.log("Aún no pagó el usuario");
           this.http.post( URL_SERVICIOS+'usuarios/pago', user)
@@ -388,15 +392,8 @@ export class UsuarioProvider {
                          .subscribe(  (data) => {
                                console.log("Listo Data");
                                console.log( data );
-                               if ( data['res'] !== 'ok')
-                               {  
-                                   let respuesta = {
-                                     'mensaje': 'error'
-                                   }
-                                  reject(respuesta);
-                                }
-              
-                                let respuesta = {
+                               if ( data['res'] === 'ok'){
+                                 let respuesta = {
                                   'mensaje': 'exito'
                                 }
                                 console.log("Voy a listar el user email");
@@ -405,6 +402,24 @@ export class UsuarioProvider {
                                 resolve (respuesta);
                                 this.guardarPago( data['customer']['id']);
                                 this.guardoPagoEnDB( user );
+                              }else{
+                                ///Algun problema con la tarjeta
+                                let error = {
+                                  status: data['statusCode'],
+                                  message: data['message'],
+                                  type: data['type']
+                                }
+                                reject( error );
+                              }
+                        }, (err) =>{
+                        
+                          console.log( err );
+                          let error = {
+                            status: err.status,
+                            message: err.statusText,
+                            type: err.name
+                          }
+                          reject( error );
                       });
                    });
                   }        
@@ -433,9 +448,14 @@ export class UsuarioProvider {
               .then( () => {
                 this.storage.get('cus')
                   .then( cus => {
+                    
+                    console.log( "Voy a imprimir el el cus en storage")
+                    console.log( cus );
                     if ( !cus ) {
+                      console.log("Sali por el resolve false");
                       resolve(false);
                     }else{
+                      console.log("Sali por el resolve true");
                       console.log(cus);
                       let customer = {
                         'pago': true,
@@ -450,11 +470,17 @@ export class UsuarioProvider {
                   });
                 
           }else{
-  
+            console.log("No es cordova en chequeo pago");
+            console.log(localStorage.getItem('cus'));
               if ( !localStorage.getItem('cus') ) {
-                resolve(false);
+                console.log("Entro al if de localstorage");
+                let customer = {
+                  'pago': false
+                }
+                resolve(customer);
                 
               }else{
+                console.log("Existe el cus en localstorage");
                 let cus = localStorage.getItem('cus');
                 let customer = {
                   'pago': true,
@@ -512,15 +538,40 @@ export class UsuarioProvider {
         return new Promise( (resolve, reject) => {
             this.http.post( url, charge )
               .subscribe( (data) =>{
-                resolve(data);
-                console.log("Chequeo si tengo un user");
-                console.log(this.user);
-                reject(data);
-              })
+                  console.log(data);
+                    if ( data['res'] === 'ok' ){
+                      resolve(data);
+                    }else{
+                      console.log("Salgo Error 400");
+                      
+                        let error = {
+                          type: data['type'],
+                          message: data['message'],
+                          status: data['statusCode']
+                        }
+                        
+                        reject(error);
+                     
+                     
+                    }        
+               
+                
+              
+
+             
+              
+              
+        }, err =>{
+          console.log( err );
+          let error = {
+            status: err.status,
+            message: err.statusText,
+            type: err.name
+          }
+          reject( error );
         });
         
-        
-        
+      }); 
         
       }
 

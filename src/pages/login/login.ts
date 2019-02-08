@@ -19,7 +19,9 @@ declare var FB;
   templateUrl: 'login.html',
 })
 export class LoginPage {
-user: User = {};
+user: User = {
+  
+};
 msg: string = '';
 fbid: any;
 

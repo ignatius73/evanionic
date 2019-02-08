@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, LoadingController } from 'ionic-angular';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { User } from '../../interfaces/user.interface';
 
@@ -25,6 +25,7 @@ source: any;
 token: any;
 cardholder: any;
 billing: any;
+resultado: any;
 
 
 
@@ -33,7 +34,8 @@ user: User = {};
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public usuario: UsuarioProvider,
-              public viewCtrl: ViewController) {
+              public viewCtrl: ViewController,
+              public loading: LoadingController) {
     console.log( navParams.data.user);
     this.user = navParams.data.user;
               }
@@ -101,19 +103,47 @@ user: User = {};
 
 
   pagar(){
+    let loader = this.loading.create({});
     let metadata = {
       nombre: this.cardholder,
       billing: this.billing
     }
-
+    loader.present().then( () =>{
       this.usuario.pagar( this.user, this.token, metadata )
         .then( ( resp ) => {
+          loader.dismiss();
           this.viewCtrl.dismiss({
             data: resp
           })
          
-        });
+        })
+        .catch( e => {
+          loader.dismiss();
+          console.log(e);
+          this.resultado= {
+    
+            title: "No pudo procesarse su petición",
+            status: e.status,
+            message: e.message,
+            type: e.type,
+            img: "../../assets/imgs/400.jpg"
+    
+    
+    
+          }
+         
+        })
+        
+      })
+  }
 
+  continuar(){
+    let data = {
+        mensaje: "fallo"
+    }
+    this.viewCtrl.dismiss({
+        data:data
+    });
   }
 
 

@@ -7,6 +7,7 @@ import { Charge } from '../../interfaces/charge.interface';
 
 
 
+
 declare var Stripe;
 
 @IonicPage()
@@ -26,6 +27,7 @@ export class DonarPage {
   customer: any = {};
   cardholder: any;
   billing:any;
+  resultado: any;
   
 
   constructor(public navCtrl: NavController,
@@ -37,13 +39,23 @@ export class DonarPage {
                 //Chequeo si el usuario tiene el customer guardado en su storage
 
                 
+
+                
   }
 
   ionViewWillEnter(){
+    
+  }
+
+
+  ionViewDidLoad() {
+  
     this.usuario.chequeoPago()
                   .then( data => {
                     console.log(data);
                     if ( data['pago'] === true ) {
+                      console.log("Imprimo pago true");
+                      console.log(this.pago);
                       this.pago = true;
                       this.usuario.obtengoCustomer(data['customer'])
                         .then( (data) =>{
@@ -59,12 +71,7 @@ export class DonarPage {
                     }
 
                   })
-  }
-
-
-  ionViewDidLoad() {
-  
-    
+                  console.log( this.pago );
   }
 
 
@@ -147,8 +154,38 @@ donar(){
   console.log(charge);
   this.usuario.crearDonacion(charge)
     .then( data => {
+      this.resultado= {
+
+        title: "Gracias!",
+        status: "Operación Exitosa",
+        message: "Muchas gracias por tu donación",
+        img: "../../assets/imgs/400.jpg"
+
+      //  type: e.type
+
+
+
+      }
+      console.log("Imprimo la respuesta de CrearDonacion");
       console.log(data);
-    });
+    })
+    //, (err) => { console.log(err) }
+   // )
+    .catch( e => {
+      console.log(e);
+      this.resultado= {
+
+        title: "No pudo procesarse su petición",
+        status: e.status,
+        message: e.message,
+        type: e.type,
+        img: "../../assets/imgs/400.jpg"
+
+
+
+      }
+      
+    })
   
   //Voy a crear el objeto Charge para enviar a Stripe
     
@@ -157,6 +194,10 @@ donar(){
 
 
 
+}
+
+continuar(){
+  this.navCtrl.pop();
 }
 
 }

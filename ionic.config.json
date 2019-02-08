@@ -19,7 +19,16 @@
         {
             "path": "/creoDonacion",
             "proxyUrl": "http://localhost:3000/creoDonacion"
+        },
+        {
+            "path": "customerext",
+            "proxyUrl": "https://evanstripe.herokuapp.com/obtengoCustomer"
+        },
+        {
+            "path": "/creoDonacionExt",
+            "proxyUrl": "https://evanstripe.herokuapp.com/creoDonacion"
         }
+
 
     ]
 }

@@ -7,12 +7,11 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
     <ion-card>
         <ion-card-title>La Suscripción a CinC es un aporte mensual de U$S 5,00 + taxes y puede suspenderla en cualquier momento</ion-card-title>
         <ion-card-content>Parte importante de ese aporte se destina a la Iglesia a la que usted asiste</ion-card-content>
-        <ion-card-content>Para suscribirse, por favor ingrese los datos de su Tarjeta de Crédito</ion-card-content>
     </ion-card>
     <ion-item-divider>-</ion-item-divider>
     <ion-title>Datos de Facturación</ion-title>
@@ -39,5 +38,21 @@
     </form>
 
     <ion-badge>* Requeridos</ion-badge>
+
+    <ion-item class="card-background-page" *ngIf="resultado">
+        <ion-card>
+            <img [src]="resultado.img" />
+            <div class="card-title">{{ resultado.type }}</div>
+            <div class="card-subtitle">{{ resultado.status }}</div>
+            <div class="card-content">{{ resultado.message }}</div>
+
+        </ion-card>
+        <ion-card>
+
+
+        </ion-card>
+
+        <button ion-button block (tap)=continuar()>Continuar</button>
+    </ion-item>
 
 </ion-content>
