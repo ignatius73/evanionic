@@ -1,20 +1,21 @@
-<ion-header no-padding>
+<ion-header>
+    <ion-navbar hideBackButton>
+        <ion-title text-center>
+            Homecenter
+        </ion-title>
 
-    <ion-navbar no-padding color="primary">
-        <ion-buttons left>
-            <button (click)='signOut()'>
-                        <ion-icon name='log-out'></ion-icon>
-                    </button>
+        <button ion-button menuToggle icon-only>
+                    <ion-icon name="menu"></ion-icon>
+            </button>
+        <ion-buttons right><button end (click)='signOut()'>
+                <ion-icon class="logout" name='log-out'></ion-icon>
+        </button>
         </ion-buttons>
 
-
-
-        <ion-title text-center>Welcome!</ion-title>
-
-
     </ion-navbar>
-
 </ion-header>
+
+
 <ion-content no-padding>
 
     <ion-grid no-padding>
@@ -43,10 +44,11 @@
     <ion-list *ngFor="let i of _us.us">
         <ion-item no-padding>
             <ion-card no-padding>
-                <ion-item no-padding *ngIf="fb == true" item-center>
+                <!--   <ion-item no-padding *ngIf="fb == true" item-center>
                     <img [src]="userLogged.imagen">
                 </ion-item>
-                <ion-item no-padding *ngIf="fb == false" item-center>
+                <ion-item no-padding *ngIf="fb == false" item-center>-->
+                <ion-item>
                     <img *ngIf="i.imagen === ''" src="../../assets/icon/no-picture-available-icon-20.jpg " />
                     <img *ngIf="i.imagen !== ''" [src]="i.imagen">
                 </ion-item>

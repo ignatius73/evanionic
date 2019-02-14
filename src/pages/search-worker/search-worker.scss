@@ -2,13 +2,14 @@ page-search-worker {
     ul {
         list-style: none;
     }
-    .horiz {
-        float: left;
-        /*position: relative;*/
+    .horiz li {
+        // width: 1px;
     }
     ion-row {
-        text-align: center;
         //width: 200px;
-        // max-height: 350px!important;
+        //  max-height: 30rem!important;
+    }
+    ion-row img {
+        max-height: 40rem!important;
     }
 }

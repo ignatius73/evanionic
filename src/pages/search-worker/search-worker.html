@@ -1,47 +1,56 @@
 <ion-header>
+    <ion-navbar hideBackButton>
+        <ion-title text-center>Servicios</ion-title>
+        <!-- <ion-buttons> -->
+        <button ion-button menuToggle icon-only>
+                        <ion-icon name="menu"></ion-icon>
+                </button>
 
-    <ion-navbar color="primary">
-        <ion-title>Search for the Worker closer to you</ion-title>
+
+
     </ion-navbar>
 </ion-header>
 
 
+
 <ion-content padding *ngIf="selected === false">
+    <ion-label text-center *ngIf="!catsel">Selecciona la Categoría</ion-label>
+    <ion-label text-center *ngIf="catsel">Search for the Worker closer to you</ion-label>
     <ion-searchbar (ionInput)="filtraWork($event)"></ion-searchbar>
     <ion-item *ngIf="works.respuesta">
         {{ works.respuesta }}
     </ion-item>
     <ion-item *ngIf="!term">
-        <ion-list avatar-list no-margin no-padding *ngFor="let i of works.skills">
+        <ion-list avatar-list no-margin no-padding *ngFor="let i of workers.workers">
 
             <ion-item (tap)="buscaWorker(i)">
                 <ion-avatar item-start>
                     <img [src]="i.imagen">
                 </ion-avatar>
-                <h2>{{ i.name }}</h2>
-                <p>{{ i.description }}</p>
+                <h2>{{ i.name }}{{ i.surname }}</h2>
+                <p>{{ i.nombre }} {{ i.valoracion }}</p>
             </ion-item>
         </ion-list>
     </ion-item>
     <ion-item *ngIf="term">
-        <ion-list avatar-list no-margin no-padding *ngFor="let i of skills">
+        <ion-list avatar-list no-margin no-padding *ngFor="let i of arr_workers">
 
             <ion-item (tap)="buscaWorker(i)">
                 <ion-avatar item-start>
                     <img [src]="i.imagen">
                 </ion-avatar>
-                <h2>{{ i.name }}</h2>
-                <p>{{ i.description }}</p>
+                <h2>{{ i.name }} {{ i.surname }}</h2>
+                <p>{{ i.nombre }} {{i.valoracion}}</p>
             </ion-item>
         </ion-list>
     </ion-item>
 </ion-content>
 
-<ion-content *ngIf="selected === true">
+<ion-content padding *ngIf="selected === true">
 
 
 
-    <ion-card padding-top>
+    <ion-card>
         <ion-row>
             <ion-col col-12>
                 <img *ngIf="item.imagen === ''" src="../../assets/icon/no-picture-available-icon-20.jpg " />
@@ -61,14 +70,17 @@
             <ion-grid>
 
                 <ion-row justify-content-center>
-                    <ion-col>
-                        <ul class="horiz" *ngFor="let i of [1,2,3,4,5]">
-                            <li>
-                                <ion-icon *ngIf="valoracion < i" name="star-outline"></ion-icon>
-                                <ion-icon *ngIf="valoracion >= i" name="star"></ion-icon>
-                            </li>
-                        </ul>
+                    <ion-col col-2></ion-col>
+                    <ion-col col-8>
+
+                        <span *ngFor="let o of [1,2,3,4,5]">
+                            
+                                <ion-icon *ngIf="item.valoracion <= o" name="star-outline"></ion-icon>
+                                <ion-icon *ngIf="item.valoracion >= o" name="star"></ion-icon>
+                            
+                        </span>
                     </ion-col>
+                    <ion-col col-2></ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col text-center col-6>
@@ -77,12 +89,14 @@
                     <ion-col text-center col-6>
                         <ion-icon name="thumbs-down" (click)="negativo()"></ion-icon>
                     </ion-col>
+
                 </ion-row>
 
 
-
             </ion-grid>
-            <button block ion-button (tap)="contratar()">Hire</button>
+            <button block ion-button (tap)="contratar(item)">Hire</button>
+            <button block ion-button (tap)="sendMessage(item)">Enviar Mensaje</button>
+            <button block ion-button (tap)="iniciarChat(item)">Iniciar Chat</button>
         </ion-card-content>
     </ion-card>
 

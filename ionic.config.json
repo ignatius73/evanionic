@@ -14,14 +14,14 @@
         },
         {
             "path": "/customer",
-            "proxyUrl": "http://localhost:3000/obtengoCustomer"
+            "proxyUrl": "https://evanstripe.herokuapp.com/obtengoCustomer"
         },
         {
             "path": "/creoDonacion",
-            "proxyUrl": "http://localhost:3000/creoDonacion"
+            "proxyUrl": "https://evanstripe.herokuapp.com/creoDonacion"
         },
         {
-            "path": "customerext",
+            "path": "/customerext",
             "proxyUrl": "https://evanstripe.herokuapp.com/obtengoCustomer"
         },
         {

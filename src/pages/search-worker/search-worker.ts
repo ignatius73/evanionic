@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { OfferedProvider } from '../../providers/offered/offered';
+import { TrabajadorProvider } from '../../providers/trabajador/trabajador';
+import { UsuarioProvider } from '../../providers/usuario/usuario';
+import { LoginPage } from '../login/login';
+
 
 
 /**
@@ -18,26 +22,38 @@ import { OfferedProvider } from '../../providers/offered/offered';
 export class SearchWorkerPage {
   term:string;
   skills: any[] = [];
+  arr_workers: any[] = [];
   selected: boolean = false;
   item: any = {};
   valoracion = 3;
+  catsel: boolean;
   
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public works: OfferedProvider,
               private loading: LoadingController,
-              private alert: AlertController) {
-                
+              private alert: AlertController,
+              public workers: TrabajadorProvider,
+              private usuario: UsuarioProvider) {
+                console.log("Entro a SearchWorker");
+                console.log(this.usuario.us.length);
+                if ( this.usuario.us.length === 0 ){
+                  this.navCtrl.setRoot(LoginPage);
+                }
+                this.selected = false;
                 
    }           
 
   ionViewDidLoad() {
-    this.works.cargar_todos();
+    this.catsel = false;
+   
+    this.workers.getAllWorkers( 0 );
+
    // console.log('ionViewDidLoad SearchWorkerPage');
   }
 
   filtraWork( ev: any ) {
-
+    this.term = ev
    this.skills = []; 
    this.works.skills = [];
    let valor = ev.target.value;
@@ -50,11 +66,12 @@ export class SearchWorkerPage {
       duration: 3000
   })  ;
   loader.present().then( () => {
-    this.works.cargar_todos( valor )
+    this.workers.getWorkersBy( valor )
     .then( ( resp ) => {
+      console.log(resp);
       loader.dismiss();
-      if ( resp['skills'] ){
-        this.skills = resp['skills'];
+      if ( this.workers.workersFilter.length > 0 ){
+        this.arr_workers = this.workers.workersFilter;
 
       } else {
         let respuesta = "Sorry, we don't know any " + valor + "yet.";
@@ -82,14 +99,24 @@ export class SearchWorkerPage {
 
   }
 
-  contratar(){
+  contratar( worker ){
+      
+
     const alert = this.alert.create({
-      title: 'Not Yet!',
-      subTitle: 'We are working on it! Coming soon!',
+      title: 'Congratulations!',
+      subTitle: `You was contracted to ${ worker.name } ${ worker.surname}`,
       buttons: ['OK']
     });
     alert.present();
   
+  }
+
+  sendMessage( worker ){
+
+  }
+
+  iniciarChat( worker ){
+    
   }
 
 }

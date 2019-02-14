@@ -54,7 +54,7 @@ export class OfferedProvider {
  
      });
   }
-  cargar_todos( term = 0){
+  cargar_todos_get( term = 0){
     this.skills = [];
     let url = "";
     if ( term === 0 ){

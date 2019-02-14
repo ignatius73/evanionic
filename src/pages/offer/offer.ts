@@ -88,7 +88,7 @@ export class OfferPage {
 
   sig_pag( ev ){
 
-    this.offer.cargar_todos()
+    this.offer.cargar_todos_get()
       .then( () => {
         ev.complete();
       })

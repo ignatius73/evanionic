@@ -38,6 +38,7 @@ import { PipesModule } from '../pipes/pipes.module';
 
 // import { UsersProvider } from '../providers/users/users';
 import { DonarPage } from '../pages/donar/donar';
+import { TrabajadorProvider } from '../providers/trabajador/trabajador';
 //import { AmountPipe } from '../pipes/amount/amount';
 
 
@@ -112,7 +113,8 @@ export const firebaseConfig = {
     Users2Provider,
     UsuarioProvider,
     OfferedProvider,
-    Stripe
+    Stripe,
+    TrabajadorProvider
     
 
   ]

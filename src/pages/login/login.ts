@@ -77,8 +77,10 @@ fbid: any;
           if (data !== 3 ) {
            if ( this.usuario.us.length > 0 ){
              this.user = data[0];
-             this.navCtrl.push( CentralMensajesPage, { user: this.user } );
-            // this.navCtrl.push( NuevoHomePage, { user: this.user } );
+             this.navCtrl.setRoot(CentralMensajesPage, { user: this.user });
+            // this.navCtrl.push( CentralMensajesPage, { user: this.user } );
+              
+             // this.navCtrl.push( NuevoHomePage, { user: this.user } );
            }else{
             this.msg = data['mensaje'] ;}
           }else{
@@ -104,14 +106,14 @@ fbid: any;
                       }
                       
                         if ( data['existe'] === false){
-                          this.navCtrl.push( NuevoUsuarioPage, { user: res.authResponse.userID });
+                          this.navCtrl.setRoot( NuevoUsuarioPage, { user: res.authResponse.userID });
                         }else{
                           this.user.email = data['usuario'][0]['email'];
                           console.log( this.user );
                           this.usuario.getUser( this.user )
                             .then( ( data ) => {
                              // console.log( data)
-                              this.navCtrl.push( CentralMensajesPage, { user: data[0] });
+                              this.navCtrl.setRoot( CentralMensajesPage, { user: data[0] });
                             })
                             .catch( ( e ) =>{
                               console.log("Existe este error "  + e);

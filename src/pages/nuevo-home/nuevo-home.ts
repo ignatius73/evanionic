@@ -43,10 +43,10 @@ export class NuevoHomePage {
                public modalCtrl: ModalController,
                private navParams: NavParams
                ) {
-  console.log( "navParams en nuevoHome " );
-  console.log ( navParams.data.user );
-  if ( navParams.data.user.photoURL ) {
-    console.log ( "Existe navParams");
+   console.log(navParams);
+
+  if ( this._us.us ) {
+  /*  console.log ( "Existe navParams");
     this.fb = true;
     this.userLogged =  _oa.usuario;
     this.anFAuth.authState.subscribe( res => {
@@ -57,16 +57,24 @@ export class NuevoHomePage {
     })
    
   }else{
+   */  
+    this.userLogged =  this._us.user;
  
-    this.userLogged =  navParams.data.user;
- 
+  } else {
+   // this.navCtrl.setRoot(LoginPage);
   }
   
 
 }
 
 ionViewDidLoad() {
-  this.cargaUsuario();
+  console.log(this._us.us);
+  this.role = this._us.us[0].role;
+  if (this._us.us[0].imagen == ""){
+    
+      this.fb = true;
+    }
+  //this.cargaUsuario();
 }
 
 cargaUsuario(){
