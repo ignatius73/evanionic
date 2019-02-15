@@ -87,4 +87,5 @@
         <variable name="APP_NAME" value="evanionic" />
     </plugin>
     <engine name="android" spec="7.1.4" />
+    <plugin name="onesignal-cordova-plugin" spec="2.4.6" />
 </widget>

@@ -116,7 +116,8 @@ export class SearchWorkerPage {
   }
 
   iniciarChat( worker ){
-    
+    this.navCtrl.setRoot( 'ChatPage', { worker: worker});
   }
+
 
 }

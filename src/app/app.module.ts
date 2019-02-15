@@ -39,10 +39,18 @@ import { PipesModule } from '../pipes/pipes.module';
 // import { UsersProvider } from '../providers/users/users';
 import { DonarPage } from '../pages/donar/donar';
 import { TrabajadorProvider } from '../providers/trabajador/trabajador';
+import { PushnotProvider } from '../providers/pushnot/pushnot';
 //import { AmountPipe } from '../pipes/amount/amount';
 
-
-
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+import { ChatPage } from '../pages/chat/chat';
+import { ChatroomPage } from '../pages/chatroom/chatroom';
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {
+    reconnection: true,
+    reconnectionDelay: 1000,
+    reconnectionDelayMax : 5000,
+    reconnectionAttempts: 99999
+} };
 export const firebaseConfig = {
   apiKey: "AIzaSyDpOMgpCr6oPU1ljscWNUHjDsFgPwaWlAo",
   authDomain: "evanapp-77653.firebaseapp.com",
@@ -67,6 +75,7 @@ export const firebaseConfig = {
     CentralMensajesPage,
     CobraServicioPage,
     DonarPage
+    
    
     
 
@@ -74,6 +83,7 @@ export const firebaseConfig = {
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    SocketIoModule.forRoot(config),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -114,7 +124,8 @@ export const firebaseConfig = {
     UsuarioProvider,
     OfferedProvider,
     Stripe,
-    TrabajadorProvider
+    TrabajadorProvider,
+    PushnotProvider
     
 
   ]
