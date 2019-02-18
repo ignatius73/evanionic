@@ -7,6 +7,8 @@ import { NuevoHomePage } from '../pages/nuevo-home/nuevo-home';
 import { SearchWorkerPage } from '../pages/search-worker/search-worker';
 import { CentralMensajesPage } from '../pages/central-mensajes/central-mensajes';
 
+import { PushnotProvider } from '../providers/pushnot/pushnot';
+
 
 
 
@@ -20,12 +22,14 @@ export class MyApp {
   cartelera= CentralMensajesPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
-              private MenuCtrl: MenuController) {
+              private MenuCtrl: MenuController,
+              public push: PushnotProvider) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+      this.push.init_notifications();
     });
   }
 

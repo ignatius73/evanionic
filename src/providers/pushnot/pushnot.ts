@@ -16,17 +16,17 @@ export class PushnotProvider {
 
   init_notifications(){
     if ( this.platform.is('cordova')){
-    this.oneSignal.startInit('7387dde9-6743-47fb-bb11-c110f6f4c7c6', '473038448469');
+      this.oneSignal.startInit('7387dde9-6743-47fb-bb11-c110f6f4c7c6', '473038448469');
 
-    this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
+      this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
 
-    this.oneSignal.handleNotificationReceived().subscribe(() => {
- // do something when notification is received
-});
+      this.oneSignal.handleNotificationReceived().subscribe(() => {
+           console.log("Notificacion recibida");
+    });
 
-this.oneSignal.handleNotificationOpened().subscribe(() => {
-  // do something when a notification is opened
-});
+    this.oneSignal.handleNotificationOpened().subscribe(() => {
+          console.log("Notificacion abierta");
+    });
 
 this.oneSignal.endInit();
   

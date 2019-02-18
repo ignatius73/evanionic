@@ -7,21 +7,22 @@
 </ion-header>
 
 <ion-content>
-    <ion-grid>
-        <ion-row *ngFor="let message of messages">
 
-            <ion-col col-9 *ngIf="message.nombre !== nickname" class="message" [ngClass]="{'my_message': message.nombre === nickname, 'other_message': message.nombre !== nickname}">
+    <ion-grid>
+        <ion-row *ngFor="let message of db.chats">
+
+            <ion-col col-9 *ngIf="message.nombre != nickname" class="message" [ngClass]="{'my_message': message.nombre == nickname, 'other_message': message.nombre != nickname}">
                 <span class="user_name">{{ message.nombre }}:</span><br>
                 <span>{{ message.mensaje }}</span>
                 <div class="time">{{message.fecha | date:'dd.MM hh:MM'}}</div>
             </ion-col>
 
-            <ion-col offset-3 col-9 class="message.nombre === nickname" class="message" [ngClass]="{'my_message': message.nombre === nickname, 'other_message': message.nombre !== nickname}">
+            <ion-col offset-3 col-9 *ngIf="message.nombre == nickname" class="message" [ngClass]="{'my_message': message.nombre == nickname, 'other_message': message.nombre != nickname}">
+
                 <span class="user_name">{{ message.nombre }}:</span><br>
                 <span>{{ message.mensaje }}</span>
                 <div class="time">{{ message.fecha | date:'dd.MM hh:MM'}}</div>
             </ion-col>
-
         </ion-row>
     </ion-grid>
 

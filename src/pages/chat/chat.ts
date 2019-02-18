@@ -33,7 +33,8 @@ export class ChatPage {
   joinChat(){
     let usuario = {
       nombre: this.nickname,
-      sala: this.sala
+      sala: this.sala,
+      
     }
     
     let modal = this.modal.create('ChatroomPage', { usuario });

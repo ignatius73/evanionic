@@ -8,12 +8,12 @@
 
 <ion-content padding>
     <ion-item>
-        <ion-label stacked>Set Nickname</ion-label>
+        <ion-label stacked>Ingresa tu nombre</ion-label>
         <ion-input type="text" [(ngModel)]="nickname" placeholder="Nickname"></ion-input>
     </ion-item>
     <ion-item>
-        <ion-label stacked>Set Nickname</ion-label>
+        <ion-label stacked>Elige un nombre para tu sala</ion-label>
         <ion-input type="text" [(ngModel)]="sala" placeholder="Sala"></ion-input>
     </ion-item>
-    <button ion-button full (click)="joinChat()" [disabled]="nickname === '' || sala === ''">Join Chat as {{ nickname }}</button>
+    <button ion-button full (click)="joinChat()" [disabled]="nickname === '' || sala === ''">Ingresa como {{ nickname }}</button>
 </ion-content>

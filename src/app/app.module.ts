@@ -6,8 +6,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { OauthProvider } from '../providers/oauth/oauth';
 import { LoginPage } from '../pages/login/login';
-import { AngularFireModule } from '@angular/fire';
+import { AngularFireModule,  } from '@angular/fire';
 import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { Facebook } from '@ionic-native/facebook';
 import { GooglePlus } from '@ionic-native/google-plus';
@@ -30,6 +31,8 @@ import { OfferedProvider } from '../providers/offered/offered';
 import { CentralMensajesPage } from '../pages/central-mensajes/central-mensajes';
 import { CobraServicioPage } from '../pages/cobraservicio/cobraservicio';
 import { Stripe } from '@ionic-native/stripe';
+import { OneSignal } from '@ionic-native/onesignal';
+
 
 
 
@@ -45,7 +48,8 @@ import { PushnotProvider } from '../providers/pushnot/pushnot';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { ChatPage } from '../pages/chat/chat';
 import { ChatroomPage } from '../pages/chatroom/chatroom';
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {
+import { ChatsProvider } from '../providers/chats/chats';
+const config: SocketIoConfig = { url: 'https://cincionichat.herokuapp.com', options: {
     reconnection: true,
     reconnectionDelay: 1000,
     reconnectionDelayMax : 5000,
@@ -87,6 +91,7 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    AngularFirestoreModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),
     PipesModule
@@ -125,7 +130,9 @@ export const firebaseConfig = {
     OfferedProvider,
     Stripe,
     TrabajadorProvider,
-    PushnotProvider
+    PushnotProvider,
+    ChatsProvider,
+    OneSignal
     
 
   ]

@@ -2,17 +2,9 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, ModalController, ViewController } from 'ionic-angular';
 import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs';
+import { ChatsProvider } from '../../providers/chats/chats';
 
 
-
-
-
-/**
- * Generated class for the ChatroomPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -23,21 +15,31 @@ export class ChatroomPage {
   messages = [];
   nickname = '';
   message = '';
-  chats: Observable<any[]>;
+  sala = '';
+  password = '';
+
+ 
  
   constructor(private navCtrl: NavController, 
               private navParams: NavParams, 
               private socket: Socket, 
               private toastCtrl: ToastController,
-              private viewCtrl:ViewController
+              private viewCtrl:ViewController,
+              public db: ChatsProvider
               ) {
               console.log(navParams);
               
               if ( this.navParams.data.usuario.nombre !== '' || this.navParams.data.usuario.sala !== '' ){
-              
                 this.nickname = this.navParams.data.usuario.nombre;
-                 this.socket.connect();
-                 this.socket.emit('entrarChat', { usuario:this.navParams.data.usuario.nombre, sala:this.navParams.data.usuario.sala }, ( data ) =>{
+                this.sala = this.navParams.data.usuario.sala;
+                this.password = this.navParams.data.usuario.password;
+                //Obtengo los mensajes previos del chat
+                this.db.cargarMensajesXSala( this.sala ).subscribe();
+                                           
+                
+                
+                this.socket.connect();
+               this.socket.emit('entrarChat', { usuario:this.navParams.data.usuario.nombre, sala:this.navParams.data.usuario.sala }, ( data ) =>{
                  console.log(data);
                 }); 
                         
@@ -47,10 +49,15 @@ export class ChatroomPage {
               }
  
     this.getMessages().subscribe(message => {
-      console.log("Recibo el mensaje en el subscribe");
+      console.log("Imprimo lo que recibo del socket");
       console.log(message);
-      this.messages.push(message);
-      console.log(this.messages);
+      this.db.addChat(message);
+      
+     // this.messages.push(message);
+     
+    
+  //    console.log(this.messages);
+   
     });
 
     this.getUsers().subscribe(data => {
@@ -64,10 +71,11 @@ export class ChatroomPage {
   }
  
   sendMessage() {
+    console.log(this.message);
     
       this.socket.emit('mensajePrivado', { mensaje: this.message }, (rmessage)=>{
-      //this.messages.push(message);
-      console.log(rmessage);
+            console.log("Estoy en el emit del sendMessage de la Chatroom");
+            console.log(rmessage);
     
     });
     this.message = '';
@@ -81,7 +89,7 @@ export class ChatroomPage {
   getMessages() {
     let observable = new Observable(observer => {
       this.socket.on('crearMensaje', (data) => {
-        console.log("Recibo el mensaje");
+        
         console.log(data);
         observer.next(data);
       });
