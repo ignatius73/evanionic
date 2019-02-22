@@ -32,6 +32,10 @@ import { CentralMensajesPage } from '../pages/central-mensajes/central-mensajes'
 import { CobraServicioPage } from '../pages/cobraservicio/cobraservicio';
 import { Stripe } from '@ionic-native/stripe';
 import { OneSignal } from '@ionic-native/onesignal';
+import { ChatPage } from '../pages/chat/chat';
+
+
+
 
 
 
@@ -46,10 +50,14 @@ import { PushnotProvider } from '../providers/pushnot/pushnot';
 //import { AmountPipe } from '../pipes/amount/amount';
 
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-import { ChatPage } from '../pages/chat/chat';
 import { ChatroomPage } from '../pages/chatroom/chatroom';
 import { ChatsProvider } from '../providers/chats/chats';
-const config: SocketIoConfig = { url: 'https://cincionichat.herokuapp.com', options: {
+import { OneSignalApiProvider } from '../providers/one-signal-api/one-signal-api';
+import { ChatPageModule } from '../pages/chat/chat.module';
+import { ChatroomPageModule } from '../pages/chatroom/chatroom.module';
+//const urlsocket = 'http://localhost:3000'
+const urlsocket = 'https://cincionichat.herokuapp.com'
+const config: SocketIoConfig = { url: urlsocket, options: {
     reconnection: true,
     reconnectionDelay: 1000,
     reconnectionDelayMax : 5000,
@@ -79,6 +87,8 @@ export const firebaseConfig = {
     CentralMensajesPage,
     CobraServicioPage,
     DonarPage
+
+ 
     
    
     
@@ -94,7 +104,9 @@ export const firebaseConfig = {
     AngularFirestoreModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),
-    PipesModule
+    PipesModule,
+    ChatPageModule,
+    ChatroomPageModule
    
   ],
   bootstrap: [IonicApp],
@@ -111,7 +123,10 @@ export const firebaseConfig = {
     NuevoUsuario2Page,
     CentralMensajesPage,
     CobraServicioPage,
-    DonarPage
+    DonarPage,
+    ChatPage,
+    ChatroomPage
+    
     
   ],
   providers: [
@@ -132,7 +147,9 @@ export const firebaseConfig = {
     TrabajadorProvider,
     PushnotProvider,
     ChatsProvider,
-    OneSignal
+    OneSignal,
+    OneSignalApiProvider
+   
     
 
   ]

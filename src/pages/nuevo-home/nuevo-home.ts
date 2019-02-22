@@ -43,6 +43,7 @@ export class NuevoHomePage {
                public modalCtrl: ModalController,
                private navParams: NavParams
                ) {
+                 
    console.log(navParams);
 
   if ( this._us.us ) {
@@ -143,7 +144,9 @@ search(){
 }
 
 offer(){
-  this.navCtrl.push( OfferPage,  this.userLogged  );
+  console.log("Voy a imprimir el user");
+  console.log(this._us.us[0]);
+  this.navCtrl.push( OfferPage,  {user: this._us.us[0] } );
   
 }
 

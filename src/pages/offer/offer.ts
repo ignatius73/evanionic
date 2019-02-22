@@ -31,6 +31,7 @@ export class OfferPage {
   valor: any;
   catsel: boolean = false;
   ruta: any = URL_SERVICIOS;
+  user: any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -40,7 +41,9 @@ export class OfferPage {
               private modal: ModalController
               
  ) {
-    //  console.log(navParams.data.user);
+     
+  console.log("Voy a imprimir el navParams.data.user");
+      console.log(navParams.data.user);
       console.log('Constructor OfferPage');
 
       //Chequeo si el usuario pagó
@@ -53,16 +56,21 @@ export class OfferPage {
 
   ionViewDidLoad() {
     this.offer.cargar_categorias();
-    let user = this.navParams.data.user;
-    console.log( user );
+    if ( typeof this.navParams.data.user !== undefined){
+      this.user = this.navParams.data.user;
+    }else{
+      this.user = this.usuarios.us[0];
+    }
+    
+    console.log( this.user );
       console.log( "Voy a chequear si pagó");
       /*Descomentar para Cobrar en Producción
      */
-      this.usuarios.pago( user )
+      this.usuarios.pago( this.user )
         .then( ( resp =>{
           console.log ( resp );
           if  ( resp === false ){
-            let modal = this.modal.create( CobraServicioPage, { user } );
+            let modal = this.modal.create( CobraServicioPage, { user: this.user } );
             modal.present();
              modal.onDidDismiss( (data) =>{
                console.log(data);
@@ -71,8 +79,8 @@ export class OfferPage {
                     console.log(data['data']['mensaje']);
                  // this.ionViewDidLoad();
                 }else{
-                  console.log( user );
-                  this.navCtrl.push(CentralMensajesPage, { user: user } );
+                  console.log( this.user );
+                  this.navCtrl.push(CentralMensajesPage, { user: this.user } );
                   console.log("No fue posible suscribirlo a Cinc");
                 }
              } );

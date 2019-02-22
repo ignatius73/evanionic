@@ -3,6 +3,9 @@ import { IonicPage, NavController, NavParams, ToastController, ModalController, 
 import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs';
 import { ChatsProvider } from '../../providers/chats/chats';
+import { OneSignalApiProvider } from '../../providers/one-signal-api/one-signal-api';
+import { PushnotProvider } from '../../providers/pushnot/pushnot';
+import { UsuarioProvider } from '../../providers/usuario/usuario';
 
 
 
@@ -17,6 +20,8 @@ export class ChatroomPage {
   message = '';
   sala = '';
   password = '';
+  to = '';
+  me = '';
 
  
  
@@ -25,30 +30,55 @@ export class ChatroomPage {
               private socket: Socket, 
               private toastCtrl: ToastController,
               private viewCtrl:ViewController,
-              public db: ChatsProvider
+              public db: ChatsProvider,
+              private one: OneSignalApiProvider,
+              public pushnot: PushnotProvider,
+              public usuarios: UsuarioProvider
               ) {
+
+              
+                
+                console.log("Voy a imprimir el navParams en la entrada al chat");
               console.log(navParams);
               
               if ( this.navParams.data.usuario.nombre !== '' || this.navParams.data.usuario.sala !== '' ){
                 this.nickname = this.navParams.data.usuario.nombre;
                 this.sala = this.navParams.data.usuario.sala;
-                this.password = this.navParams.data.usuario.password;
+                this.to = this.navParams.data.usuario.to;
+                if ( typeof this.navParams.data.usuario.me === 'undefined' ){
+                  this.me = this.usuarios.us[0].token;
+                }else{
+                  this.me = this.navParams.data.usuario.me;
+                }
                 //Obtengo los mensajes previos del chat
                 this.db.cargarMensajesXSala( this.sala ).subscribe();
                                            
                 
                 
                 this.socket.connect();
-               this.socket.emit('entrarChat', { usuario:this.navParams.data.usuario.nombre, sala:this.navParams.data.usuario.sala }, ( data ) =>{
-                 console.log(data);
+               this.socket.emit('entrarChat', { usuario:this.navParams.data.usuario.nombre, sala:this.navParams.data.usuario.sala, to:this.to }, ( data ) =>{
+                 let datos = {
+                   from: this.me,
+                   sala: this.navParams.data.usuario.sala,
+                   to: this.navParams.data.usuario.to,
+                   nombre: this.navParams.data.usuario.nombre
+                 }
+                  this.one.createNotification( datos )
+                    .then( (data1) => {
+                      console.log(data1);
+                    }) 
+                    .catch( err =>{
+                      console.log("Ocurrió el error " + err);
                 }); 
-                        
+                console.log(data);
+              }) ;        
               } else {
                 console.log("Ocurrio un error");
                 this.viewCtrl.dismiss( {data:"Error"});
               }
  
     this.getMessages().subscribe(message => {
+      
       console.log("Imprimo lo que recibo del socket");
       console.log(message);
       this.db.addChat(message);
@@ -71,9 +101,29 @@ export class ChatroomPage {
   }
  
   sendMessage() {
+    console.log("Entro al sendMesagge");
+    console.log(this.navParams.data.usuario.nombre);
     console.log(this.message);
     
-      this.socket.emit('mensajePrivado', { mensaje: this.message }, (rmessage)=>{
+      this.socket.emit('mensajePrivado', { mensaje: this.message,
+                                           sala:this.navParams.data.usuario.sala,
+                                           }, (rmessage)=>{
+
+                                            let datos = {
+                                              from: this.me,
+                                              sala: this.sala,
+                                              to: this.to,
+                                              nombre: this.nickname
+                                             }
+                                             console.log("Voy a imprimir los datos que envío a la notificación cuando envío mensaje");
+                                             console.log(datos);
+                                             this.one.newMessage( datos )
+                                                           .then( (data1) => {
+                                                             console.log(data1);
+                                                           }) 
+                                                           .catch( err =>{
+                                                             console.log("Ocurrió el error " + err);
+                                                       }); 
             console.log("Estoy en el emit del sendMessage de la Chatroom");
             console.log(rmessage);
     
@@ -88,7 +138,7 @@ export class ChatroomPage {
  
   getMessages() {
     let observable = new Observable(observer => {
-      this.socket.on('crearMensaje', (data) => {
+      this.socket.on('emitoMensaje', (data) => {
         
         console.log(data);
         observer.next(data);

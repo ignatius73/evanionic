@@ -1,10 +1,18 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>
-            Join Chat
+    <ion-navbar hideBackButton>
+        <ion-title text-center>
+            Ingresa al Chat
         </ion-title>
+        <!-- <ion-buttons> -->
+        <button ion-button menuToggle icon-only>
+                    <ion-icon name="menu"></ion-icon>
+                    <ion-badge *ngIf="pushnot.avisos > 0" color="danger">{{ pushnot.avisos }}</ion-badge>
+                </button>
+
+        <!--  </ion-buttons> -->
     </ion-navbar>
 </ion-header>
+
 
 <ion-content padding>
     <ion-item>

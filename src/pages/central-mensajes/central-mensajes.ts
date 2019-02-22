@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, Platform } from 'ionic-angular';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { OfferPage } from '../offer/offer';
 import { DonarPage } from '../donar/donar';
 import { PortadaPage } from '../portada/portada';
+import { OneSignal } from '@ionic-native/onesignal';
+import { PushnotProvider } from '../../providers/pushnot/pushnot';
+import { MyApp } from '../../app/app.component';
 
 
 
@@ -21,19 +24,25 @@ import { PortadaPage } from '../portada/portada';
 })
 export class CentralMensajesPage {
   
+  
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public mensajes: UsuarioProvider,
               private MenuCtrl: MenuController,
-              private usuarios: UsuarioProvider
+              private usuarios: UsuarioProvider,
+              public pushnot: PushnotProvider,
+              private platform: Platform,
+              
               
               ) {
                 if(this.usuarios.us.length === 0){
                   this.navCtrl.setRoot(PortadaPage);
                 }
-                console.log(this.navCtrl);
                 
+                if ( this.platform.is('cordova')){
+                  this.pushnot.generoTags( this.usuarios.us );
+                }
                 
   }
 

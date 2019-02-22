@@ -6,8 +6,9 @@ import { PortadaPage } from '../pages/portada/portada';
 import { NuevoHomePage } from '../pages/nuevo-home/nuevo-home';
 import { SearchWorkerPage } from '../pages/search-worker/search-worker';
 import { CentralMensajesPage } from '../pages/central-mensajes/central-mensajes';
-
 import { PushnotProvider } from '../providers/pushnot/pushnot';
+import { ChatPage } from '../pages/chat/chat';
+
 
 
 
@@ -16,10 +17,12 @@ import { PushnotProvider } from '../providers/pushnot/pushnot';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = PortadaPage; //LoginPage;
+  public rootPage:any = PortadaPage; //LoginPage;
   nuevohome=  NuevoHomePage;
   buscar= SearchWorkerPage;
   cartelera= CentralMensajesPage;
+  chat=ChatPage;
+  
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
               private MenuCtrl: MenuController,
@@ -36,7 +39,7 @@ export class MyApp {
   openPage( pag:any){
     console.log(pag);
     console.log(this.rootPage);
-    if ( this.rootPage !== pag) {
+    if ( this.rootPage !== pag || pag === 'ChatPage') {
       this.rootPage = pag;
     }
     this.MenuCtrl.toggle();

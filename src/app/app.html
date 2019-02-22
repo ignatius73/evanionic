@@ -12,6 +12,7 @@
     <ion-header>
         <ion-toolbar>
             <ion-title>Menu</ion-title>
+
         </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -24,6 +25,10 @@
         </button>
             <button ion-item (click)="openPage(cartelera)">
                 Cartelera
+              </button>
+            <button ion-item (click)="openPage(chat)">
+                <ion-badge *ngIf="push.avisos > 0" end color="danger">{{ push.avisos }}</ion-badge>
+                Chat
               </button>
             <!--      <button ion-item (click)="openPage(eventsPage)">
           Events
