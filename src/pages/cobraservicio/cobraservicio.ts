@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, LoadingController } from 'ionic-angular';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { User } from '../../interfaces/user.interface';
+import { CentralMensajesPage } from '../central-mensajes/central-mensajes';
 
 declare var Stripe;
 
@@ -146,7 +147,9 @@ user: User = {};
     });
   }
 
-
+close(){
+  this.navCtrl.setRoot( CentralMensajesPage, { user: this.user });
+}
 
 }
 

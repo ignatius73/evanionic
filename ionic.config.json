@@ -27,6 +27,10 @@
         {
             "path": "/creoDonacionExt",
             "proxyUrl": "https://evanstripe.herokuapp.com/creoDonacion"
+        },
+        {
+            "path": "/existeCustomer",
+            "proxyUrl": "https://evanstripe.herokuapp.com/existeCustomer"
         }
 
 

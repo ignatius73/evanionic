@@ -43,7 +43,7 @@ export class SearchChapelPage {
 
   search(  ){
     
-    this.chapel.searchChapel( this.zipCode )
+    this.chapel.searchChapel( "" )
       .then( ( ) => {
 
        

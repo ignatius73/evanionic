@@ -8,6 +8,8 @@ import { SearchWorkerPage } from '../pages/search-worker/search-worker';
 import { CentralMensajesPage } from '../pages/central-mensajes/central-mensajes';
 import { PushnotProvider } from '../providers/pushnot/pushnot';
 import { ChatPage } from '../pages/chat/chat';
+import { UsuarioProvider } from '../providers/usuario/usuario';
+import { CerrarPage } from '../pages/cerrar/cerrar';
 
 
 
@@ -22,18 +24,22 @@ export class MyApp {
   buscar= SearchWorkerPage;
   cartelera= CentralMensajesPage;
   chat=ChatPage;
+  cerrar=CerrarPage;
   
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
               private MenuCtrl: MenuController,
-              public push: PushnotProvider) {
+              public push: PushnotProvider,
+              public usuario: UsuarioProvider
+              ) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
       this.push.init_notifications();
-    });
+         
+    })
   }
 
   openPage( pag:any){

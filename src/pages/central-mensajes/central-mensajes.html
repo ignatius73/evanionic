@@ -1,22 +1,12 @@
-<!--<ion-header>
-
-    <ion-toolbar #mycontent>
-        <ion-title>Mensajes de la Comunidad</ion-title>
-    </ion-toolbar>
-
-</ion-header>-->
-
 <ion-header>
-    <ion-navbar hideBackButton>
-        <ion-title text-center>
+    <ion-navbar>
+        <ion-title padding-left text-center>
             Cartelera
         </ion-title>
-        <!-- <ion-buttons> -->
-        <button ion-button menuToggle icon-only>
+        <button ion-button right padding-right menuToggle icon-only>
                 <ion-icon name="menu"></ion-icon>
                 <ion-badge *ngIf="pushnot.avisos > 0" color="danger">{{ pushnot.avisos }}</ion-badge>
             </button>
-
         <!--  </ion-buttons> -->
     </ion-navbar>
 </ion-header>
@@ -45,6 +35,7 @@
 <ion-footer>
     <ion-toolbar>
         <ion-buttons left><button ion-button color="danger" solid (tap)="anunciar()">Anunciar</button></ion-buttons>
+
         <ion-buttons right><button ion-button color="danger" solid (tap)="donar()">Donar</button></ion-buttons>
     </ion-toolbar>
 </ion-footer>

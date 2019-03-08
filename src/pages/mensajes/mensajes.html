@@ -55,6 +55,7 @@
 <ion-content *ngIf="usuarios.us[0].role == '1' ">
     <img *ngIf="imgpreview !== ''" [src]="imgpreview" />
     <form #forma="ngForm">
+        <ion-input [(ngModel)]="mensaje.tituloMsg" name="tituloMsg" required></ion-input>
         <ion-textarea [(ngModel)]="mensaje.messageTXT" name="messageTXT" required></ion-textarea>
 
         <button ion-button primary outline block (click)='subirFoto()'>Load Image</button>

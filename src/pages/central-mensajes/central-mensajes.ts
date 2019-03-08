@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, Platform, ModalController } from 'ionic-angular';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { OfferPage } from '../offer/offer';
 import { DonarPage } from '../donar/donar';
@@ -7,6 +7,7 @@ import { PortadaPage } from '../portada/portada';
 import { OneSignal } from '@ionic-native/onesignal';
 import { PushnotProvider } from '../../providers/pushnot/pushnot';
 import { MyApp } from '../../app/app.component';
+import { MuestraMensajePage } from '../muestra-mensaje/muestra-mensaje';
 
 
 
@@ -33,6 +34,7 @@ export class CentralMensajesPage {
               private usuarios: UsuarioProvider,
               public pushnot: PushnotProvider,
               private platform: Platform,
+              private modal: ModalController
               
               
               ) {
@@ -58,6 +60,12 @@ export class CentralMensajesPage {
 
   leerMas( obj ){
     console.log(obj);
+    let modal = this.modal.create( MuestraMensajePage, { msg: obj } );
+            modal.present();
+             modal.onDidDismiss( () =>{
+               
+               
+               });
   }
 
   donar(){
@@ -67,7 +75,7 @@ export class CentralMensajesPage {
   anunciar(){
     console.log( this.navParams );
     console.log( this.navParams.data.user );
-    this.navCtrl.push( OfferPage, { user: this.navParams.data.user} );
+    this.navCtrl.setRoot( OfferPage, { user: this.navParams.data.user} );
   }
 
   

@@ -1,16 +1,13 @@
 <ion-header>
-    <ion-navbar hideBackButton>
+    <ion-navbar>
         <ion-title text-center>
-            Homecenter
+            Mi Perfil
         </ion-title>
 
-        <button ion-button menuToggle icon-only>
+        <button margin-right right ion-button menuToggle icon-only>
                     <ion-icon name="menu"></ion-icon>
             </button>
-        <ion-buttons right><button end (click)='signOut()'>
-                <ion-icon class="logout" name='log-out'></ion-icon>
-        </button>
-        </ion-buttons>
+
 
     </ion-navbar>
 </ion-header>
@@ -44,10 +41,6 @@
     <ion-list *ngFor="let i of _us.us">
         <ion-item no-padding>
             <ion-card no-padding>
-                <!--   <ion-item no-padding *ngIf="fb == true" item-center>
-                    <img [src]="userLogged.imagen">
-                </ion-item>
-                <ion-item no-padding *ngIf="fb == false" item-center>-->
                 <ion-item>
                     <img *ngIf="i.imagen === ''" src="../../assets/icon/no-picture-available-icon-20.jpg " />
                     <img *ngIf="i.imagen !== ''" [src]="i.imagen">

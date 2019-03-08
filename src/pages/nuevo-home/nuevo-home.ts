@@ -85,7 +85,7 @@ cargaUsuario(){
     console.log( "Voy a mostrar la respuesta de GetUser")
     console.log ( resp );
     if ( this._us.existe === false ){
-        this.navCtrl.push( NuevoUsuarioPage );
+        this.navCtrl.setRoot( NuevoUsuarioPage );
 
     } else {
       if (this._us.us[0].imagen == ""){
@@ -163,6 +163,7 @@ mensajesPastor(){
 }
 
 editar(){
+  console.log(this._us.us[0]);
   this.navCtrl.push( NuevoUsuarioPage, { user: this._us.us[0]});
 }
 

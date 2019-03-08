@@ -42,11 +42,8 @@ fbid: any;
   }
   
   ionViewDidLoad() {
-    this.user = {};
     
-  
-  
-  
+    this.user = {};
     
   }
   

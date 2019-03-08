@@ -50,8 +50,9 @@ export class DonarPage {
 
   ionViewDidLoad() {
   
-    this.usuario.chequeoPago()
+    this.usuario.pago(this.user)
                   .then( data => {
+                    
                     console.log(data);
                     if ( data['pago'] === true ) {
                       console.log("Imprimo pago true");

@@ -68,12 +68,19 @@ export class OfferPage {
      */
       this.usuarios.pago( this.user )
         .then( ( resp =>{
+          console.log("Tiene que cobrar o no?");
           console.log ( resp );
-          if  ( resp === false ){
+          if  ( resp['pago'] === false ){
             let modal = this.modal.create( CobraServicioPage, { user: this.user } );
             modal.present();
              modal.onDidDismiss( (data) =>{
+               console.log("Voy a imprimir la data que me devuelve el cobra servicio");
                console.log(data);
+               if ( typeof data === "undefined" ){
+
+                console.log( this.user );
+                console.log("No fue posible suscribirlo a Cinc");
+               }
                 if( data['data']['mensaje'] === "exito" ){
                     
                     console.log(data['data']['mensaje']);

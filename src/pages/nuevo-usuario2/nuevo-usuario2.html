@@ -1,9 +1,12 @@
 <ion-header>
 
-    <ion-navbar text-center color="primary">
-        <button start ion-button color="light" clear>Dark Clear</button>
-        <ion-title>Chapel Information</ion-title>
-        <button end ion-button color="light" clear>Dark Clear</button>
+    <ion-navbar text-center>
+
+        <ion-title>Tu Iglesia</ion-title>
+        <button ion-button right padding-right menuToggle icon-only>
+            <ion-icon name="menu"></ion-icon>
+            
+        </button>
     </ion-navbar>
 
 </ion-header>
@@ -11,54 +14,54 @@
 
 <ion-content padding>
     <ion-list>
-        <form #forma="ngForm">
-            <ion-searchbar (ionChange)="filtraComunidad($event)"></ion-searchbar>
-            <ion-list>
-                <ion-item *ngFor="let v of chapels" class="elemLista" #nombre (tap)="cargaDatosChapel(v)">
-                    {{ v.name_church }}
-                </ion-item>
-            </ion-list>
-            <!--   <ion-item *ngIf="!chapel.nameChapel">
-                <ion-input block type='text' [(ngModel)]="user.church" name='chapel' placeholder="1 Community Name/Nombre de tu Comunidad" (ionChange)="filtraComunidad($event)" required></ion-input>
+        <ion-item>
+            <ion-input #comu name="nombre" [(ngModel)]="zipCode" type="text" placeholder="Ingrese el Nombre"></ion-input>
+        </ion-item>
+        <ion-item>
+            <button ion-button outline block (click)="filtraComunidad(comu)">Search</button>
+        </ion-item>
+    </ion-list>
+    <ion-list>
+        <ion-item *ngFor="let c of chapels" (tap)="cargaDatosChapel(c)">{{ c.name_church }}</ion-item>
+    </ion-list>
+    <ion-list>
+        <form [formGroup]="myForm" (ngSubmit)="crearUsuario()">
+
+            <ion-item>
+                <ion-input block type='text' [(ngModel)]="chapel.name_church" name='chapel' placeholder="Community Name/Nombre de tu Comunidad" formControlName="name"></ion-input>
             </ion-item>
 
             <ion-item>
-                <ion-list no-margin no-padding *ngFor="let v of chapels">
-                    <ion-item no-margin no-padding class="elemLista" #nombre (tap)="cargaDatosChapel(v)">{{ v.name_church }}</ion-item>
-                </ion-list>
-
-            </ion-item>-->
+                <ion-input block type='text' [(ngModel)]="chapel.address_church" name='address' placeholder="Address/Domicilio" formControlName="address"></ion-input>
+            </ion-item>
             <ion-item>
-                <ion-input block type='text' [(ngModel)]="chapel.name_church" name='chapel' placeholder="Community Name/Nombre de tu Comunidad" required></ion-input>
+                <ion-input block type='text' [(ngModel)]="chapel.city" name='city' placeholder="City/Ciudad" formControlName="city"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input block type='text' [(ngModel)]="chapel.state" name='state' placeholder="State/Estado" formControlName="state"></ion-input>
             </ion-item>
 
             <ion-item>
-                <ion-input block type='text' [(ngModel)]="chapel.address_church" name='address' placeholder="Address/Domicilio" required></ion-input>
+                <ion-input *ngIf="desactivo" disabled block type='text' [(ngModel)]="chapel.pastor" name='pastor' placeholder="Pastor/a" formControlName="namePastor"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-input block type='text' [(ngModel)]="chapel.city" name='city' placeholder="City/Ciudad" required></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-input block type='text' [(ngModel)]="chapel.state" name='state' placeholder="State/Estado" required></ion-input>
+                <ion-input *ngIf="!desactivo" block type='text' [(ngModel)]="chapel.pastor" name='pastor' placeholder="Pastor/a" formControlName="namePastor"></ion-input>
             </ion-item>
 
-            <ion-item>
-                <ion-input block type='text' [(ngModel)]="chapel.pastor" name='pastor' placeholder="Pastor/a" required></ion-input>
-            </ion-item>
             <hr>
             <ion-item text-center>
                 <ion-label>Usted es Pastor?</ion-label>
-                <ion-checkbox *ngIf="!desactivo" color="dark" checked="false" name="newpastor" [(ngModel)]="pastor"></ion-checkbox>
-                <ion-checkbox *ngIf="desactivo" color="dark" checked="false" name="newpastor" [(ngModel)]="pastor" disabled></ion-checkbox>
+                <ion-checkbox *ngIf="!desactivo" color="dark" checked="false" name="newpastor" [(ngModel)]="pastor" formControlName="pastor" (tap)="chapel.pastor = user.name + ' ' + user.surname"></ion-checkbox>
+                <ion-checkbox *ngIf="desactivo" color="dark" checked="false" name="newpastor" [(ngModel)]="pastor" formControlName="pastor" disabled></ion-checkbox>
             </ion-item>
             <ion-item text-center>
                 <ion-label>Esta Comunidad es nueva?</ion-label>
-                <ion-checkbox *ngIf="!desactivo" color="dark" checked="false" name="newcomu" [(ngModel)]="comunidad"></ion-checkbox>
-                <ion-checkbox *ngIf="desactivo" color="dark" checked="false" name="newcomu" [(ngModel)]="comunidad" disabled></ion-checkbox>
+                <ion-checkbox *ngIf="!desactivo" color="dark" checked="false" name="newcomu" [(ngModel)]="comunidad" formControlName="newComu"></ion-checkbox>
+                <ion-checkbox *ngIf="desactivo" color="dark" checked="false" name="newcomu" [(ngModel)]="comunidad" formControlName="newComu" disabled></ion-checkbox>
             </ion-item>
 
-            <button *ngIf="!editar" ion-button primary outline block (click)='crearUsuario()' [disabled]='!forma.form.valid'>Continue</button>
-            <!-- <button *ngIf="editar" ion-button primary outline block (click)='crearUsuario()' [disabled]='!forma.form.valid'>Salvar Cambios</button>-->
+            <!--<button ion-button primary outline block>Continue</button>-->
+            <button ion-button primary outline block [disabled]='!myForm.valid'>Salvar Cambios</button>
         </form>
 
     </ion-list>

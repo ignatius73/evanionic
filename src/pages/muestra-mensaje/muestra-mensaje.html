@@ -1,0 +1,25 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title text-center>Su mensaje</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <ion-card>
+        <img [src]="msg.messagejpg">
+        <ion-card-content>
+            <ion-label>{{ msg.datemsg }}</ion-label>
+            <ion-card-title>
+                {{ msg.tituloMsg }}
+            </ion-card-title>
+            <p>
+                {{ msg.messageTXT }}
+            </p>
+        </ion-card-content>
+    </ion-card>
+    <button ion-button block (tap)="cerrar()">Volver</button>
+
+</ion-content>

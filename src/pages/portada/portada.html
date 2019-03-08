@@ -1,6 +1,6 @@
 <ion-nav></ion-nav>
 <ion-content padding>
     <img class="fondo" src="../../assets/imgs/CinC_logo2.jpeg" />
-    <button padding center ion-button block color="secondary" (tap)="nuevoUsuario()">Crear cuenta</button>
-    <button padding center ion-button block color="secondary" (tap)="login()">Ingresar</button>
+    <button padding center ion-button block color="secondary" (tap)="nuevoUsuario()" [disabled]="!ready">Crear cuenta</button>
+    <button padding center ion-button block color="secondary" (tap)="login()" [disabled]="!ready">Ingresar</button>
 </ion-content>

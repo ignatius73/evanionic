@@ -1,49 +1,79 @@
 <ion-header>
 
-    <ion-navbar color="primary">
-        <button start ion-button color="light" clear></button>
+    <ion-navbar>
+
         <ion-title text-center>Personal Information</ion-title>
-        <button end ion-button color="light" clear></button>
+        <button ion-button right padding-right menuToggle icon-only>
+                <ion-icon name="menu"></ion-icon>
+                
+            </button>
     </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+
     <ion-list>
-        <form #forma="ngForm">
+        <form [formGroup]="myForm" (ngSubmit)="crearUsuario()" disabled="!myForm.valid">
+
+            <!-- #forma="ngForm">-->
             <ion-item>
-                <ion-input block type='text' [(ngModel)]="user.name" name='nombre' placeholder="Name/Nombre" required></ion-input>
+                <ion-input block type='text' [(ngModel)]="user.name" name='name' placeholder="Name/Nombre" formControlName="name"></ion-input>
+            </ion-item>
+
+            <ion-label margin-left color="danger" *ngIf="!myForm.controls['name'].valid">El nombre es obligatorio</ion-label>
+
+
+
+
+            <ion-item>
+                <ion-input block type='text' [(ngModel)]="user.surname" name='apellido' placeholder="Surname/Apellido" formControlName="surname"></ion-input>
+            </ion-item>
+            <ion-label margin-left color="danger" *ngIf="!myForm.controls['surname'].valid">El Apellido es obligatorio</ion-label>
+
+            <ion-item>
+                <ion-input block type='email' [(ngModel)]="user.email" name='email' placeholder="Email" formControlName="email" [disabled]="editar"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="!editar">
+                <ion-label margin-left color="danger" *ngIf="myForm.controls['email'].errors?.required">El email es obligatorio</ion-label>
+                <ion-label margin-left color="danger" *ngIf="myForm.controls['email'].errors?.pattern">El email no es válido</ion-label>
+                <ion-label margin-left color="danger" *ngIf="!myForm.controls['email'].valid">El email ya existe</ion-label>
+
+            </ion-item>
+
+
+
+
+            <ion-item *ngIf="!editar">
+                <ion-input block type='password' [(ngModel)]="user.password" name='password' placeholder="Password" formControlName="password"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="!editar">
+                <ion-input block type='password' [(ngModel)]="passw" name='passw' placeholder="Confirmar Password" formControlName="password1"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="!editar">
+                <ion-label margin-left color="danger" *ngIf="!myForm.controls['password1'].valid">Las contraseñas son distintas</ion-label>
+
+            </ion-item>
+
+            {{ myForm.status }}
+            <ion-item>
+                <ion-input block type='number' [(ngModel)]="user.age" name='age' placeholder="Ages/Edad" formControlName="age"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-input block type='text' [(ngModel)]="user.surname" name='apellido' placeholder="Surname/Apellido" required></ion-input>
-            </ion-item>
-            <ion-item *ngIf="user.email">
-                <ion-input block type='email' [(ngModel)]="user.email" name='email' placeholder="Email" required disabled></ion-input>
-            </ion-item>
-            <ion-item *ngIf="!user.email">
-                <ion-input block type='email' [(ngModel)]="aux" name='email' placeholder="Email" required></ion-input>
-            </ion-item>
-            <ion-item *ngIf="!user.email">
-                <ion-input block type='password' [(ngModel)]="user.password" name='password' placeholder="Password/Clave" required></ion-input>
+                <ion-input block type='number' [(ngModel)]="user.celular" name='phone' placeholder="Celular" formControlName="celular"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-input block type='number' [(ngModel)]="user.age" name='age' placeholder="Ages/Edad"></ion-input>
+                <ion-input block type='text' [(ngModel)]="user.address" name='address' placeholder="Address/Dirección" formControlName="address"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-input block type='number' [(ngModel)]="user.celular" name='phone' placeholder="Celular" required></ion-input>
+                <ion-input block type='text' [(ngModel)]="user.city" name='city' placeholder="City/Ciudad" formControlName="city"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-input block type='text' [(ngModel)]="user.address" name='address' placeholder="Address/Dirección" required></ion-input>
+                <ion-input block type='text' [(ngModel)]="user.state" name='state' placeholder="State/Estado" formControlName="state"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-input block type='text' [(ngModel)]="user.city" name='ciudad' placeholder="City/Ciudad" required></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-input block type='text' [(ngModel)]="user.state" name='state' placeholder="State/Estado" required></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-input block type='number' [(ngModel)]="user.zip" name='zip' placeholder="ZipCode/CP" required></ion-input>
+                <ion-input block type='number' [(ngModel)]="user.zip" name='zip' placeholder="ZipCode/CP" formControlName="zip"></ion-input>
             </ion-item>
             <!--<ion-item *ngIf="editar === false">
                 <ion-input block type='text' [(ngModel)]="chap.nameChapel" name='church' placeholder="Wich chapel are you going?" (click)="chapel()" required></ion-input>
@@ -51,11 +81,13 @@
             <ion-item *ngIf="editar === true">
                 <ion-input block type='text' [(ngModel)]="chap.nameChapel" name='church' placeholder="Wich chapel are you going?" (click)="chapel()"></ion-input>
             </ion-item>-->
+            <!--Descomentar a partir de aquí-->
+
             <ion-item *ngIf="imgpreview">
-                <img [src]="imgpreview" [(ngModel)]="user.imagen" name='imagen'>
+                <img [src]="imgpreview" [(ngModel)]="user.imagen" name='imagen' formControlName="imagen">
             </ion-item>
             <ion-item *ngIf="user.imagen">
-                <img [src]="user.imagen" name='imagen'>
+                <img [src]="user.imagen" name='imagen' formControlName="imagen">
             </ion-item>
             <ion-item>
                 <button ion-button primary outline block (click)='subirFoto()'>Load Image</button>
@@ -63,10 +95,11 @@
             </ion-item>
 
 
-            <button *ngIf="!editar" ion-button primary outline block (click)='crearUsuario()' [disabled]='!forma.form.valid'>Continue</button>
-            <button *ngIf="editar" ion-button primary outline block (click)='crearUsuario()' [disabled]='!forma.form.valid'>Salvar Cambios</button>
+            <button *ngIf="!editar" ion-button primary outline block [disabled]="!myForm.valid">Continue</button>
+            <button *ngIf="editar" ion-button primary outline block [disabled]="!myForm.valid">Salvar Cambios</button>
         </form>
 
     </ion-list>
+
 
 </ion-content>

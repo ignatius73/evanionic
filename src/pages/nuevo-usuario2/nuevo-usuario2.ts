@@ -4,7 +4,7 @@ import { User } from '../../interfaces/user.interface';
 import { Chapel } from '../../interfaces/chapel.interface';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { CentralMensajesPage } from '../central-mensajes/central-mensajes';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 /**
  * Generated class for the NuevoUsuario2Page page.
@@ -25,24 +25,68 @@ export class NuevoUsuario2Page {
   pastor: boolean = false;
   comunidad: boolean = false;
   desactivo: boolean = false;
+  myForm: FormGroup;
+  editar: boolean = false;
+  comu: any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public usuarios: UsuarioProvider ) {
+              public usuarios: UsuarioProvider,
+              public fb: FormBuilder ) {
     this.user = navParams.data.user;
-    console.log( this.user );
-    console.log( navParams.data.editar);
+    if ( this.navParams.data.editar === true ){
+      this.editar = true;
+      ///Obtengo los datos de la Iglesia
+      console.log("Teno el idChurch?");
+      console.log(this.user);
+      let evt = {
+        value: {
+          'idChurch' : this.user.church
+        }
+      }
+
+      this.cargoChapel( evt );
+
+      
+      }
+      
+    
+    this.myForm = this.fb.group({
+      name: [this.chapel.name_church, [Validators.required]],
+      address: [ this.chapel.address_church, [Validators.required]],
+      city: [this.chapel.city, [Validators.required]],
+      state: [ this.chapel.state, [Validators.required]],
+      namePastor: [ this.chapel.pastor, [Validators.required]],
+      pastor: [ this.pastor, [Validators.required]],
+      newComu: [ this.comunidad, [Validators.required]]
+    })
   }
 
   ionViewDidLoad() {
-    //Obtengo todas las iglesias.
     
-    console.log('ionViewDidLoad NuevoUsuario2Page');
-  }
 
-  filtraComunidad( evt ){
+  }
+  cargoChapel( evt ){
+       
     this.chapels = [];
-    this.usuarios.searchChapel(evt.value)
+    this.usuarios.searchChapel( evt.value )
+      .then( data => {
+       this.chapel = this.usuarios.chapel[0];
+       this.desactivo = true;
+
+        console.log( this.chapels );
+      });
+
+}
+
+  filtraComunidad( ev ){
+    let evt = {
+      value: {
+        'name_church': ev.value
+      }
+    }
+    this.chapels = [];
+    this.usuarios.searchChapel( evt.value )
       .then( data => {
        this.chapels = this.usuarios.chapel;
       
@@ -67,37 +111,57 @@ cargaDatosChapel( v ){
 
 crearUsuario() {
 
- if ( this.comunidad === true ){ 
-   console.log( "Voy a crear la Comunidad" );
-  //Cargo la nueva Comunidad
-   console.log( this.chapel );
+  ///Nueva Comunidad?
+  if ( this.comunidad === true ){ 
+    if ( this.pastor === true ){
+      this.user.role = 1;
+      this.chapel.pastor = this.user.name + " " + this.user.surname;
+    }
 
-   if ( this.pastor === true ){
-     this.user.role = 1;
-     this.chapel.pastor = this.user.name + " " + this.user.surname;
-
-   }
-  
  this.usuarios.creaChapel( this.chapel ).then( (resp:any) =>{
    console.log( resp );
     if (resp) {
-
-      console.log ( resp['query'] );
-      //this.navCtrl.push( NuevoHomePage, { user: this.user} );
+        this.user.church = resp['id'];
     } 
  });
    
+}else{
+  console.log(this.chapel.idChurch);
+  this.user.church = this.chapel.idChurch
+  this.usuarios.editaChapel( this.chapel )
+    .then( ( data ) => {
+      console.log(data);
+      this.navCtrl.setRoot( CentralMensajesPage, { user: this.user } );
+    })
+    .catch( ( err ) =>{
+      console.log("Ocurrió el error " + err);
+    })
 }
-//Finalmente, cargo el nuevo usuario
-this.usuarios.nuevoUsuario( this.user ).then( (resp:any) =>{
-  console.log( resp['existe'] );
 
-  if (resp['token']) {
+if ( this.editar === true ){
+  this.usuarios.editarUsuario( this.user )
+    .then( ( data ) =>{
+      console.log(data);
+      this.navCtrl.setRoot( CentralMensajesPage, { user: this.user } );
+    })
+    .catch( ( err ) => {
+      console.log("Ocurrió el error " + err);
+    })
+}else{
+//Finalmente, cargo el nuevo usuario
+this.usuarios.nuevoUsuario( this.user )
+  .then( (resp:any) =>{
+    console.log( resp['existe'] );
+    if (resp['token']) {
     console.log( "Estoy intentando cargar el usuario" );
-    this.navCtrl.push( CentralMensajesPage, { user: this.user } );
+    this.navCtrl.setRoot( CentralMensajesPage, { user: this.user } );
   } 
 });
- 
+
+}
+
+
+
 }
 
 }

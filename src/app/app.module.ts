@@ -33,6 +33,8 @@ import { CobraServicioPage } from '../pages/cobraservicio/cobraservicio';
 import { Stripe } from '@ionic-native/stripe';
 import { OneSignal } from '@ionic-native/onesignal';
 import { ChatPage } from '../pages/chat/chat';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 
 
@@ -55,6 +57,11 @@ import { ChatsProvider } from '../providers/chats/chats';
 import { OneSignalApiProvider } from '../providers/one-signal-api/one-signal-api';
 import { ChatPageModule } from '../pages/chat/chat.module';
 import { ChatroomPageModule } from '../pages/chatroom/chatroom.module';
+import { CerrarPageModule } from '../pages/cerrar/cerrar.module';
+import { CerrarPage } from '../pages/cerrar/cerrar';
+import {MuestraMensajePageModule } from '../pages/muestra-mensaje/muestra-mensaje.module';
+
+
 //const urlsocket = 'http://localhost:3000'
 const urlsocket = 'https://cincionichat.herokuapp.com'
 const config: SocketIoConfig = { url: urlsocket, options: {
@@ -106,7 +113,11 @@ export const firebaseConfig = {
     IonicStorageModule.forRoot(),
     PipesModule,
     ChatPageModule,
-    ChatroomPageModule
+    ChatroomPageModule,
+    CerrarPageModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MuestraMensajePageModule
    
   ],
   bootstrap: [IonicApp],
@@ -125,7 +136,8 @@ export const firebaseConfig = {
     CobraServicioPage,
     DonarPage,
     ChatPage,
-    ChatroomPage
+    ChatroomPage,
+    CerrarPage
     
     
   ],

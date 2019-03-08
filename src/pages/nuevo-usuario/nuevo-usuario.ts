@@ -10,6 +10,7 @@ import { SearchChapelPage } from '../search-chapel/search-chapel';
 import { Chapel } from '../../interfaces/chapel.interface';
 import { NuevoHomePage } from '../nuevo-home/nuevo-home';
 import { NuevoUsuario2Page } from '../nuevo-usuario2/nuevo-usuario2';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 
 
@@ -38,6 +39,8 @@ export class NuevoUsuarioPage {
   chap: Chapel = {}; 
   aux: string;
   editar: boolean = false;
+  myForm: FormGroup;
+  passw: string;
   
 
   constructor(public viewCtrl: ViewController, 
@@ -48,100 +51,76 @@ export class NuevoUsuarioPage {
               public oauth: OauthProvider,
               public _us: UsuarioProvider,
               public modalCtrl: ModalController,
-              public navCtrl: NavController
+              public navCtrl: NavController,
+              public fb: FormBuilder
       
     ) {
-      console.log( navParams );
+      if ( this.navParams.data.user ){
+        console.log("En el didLoad tengo User");
+        this.editar = true;
+        this.user = this.navParams.data.user;
+        console.log("Voy a imprimir el user");
+        console.log(this.user);
+        this.user.imagen = this.navParams.data.user.imagen;
+        }
+      console.log("Editar " + this.editar);
+      if( !this.editar ){
+        console.log("Entro a validación con email");
+        this.myForm = new FormGroup({
+          'name': new FormControl(this.user.name, [Validators.required]),
+          'surname': new FormControl(this.user.surname, [Validators.required]),
+          'email': new FormControl(this.user.email,  
+            [Validators.required,
+            Validators.pattern("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")], this.chequeoEmail.bind( this )),
+          'password': new FormControl( this.user.password, [Validators.required]),
+          'password1': new FormControl( this.passw, [Validators.required], this.confirmaPass.bind( this )),
+          'age': new FormControl( this.user.age, [Validators.required] ),
+          'celular': new FormControl( this.user.celular, [Validators.required] ),
+          'address': new FormControl( this.user.address, [Validators.required] ),
+          'city': new FormControl( this.user.city, [Validators.required] ),
+          'state': new FormControl( this.user.state, [Validators.required] ),
+          'zip': new FormControl( this.user.zip, [Validators.required] ),
+          'imagen': new FormControl( this.user.imagen )
+        })
 
-      if ( navParams.data.user ){
-        //this.user. = navParams.data.user.user;
-       // this.user.email = navParams.data.user.email;
-       console.log(navParams.data.user);
-       console.log( this.editar );
-        this.user.fbid = navParams.data.user;
+      }else{
+        console.log("Entro a validación sin email");
+        this.myForm = new FormGroup({
+          'name': new FormControl(this.user.name, [Validators.required]),
+          'surname': new FormControl(this.user.surname, [Validators.required]),
+          'email': new FormControl(this.user.email),
+          'age': new FormControl( this.user.age, [Validators.required] ),
+          'celular': new FormControl( this.user.celular, [Validators.required] ),
+          'address': new FormControl( this.user.address, [Validators.required] ),
+          'city': new FormControl( this.user.city, [Validators.required] ),
+          'state': new FormControl( this.user.state, [Validators.required] ),
+          'zip': new FormControl( this.user.zip, [Validators.required] ),
+          'imagen': new FormControl( this.user.imagen )
+        })
       }
-      this.user.email = oauth.usuario.email;
-      this.user.age = oauth.usuario.age;
-
-
-
-
       
   }
-  
+  ionWillDidLoad(){
+    console.log("Imprimo en el ionWillLoad");
+  }
   ionViewWillEnter(){
-    if ( this.navParams.data.user ){
-      this.editar = true;
-      this.user.email = this.navParams.data.user.email;
-      this.user.name = this.navParams.data.user.name;
-      this.user.surname = this.navParams.data.user.surname;
-      this.user.age = this.navParams.data.user.age;
-      this.user.address = this.navParams.data.user.address;
-      this.user.celular = this.navParams.data.user.celular;
-      this.user.zip = this.navParams.data.user.zip;
-      this.user.church = this.navParams.data.user.church;
-      if(this.navParams.data.user.imagen == ""){
-        this.user.imagen = this.oauth.usuario.imagen;
-      }else{
-        this.user.imagen = this.navParams.data.user.imagen;
-      }
+    
       
     }
-    /*  this.user.name = "Gabriel";
-      this.user.surname = "Garcia";
-      this.user.email = "ghgarciar@yahoo.com.ar";
-      this.user.celular = 541165831607;
-      this.user.address = "Hernán Cortez 208";
-      this.user.city = "Sarandí";
-      this.user.zip = "1872";
-      this.user.state = "Buenos Aires";
-      this.user.age = 44;*/
+  
 
     
-  }  
+  
   cerrarModal() {
     this.viewCtrl.dismiss( this.user );
   }
 
   crearUsuario() {
-     if ( this.user.email === undefined ){
-    this.user.email = this.aux;
-   }
-       if ( this.imgpreview === "" ){
-      console.log("Es nulo");
-      this.user.imagen = "";
-    }else {
-     
-    this.user.imagen = this.imgpreview;
-    }
-    
-    if ( this.editar === false ){
-      //Envío a la segunda página del registro de usuario mi user.
-      console.log( "Valor de Editar" );
-      console.log( this.editar );
-      this.navCtrl.push( NuevoUsuario2Page , { user: this.user, editar: false});
-   /* this._us.nuevoUsuario( this.user ).then( (resp:any) =>{
-       if (resp.token) {
-         this.navCtrl.push( NuevoHomePage, { user: this.user} );
-       } 
-    });*/
       
-  }else{
-
-    this._us.editarUsuario( this.user ).then( (resp:any) =>{
-      if (resp['error'] === 0) {
-        if( this.oauth.usuario !== "") {
-          console.log( "Oauth en Editar Usuario");
-          console.log( this.oauth.usuario );
-          this.user.imagen = this.oauth.usuario.imagen;
-        }
-        this.navCtrl.push( NuevoHomePage, { user: this.user} );
-      } else {
-        this.navCtrl.pop();
-      }
-   });
-  }  
-   // this.navCtrl.popToRoot( );
+   
+      this.navCtrl.push( NuevoUsuario2Page , { user: this.user, editar: this.editar });
+        
+  
     
   }
 
@@ -197,6 +176,55 @@ export class NuevoUsuarioPage {
       })
       modal1.present();
 }
+
+chequeoEmail( control: FormControl):Promise<any>{
+  console.log("Entro a ChequeoEmail");
+  let promise = new Promise( (resolve, reject) => {
+
+    
+    this._us.existeUsuario( this.user )
+
+        .then( (data) => {
+          console.log("Existe el usuario?");
+
+          if ( data === true ){
+            console.log(data);
+            resolve( { existe: true } );
+          }else{
+            console.log(data);
+            resolve( null );
+          }
+          
+        } )
+        .catch( (err) => {
+          console.log("El resultado es " + err);
+        })
+ 
+    
+    
+  })
+  console.log(this.myForm);
+  console.log("En el provider ");
+return promise;
+}
+
+confirmaPass( control: FormControl):Promise<any>{
+  let promise = new Promise( ( resolve, reject ) => {
+      if (this.user.password.length === this.passw.length){
+          if( this.user.password === this.passw){
+            resolve( null );
+
+          }
+          resolve({ iguales: "son distintos"});
+            
+      }else {
+            resolve( { existe: true });
+      }
+  });
+  return promise;
+}
+
+
 
 
 }

@@ -1,6 +1,12 @@
-<ion-header class='headerPadd' *ngIf="catsel===true">
-    <ion-navbar color="primary">
-        <ion-title text-center *ngIf="catsel===true">Selecciona un Oficio o Servicio</ion-title>
+<ion-header *ngIf="catsel===true">
+
+
+
+    <ion-navbar>
+        <ion-title *ngIf="catsel===true">Selecciona un Oficio o Servicio</ion-title>
+        <button ion-button right padding-right menuToggle icon-only>
+                <ion-icon name="menu"></ion-icon>
+        </button>
     </ion-navbar>
 
 
@@ -9,8 +15,11 @@
 <ion-header *ngIf="!catsel">
 
 
-    <ion-navbar color="primary">
+    <ion-navbar>
         <ion-title text-center *ngIf="!catsel">Selecciona una Categoría</ion-title>
+        <button ion-button right padding-right menuToggle icon-only>
+                <ion-icon name="menu"></ion-icon>
+        </button>
     </ion-navbar>
 
 </ion-header>

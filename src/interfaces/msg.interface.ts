@@ -5,5 +5,6 @@ export interface Msg {
     messageTXT?: string;
     messagejpg?: string;
     datemsg?:Date;
+    tituloMsg?: string;
   
 }
