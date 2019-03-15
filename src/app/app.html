@@ -7,20 +7,20 @@
     </ion-header>
     <ion-content>
         <ion-list>
-            <button ion-item (click)="openPage(nuevohome)">
+            <button ion-item (tap)="openPage(nuevohome)">
           Mi Home
         </button>
-            <button ion-item (click)="openPage(buscar)">
+            <button ion-item (tap)="openPage(buscar)">
           Buscar Trabajador
         </button>
-            <button ion-item (click)="openPage(cartelera)">
+            <button ion-item (tap)="openPage(cartelera)">
                 Cartelera
               </button>
-            <button ion-item (click)="openPage(chat)">
+            <button ion-item (tap)="openPage(chat)">
                 <ion-badge *ngIf="push.avisos > 0" end color="danger">{{ push.avisos }}</ion-badge>
                 Chat
               </button>
-            <button ion-item (click)="openPage(cerrar)">
+            <button ion-item (tap)="openPage(cerrar)">
                   <ion-badge *ngIf="push.avisos > 0" end color="danger">{{ push.avisos }}</ion-badge>
                   Salir
                 </button>
@@ -34,4 +34,4 @@
     </ion-content>
 </ion-menu>
 
-<ion-nav #mycontent [root]="rootPage"></ion-nav>
+<ion-nav id="nav" #mycontent [root]="rootPage"></ion-nav>

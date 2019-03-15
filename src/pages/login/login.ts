@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, LoadingController, ModalController } from 'ionic-angular';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
@@ -10,6 +10,7 @@ import { User } from '../../interfaces/user.interface';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { CentralMensajesPage } from '../central-mensajes/central-mensajes';
 import { NuevoUsuarioPage } from '../nuevo-usuario/nuevo-usuario';
+import { RecuperaPassPage } from '../recupera-pass/recupera-pass';
 
 declare var FB;
 
@@ -34,7 +35,8 @@ fbid: any;
               private fb: Facebook,
               private gp: GooglePlus,
               private usuario: UsuarioProvider,
-              private loading: LoadingController
+              private loading: LoadingController,
+              private modal: ModalController
                             ) {
 
                               console.log( this.user );
@@ -158,4 +160,11 @@ fbid: any;
 
   }
 
+  cambiarPassword(){
+    let modal = this.modal.create( RecuperaPassPage, { user: this.user } );
+            modal.present();
+             modal.onDidDismiss( (data) =>{
+                console.log("Terminó");
+  });
+  }
 }

@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
 import { User } from '../../interfaces/user.interface';
 import { Chapel } from '../../interfaces/chapel.interface';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { CentralMensajesPage } from '../central-mensajes/central-mensajes';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RootPageProvider } from '../../providers/root-page/root-page';
+import { MyApp } from '../../app/app.component';
 
 /**
  * Generated class for the NuevoUsuario2Page page.
@@ -32,7 +34,10 @@ export class NuevoUsuario2Page {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public usuarios: UsuarioProvider,
-              public fb: FormBuilder ) {
+              public fb: FormBuilder,
+              public rp: RootPageProvider
+              
+               ) {
     this.user = navParams.data.user;
     if ( this.navParams.data.editar === true ){
       this.editar = true;
@@ -131,6 +136,7 @@ crearUsuario() {
   this.usuarios.editaChapel( this.chapel )
     .then( ( data ) => {
       console.log(data);
+      this.rp.rootPage = CentralMensajesPage;
       this.navCtrl.setRoot( CentralMensajesPage, { user: this.user } );
     })
     .catch( ( err ) =>{
@@ -142,6 +148,7 @@ if ( this.editar === true ){
   this.usuarios.editarUsuario( this.user )
     .then( ( data ) =>{
       console.log(data);
+      this.rp.rootPage = CentralMensajesPage;
       this.navCtrl.setRoot( CentralMensajesPage, { user: this.user } );
     })
     .catch( ( err ) => {
@@ -154,6 +161,7 @@ this.usuarios.nuevoUsuario( this.user )
     console.log( resp['existe'] );
     if (resp['token']) {
     console.log( "Estoy intentando cargar el usuario" );
+    this.rp.rootPage = CentralMensajesPage;
     this.navCtrl.setRoot( CentralMensajesPage, { user: this.user } );
   } 
 });

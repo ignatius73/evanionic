@@ -4,6 +4,7 @@ import { Platform } from 'ionic-angular';
 import { UsuarioProvider } from '../usuario/usuario';
 import { User } from '../../interfaces/user.interface';
 import { ChatPage } from '../../pages/chat/chat';
+import { Subject, Observable } from 'rxjs';
 
 
 
@@ -17,6 +18,7 @@ export class PushnotProvider {
   ChatPage: any;
   avisos:number = 0;
   datosChat: any = {};
+  private clientes$ = new Subject<any>();
 
   constructor(private oneSignal: OneSignal,
               private platform: Platform) {
@@ -30,7 +32,8 @@ export class PushnotProvider {
       this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
 
       this.oneSignal.handleNotificationReceived().subscribe(( data ) => {
-           this.avisos = this.avisos + 1;
+        this.avisos = this.avisos + 1;
+           
            console.log("Notificacion recibida");
            console.log(data.payload.additionalData);
            this.datosChat = data.payload.additionalData.datos;
@@ -84,5 +87,15 @@ generoTags( user ){
  /* })*/
 
 }
+/*
+agregarMensaje() {
+  this.avisos = this.avisos + 1
+  
+  this.clientes$.next(this.avisos);
+}
+
+getMensajes$(): Observable<any> {
+  return this.clientes$.asObservable();
+}*/
 
 }

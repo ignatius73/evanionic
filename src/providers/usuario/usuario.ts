@@ -800,4 +800,12 @@ export class UsuarioProvider {
       
       }
 
+      recuperarPass( user ){
+        this.http.post( URL_SERVICIOS + 'usuarios/cambiarPass', user)
+        .subscribe( ( data ) => {
+           console.log("Ya envié el mail");
+            console.log( data )
+          });
+      }
+
     } 

@@ -81,7 +81,11 @@ export class ChatroomPage {
       
       console.log("Imprimo lo que recibo del socket");
       console.log(message);
-      this.db.addChat(message);
+      this.db.addChat(message)
+        .then( () => {
+          console.log(this.db.chats);
+        })
+        .catch()
       
      // this.messages.push(message);
      

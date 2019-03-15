@@ -79,8 +79,8 @@ export class NuevoUsuarioPage {
           'address': new FormControl( this.user.address, [Validators.required] ),
           'city': new FormControl( this.user.city, [Validators.required] ),
           'state': new FormControl( this.user.state, [Validators.required] ),
-          'zip': new FormControl( this.user.zip, [Validators.required] ),
-          'imagen': new FormControl( this.user.imagen )
+          'zip': new FormControl( this.user.zip, [Validators.required] )
+       //   'imagen': new FormControl( this.user.imagen )
         })
 
       }else{
@@ -94,8 +94,8 @@ export class NuevoUsuarioPage {
           'address': new FormControl( this.user.address, [Validators.required] ),
           'city': new FormControl( this.user.city, [Validators.required] ),
           'state': new FormControl( this.user.state, [Validators.required] ),
-          'zip': new FormControl( this.user.zip, [Validators.required] ),
-          'imagen': new FormControl( this.user.imagen )
+          'zip': new FormControl( this.user.zip, [Validators.required] )
+         // 'imagen': new FormControl( this.user.imagen )
         })
       }
       

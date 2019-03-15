@@ -60,10 +60,13 @@ import { ChatroomPageModule } from '../pages/chatroom/chatroom.module';
 import { CerrarPageModule } from '../pages/cerrar/cerrar.module';
 import { CerrarPage } from '../pages/cerrar/cerrar';
 import {MuestraMensajePageModule } from '../pages/muestra-mensaje/muestra-mensaje.module';
+import { RootPageProvider } from '../providers/root-page/root-page';
+import { RecuperaPassPageModule } from '../pages/recupera-pass/recupera-pass.module';
 
 
-//const urlsocket = 'http://localhost:3000'
-const urlsocket = 'https://cincionichat.herokuapp.com'
+
+const urlsocket = 'http://localhost:3000'
+//const urlsocket = 'https://cincionichat.herokuapp.com'
 const config: SocketIoConfig = { url: urlsocket, options: {
     reconnection: true,
     reconnectionDelay: 1000,
@@ -94,7 +97,7 @@ export const firebaseConfig = {
     CentralMensajesPage,
     CobraServicioPage,
     DonarPage
-
+    
  
     
    
@@ -117,7 +120,8 @@ export const firebaseConfig = {
     CerrarPageModule,
     FormsModule,
     ReactiveFormsModule,
-    MuestraMensajePageModule
+    MuestraMensajePageModule,
+    RecuperaPassPageModule
    
   ],
   bootstrap: [IonicApp],
@@ -160,7 +164,8 @@ export const firebaseConfig = {
     PushnotProvider,
     ChatsProvider,
     OneSignal,
-    OneSignalApiProvider
+    OneSignalApiProvider,
+    RootPageProvider
    
     
 

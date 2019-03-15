@@ -84,10 +84,10 @@
             <!--Descomentar a partir de aquí-->
 
             <ion-item *ngIf="imgpreview">
-                <img [src]="imgpreview" [(ngModel)]="user.imagen" name='imagen' formControlName="imagen">
+                <img [src]="imgpreview" [(ngModel)]="user.imagen" name='imagen'>
             </ion-item>
             <ion-item *ngIf="user.imagen">
-                <img [src]="user.imagen" name='imagen' formControlName="imagen">
+                <img [src]="user.imagen" name='imagen'>
             </ion-item>
             <ion-item>
                 <button ion-button primary outline block (click)='subirFoto()'>Load Image</button>

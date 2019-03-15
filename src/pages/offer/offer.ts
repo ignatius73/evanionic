@@ -80,6 +80,7 @@ export class OfferPage {
 
                 console.log( this.user );
                 console.log("No fue posible suscribirlo a Cinc");
+                this.navCtrl.setRoot( CentralMensajesPage, { user: this.user });
                }
                 if( data['data']['mensaje'] === "exito" ){
                     
@@ -87,7 +88,7 @@ export class OfferPage {
                  // this.ionViewDidLoad();
                 }else{
                   console.log( this.user );
-                  this.navCtrl.push(CentralMensajesPage, { user: this.user } );
+                  this.navCtrl.setRoot(CentralMensajesPage, { user: this.user } );
                   console.log("No fue posible suscribirlo a Cinc");
                 }
              } );

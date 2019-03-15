@@ -38,6 +38,8 @@ export class CentralMensajesPage {
               
               
               ) {
+                console.log("Usuario en el CentralMensajes");
+                console.log( this.usuarios.us );
                 if(this.usuarios.us.length === 0){
                   this.navCtrl.setRoot(PortadaPage);
                 }

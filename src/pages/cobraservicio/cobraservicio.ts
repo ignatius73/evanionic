@@ -148,7 +148,13 @@ user: User = {};
   }
 
 close(){
-  this.navCtrl.setRoot( CentralMensajesPage, { user: this.user });
+
+  let data = {
+        mensaje: "fallo"
+    }
+    this.viewCtrl.dismiss({
+        data:data
+    });
 }
 
 }

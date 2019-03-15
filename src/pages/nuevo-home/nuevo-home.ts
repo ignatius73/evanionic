@@ -47,8 +47,8 @@ export class NuevoHomePage {
    console.log(navParams);
 
   if ( this._us.us ) {
-  /*  console.log ( "Existe navParams");
-    this.fb = true;
+    console.log ( "Existe navParams");
+  /*  this.fb = true;
     this.userLogged =  _oa.usuario;
     this.anFAuth.authState.subscribe( res => {
       if (!res) {
@@ -140,7 +140,7 @@ modal.present();
 }
 
 search(){
-  this.navCtrl.push( SearchWorkerPage,  this.userLogged  );
+  this.navCtrl.setRoot( SearchWorkerPage,  this.userLogged  );
 }
 
 offer(){
