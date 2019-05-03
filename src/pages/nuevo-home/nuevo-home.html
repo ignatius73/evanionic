@@ -4,7 +4,7 @@
             Mi Perfil
         </ion-title>
 
-        <button margin-right right ion-button menuToggle icon-only>
+        <button left ion-button menuToggle icon-only>
                     <ion-icon name="menu"></ion-icon>
             </button>
 
@@ -28,7 +28,7 @@
             <ion-col no-padding *ngIf="role == 1">
                 <ion-list no-padding inset>
                     <button no-padding ion-item (click)="crearMensajes()">
-                                      Send a message for your community
+                                      Send a message for your community <ion-icon name="arrow-forward"></ion-icon>
                                     </button>
                 </ion-list>
 
@@ -42,6 +42,7 @@
         <ion-item no-padding>
             <ion-card no-padding>
                 <ion-item>
+                    {{ i.imagen }}
                     <img *ngIf="i.imagen === ''" src="../../assets/icon/no-picture-available-icon-20.jpg " />
                     <img *ngIf="i.imagen !== ''" [src]="i.imagen">
                 </ion-item>
@@ -60,7 +61,7 @@
 
 
         </ion-item>
-        <ion-fab middle right edge>
+        <ion-fab class='editoUser' middle right edge>
             <button ion-fab (tap)="editar()"><ion-icon name="create" ></ion-icon></button>
         </ion-fab>
 

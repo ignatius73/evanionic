@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, ModalController, Navbar } from 'ionic-angular';
 import { OauthProvider } from '../../providers/oauth/oauth';
 //Interface
 import { User } from '../../interfaces/user.interface';
@@ -25,6 +25,7 @@ import { PortadaPage } from '../portada/portada';
   templateUrl: 'nuevo-home.html',
 })
 export class NuevoHomePage {
+@ViewChild(Navbar) navBar: Navbar;
  email: string;
  userLogged: User = {};
  prueba: any[] = [];
@@ -69,6 +70,10 @@ export class NuevoHomePage {
 }
 
 ionViewDidLoad() {
+  this.navBar.backButtonClick = (e:UIEvent)=>{
+    this.navCtrl.setRoot( this.navParams.data.back.component, { user: this.navParams.data.user, back: this.navCtrl.getActive() });
+   
+ }
   console.log(this._us.us);
   this.role = this._us.us[0].role;
   if (this._us.us[0].imagen == ""){
@@ -140,13 +145,13 @@ modal.present();
 }
 
 search(){
-  this.navCtrl.setRoot( SearchWorkerPage,  this.userLogged  );
+  this.navCtrl.setRoot( SearchWorkerPage,  {user: this._us.us[0], back: this.navCtrl.getActive() }  );
 }
 
 offer(){
   console.log("Voy a imprimir el user");
   console.log(this._us.us[0]);
-  this.navCtrl.push( OfferPage,  {user: this._us.us[0] } );
+  this.navCtrl.setRoot( OfferPage,  {user: this._us.us[0], back: this.navCtrl.getActive() } );
   
 }
 

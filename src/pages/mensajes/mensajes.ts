@@ -6,6 +6,7 @@ import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
 //Interfaces
 
 import { Msg } from '../../interfaces/msg.interface';
+import { CentralMensajesPage } from '../central-mensajes/central-mensajes';
 
 
 /**
@@ -27,6 +28,7 @@ export class MensajesPage {
   imgpreview: string = "";
   img64: any;
   msgs: Msg[] = [];
+  cartelera: boolean = false;
 
 
 
@@ -62,7 +64,7 @@ export class MensajesPage {
     if ( typeof( this.navParams.data.user ) !== 'string' ){
       //Crear Mensaje
       console.log( this.usuarios.us )
-      this.crearMensaje();
+     // this.crearMensaje();
     } else {
       //Cargar Mensajes
       this.church = this.navParams.data.user;
@@ -76,16 +78,26 @@ export class MensajesPage {
   }
 
   crearMensaje(){
+    if ( this.cartelera === true ){
+      this.mensaje.cartelera = 1;
+    }else{
+      this.mensaje.cartelera = 0;
+    }
+
     this.mensaje.id_church = this.usuarios.us[0].church;
     this.mensaje.id_pastor = this.usuarios.us[0].id;
-  
+    
     if (this.imgpreview !== "" ){
       this.mensaje.messagejpg = this.imgpreview;
     }
-  
-    this.usuarios.crearMensaje( this.mensaje )
+
+   this.usuarios.crearMensaje( this.mensaje )
       .then( data =>{
-        console.log ( data );
+        this.navCtrl.setRoot( CentralMensajesPage,  {user: this.usuarios.us[0], back: this.navCtrl.getActive() } );
+         
+  
+  
+      
       });
     
     

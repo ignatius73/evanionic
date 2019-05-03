@@ -1,8 +1,8 @@
 <ion-header>
 
-    <ion-navbar color="primary">
-        <ion-title text-center>Your Pastor says...</ion-title>
-
+    <ion-navbar>
+        <ion-title *ngIf="usuarios.us[0].role == '0' ">Your Pastor says...</ion-title>
+        <ion-title *ngIf="usuarios.us[0].role == '1' ">Mensaje para la Comunidad</ion-title>
 
     </ion-navbar>
 
@@ -53,11 +53,15 @@
 
 </ion-content>
 <ion-content *ngIf="usuarios.us[0].role == '1' ">
-    <img *ngIf="imgpreview !== ''" [src]="imgpreview" />
+    <!--<img *ngIf="imgpreview !== ''" [src]="imgpreview" />-->
     <form #forma="ngForm">
-        <ion-input [(ngModel)]="mensaje.tituloMsg" name="tituloMsg" required></ion-input>
-        <ion-textarea [(ngModel)]="mensaje.messageTXT" name="messageTXT" required></ion-textarea>
-
+        <ion-input color="secondary" [(ngModel)]="mensaje.tituloMsg" name="tituloMsg" placeholder="Título" required></ion-input>
+        <ion-textarea class="textarea" [(ngModel)]="mensaje.messageTXT" name="messageTXT" placeholder="Mensaje" required></ion-textarea>
+        <ion-item text-left>
+            <ion-checkbox [(ngModel)]="cartelera" name="cartelera" color="dark" checked="cartelera"></ion-checkbox>
+            <ion-label>Enviar a Cartelera</ion-label>
+        </ion-item>
+        <img *ngIf="imgpreview !== ''" [src]="imgpreview" />
         <button ion-button primary outline block (click)='subirFoto()'>Load Image</button>
         <button ion-button primary outline block (click)='tomarFoto()'>Camera</button>
 

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavParams, ViewController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavParams, ViewController, Navbar } from 'ionic-angular';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { Chapel } from '../../interfaces/chapel.interface';
 
@@ -17,6 +17,7 @@ import { Chapel } from '../../interfaces/chapel.interface';
   templateUrl: 'search-chapel.html',
 })
 export class SearchChapelPage {
+  @ViewChild(Navbar) navBar: Navbar;
   zipCode: string = "";
   iglesia: Chapel = {};
 

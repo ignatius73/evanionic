@@ -30,6 +30,7 @@ export class MyApp {
   cerrar=CerrarPage;
   avisos$:Observable<any>;
   aviso:number = 0;
+  backbutton:any;
   
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
@@ -63,7 +64,10 @@ export class MyApp {
 }*/
 
   openPage( pag ){
-    this.nav.setRoot( pag );
+    this.backbutton = this.nav.getActive();
+   /* console.log("Imprimo el getActive");
+    console.log(this.backbutton);*/
+    this.nav.setRoot( pag, { back: this.backbutton } );
     this.MenuCtrl.toggle();
    /* console.log(pag);
     console.log(this.rootPage);

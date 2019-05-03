@@ -14,11 +14,13 @@ import { Storage } from '@ionic/storage';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import 'rxjs/Rx';
 import { Cordova } from '@ionic-native/core';
 import { URL_PAGOS } from '../../config/url.pagos';
 import { resolveDefinition } from '@angular/core/src/view/util';
-import { ThrowStmt, analyzeAndValidateNgModules } from '@angular/compiler';
+import { ThrowStmt, analyzeAndValidateNgModules, ClassStmt } from '@angular/compiler';
 import { platformBrowser } from '@angular/platform-browser';
+import { Observable } from 'rxjs/Rx';
 
 
 
@@ -56,27 +58,23 @@ export class UsuarioProvider {
   
     return new Promise((resolve, reject) => {
       this.http.post(URL_SERVICIOS+'usuarios', data)
-        //.map( resp => resp )
         .subscribe( (data: any)  =>{
-              this.existe = data['existe'];//console.log( data );
+              this.existe = data['existe'];
               console.log( "Existe en UsuarioProvider");
               console.log( this.existe);
               this.us = [];
               this.us.push( ...data['usuario']); 
               this.generoLogin();
               resolve(this.us);
-        
-                  
-                  
-                  if( data.error ) {
+              if( data.error ) {
                     reject(data.error);
-                  }
-                  
-                });
-                 
-                });
-                
               }
+                  
+        });
+                 
+    });
+                
+  }
 
     getUserId(user) {
     
@@ -87,9 +85,7 @@ export class UsuarioProvider {
       return new Promise((resolve, reject) => {
         this.http.post(URL_SERVICIOS+'usuarios', data)
           .subscribe( (data: any)  =>{
-            this.existe = data['existe'];//console.log( data );
-              console.log( "Existe en UsuarioProvider");
-              console.log( this.existe);
+              this.existe = data['existe'];
               this.us = [];
               this.us.push( ...data['usuario']); 
               this.generoLogin();
@@ -111,24 +107,20 @@ export class UsuarioProvider {
     
     let data = { "email": user.email,
                   "password": user.password };
-   // console.log ( data );
+   
     return new Promise((resolve, reject) => {
       this.http.post(URL_SERVICIOS+'usuarios/getUser/', data)
-        //.map( resp => resp )
         .subscribe( (data: any)  =>{
            
             if (data['existe'] === true){
               
-              this.existe = data['existe'];//console.log( data );
-              console.log( "Existe en UsuarioProvider");
-              //console.log( this.existe);
+              this.existe = data['existe'];
               this.us = [];
               this.us.push( ...data['usuario']); 
               this.generoLogin();
               resolve(this.us);
 
             }else{
-              //console.log( this.tries );
               if (this.tries <= 2 ){
                 
                 resolve( data );
@@ -137,11 +129,7 @@ export class UsuarioProvider {
                 resolve( this.tries);
               
             }
-              
-        
-      
-                  
-                  if( data.error ) {
+            if( data.error ) {
                     reject(data.error);
                   }
                   
@@ -151,23 +139,26 @@ export class UsuarioProvider {
                 
               }          
             
-    nuevoUsuario( user: User ){
+nuevoUsuario( user: User ){
       console.log( user );
      
       return new Promise( (resolve, reject) => {
         this.http.post( URL_SERVICIOS+'usuarios/crear_usuario', user)
           .subscribe( ( data:any) => {
-              console.log( data.existe );
-              if ( data.existe === false ){
+               if ( data.existe === false ){
 
-                      if ( data.error === true ) {
+                  if ( data.error === true ) {
                         reject( data.error);
-                      } else {
-                        console.log( data['query']);
+                  } else {
+                        this.http.post( URL_SERVICIOS+'usuarios/validar_usuario', user)
+                        .subscribe( (data1) =>{
+                         
+                        })
                         resolve( data );
                       }
                   }
                   else{
+
                     resolve( data );
                   }
                 });
@@ -175,18 +166,26 @@ export class UsuarioProvider {
                 });
      }
 
-    existeUsuario( user ){
+validarUsuario( user: User){
+      let data = { "email": user.email
+                 };
+      this.http.post( URL_SERVICIOS+'usuarios/validar_usuario', data)
+        .subscribe( data =>{
+          
+        })
+        
+    }
+
+existeUsuario( user ){
       let data = { "email": user.email
                  };
   
     return new Promise((resolve, reject) => {
       this.http.post(URL_SERVICIOS+'usuarios', data)
-        //.map( resp => resp )
+        
         .subscribe( (data: any)  =>{
-              this.existe = data['existe'];//console.log( data );
-              console.log( "Existe en UsuarioProvider");
-              console.log( this.existe);
-              
+              this.existe = data['existe'];
+                   
               resolve(this.existe);
         
                   
@@ -201,7 +200,7 @@ export class UsuarioProvider {
 
     }
 
-    generoLogin( ){
+generoLogin( ){
 
       for ( let i=0; i < this.us.length; i++ ) {
         
@@ -262,19 +261,18 @@ export class UsuarioProvider {
 
         }
 
-        searchChapel( name ) {
+searchChapel( name ) {
           this.chapel = [];
           let data1 = name;
-          console.log(data1);
+         
          
           return new Promise( ( resolve, reject ) => {
             this.http.post(URL_SERVICIOS+'Chapel/searChapel', data1)
-            //.map( resp => resp )
-            .subscribe( (resp: any)  =>{
-                  this.existe = resp['existe'];//console.log( data );
+                .subscribe( (resp: any)  =>{
+                  this.existe = resp['existe'];
                   this.chapel.push( ...resp['iglesias']); 
                   this.pagina += 1;
-                  console.log( resp['query']);
+                  
                   
                   resolve(this.chapel);
                   if( resp.error ) {
@@ -287,13 +285,13 @@ export class UsuarioProvider {
         
         }
 
-    creaChapel( data ){
+creaChapel( data ){
       return new Promise( (resolve, reject) => {
         this.http.post(URL_SERVICIOS+'Chapel/newChapel', data)
           .subscribe ( ( resp ) => {
-            console.log( resp );
+            
               if ( resp['error'] === true ) {
-                console.log( resp['error']);
+                
                 reject( resp['error']);
               }else{
                 resolve( resp );
@@ -302,7 +300,7 @@ export class UsuarioProvider {
       })
     }
 
-    editaChapel( data ){
+editaChapel( data ){
       return new Promise( ( resolve, reject ) => {
         this.http.post(URL_SERVICIOS+'Chapel/editaChapel', data)
           .subscribe( (resp) => {
@@ -315,7 +313,7 @@ export class UsuarioProvider {
       })
     }
 
-    crearMensaje( data ){
+crearMensaje( data ){
       this.mensaje = data;
 
       return new Promise( (resolve, reject) => {
@@ -332,7 +330,7 @@ export class UsuarioProvider {
     }
 
     cargarMensajes ( data ){
-      console.log( data );
+      
       this.mensajes = [];
       return new Promise ( (resolve, reject) => {
         this.http.get( URL_SERVICIOS+'Mensajes/cargarMensajes/'+ data)
@@ -352,21 +350,19 @@ export class UsuarioProvider {
       })
     }
 
-    editarUsuario( user ){
-      console.log( user );
+editarUsuario( user ){
+     
      
     return new Promise( (resolve, reject) => {
       this.http.post( URL_SERVICIOS+'usuarios/editar_usuario', user)
         .subscribe( ( data) => {
-          console.log("Voy a listar la data que me devuelve editarUsuario");
-            console.log( data );
+         
             if ( data['error'] === true ){
                   reject( data['error']);
                     } else {
                       this.getUser( user)
                         .then( user =>{
-                          console.log("oBTENGO EL uSER ACTUALIZADO");
-                          console.log(user);
+                          
                           resolve(user);
                         })
                         .catch( err => {
@@ -382,7 +378,7 @@ export class UsuarioProvider {
          
         }
       
-      pago( user ){
+pago( user ){
        
         
         let url: string;
@@ -400,18 +396,16 @@ export class UsuarioProvider {
           'customer':'',
           'pago': false
         };
-       // console.log( "User en el provider")
-       // console.log( user );
+       
         return new Promise( (resolve, reject) => {
 
            this.http.post( url, customer)
              .subscribe( (data) =>{
-               console.log("Obtengo respuesta de la existencia de Customer");
-               console.log( data );
+              
                  if ( data['res'] === false){
                    reject( data );
                  }
-                 console.log(data['customer']['data'].length );
+                
                 if ( data['customer']['data'].length > 0 ){
                   midata.pago = true;
                   midata.customer = data['customer']['data'][0].id;
@@ -426,80 +420,11 @@ export class UsuarioProvider {
                             });
         });
           
-         /* this.chequeoPago()
-            .then( (data)=>{
-              console.log("Estoy chequeando token de Customer");
-              
-              if ( data['pago'] === true ) {
-                console.log(data);
-                midata.customer = data['customer']; 
-                console.log("midata"); 
-                console.log(midata);               
-              }
-          });
-          console.log("Aún no pagó el usuario");
-          this.http.post( URL_SERVICIOS+'usuarios/pago', user)
-                  .subscribe( data => {
-                    console.log( data );
-                    if (data['error'] === false) {
-                      console.log( "Respuesta de PHP");
-                      console.log( data['pago']);
-                      console.log( "Respuesta de Token");
-                      console.log( midata.customer );
-                      if((data['pago'] === '') && (midata.customer === '')){
-                        console.log("están los dos vacíos");
-                        midata.pago = false;
-                        
-                      }else{
-                        if (data['pago'] === midata.costumer){
-                          midata.pago = true;
+     }
 
-                        }else{
-                          if ( data['pago'] === '' || midata.customer !== ''){
-                            this.guardoPagoEnDB( user, midata )
-                            
-                          }
-
-                          if ( data['pago'] !== '' || midata.costumer === ''){
-                            console.log("Entre porque midatacostumer está vacío");
-                            console.log(midata);
-                            this.obtengoCustomer( data['pago'] )
-                              .then( cus => {
-                                console.log("Obtengo lo que me devuelve el busca Costumer");
-                                console.log(cus);
-                                if ( cus.customer.id === data['pago']) {
-                                  this.guardarPago(data['pago']);
-                                }else{
-                                  midata.customer = cus.customer.id;
-                                  this.guardoPagoEnDB( user, midata );
-                                }
-                              })
-                            
-                          }
-                          midata.pago = true;
-                        }
-                        
-                        
-                      }
-                      resolve(midata.pago);
-                    }else{
-                      reject(data['error']);
-                    }
-          });
-            });*/
-    }
-
-      pagar( user, token, metadata ){
-        // console.log( "User en el provider")
-        // console.log( user );
-       /* console.log( result );
-        console.log( user );*/
-
-        console.log("Voy a mostrar el result");
-          // console.log( result );
-
-
-        let usuario = {
+pagar( user, token, metadata ){
+      
+  let usuario = {
           "firstName": user.name,
             "lastName" : user.surname,
             "email" : user.email,
@@ -512,9 +437,7 @@ export class UsuarioProvider {
             
 
         }
-        console.log( "Voy a listar el usuario");
-        console.log( usuario );
-
+     
 
         let url: any;
         ///Chequeo si existe el token en storage
@@ -527,21 +450,11 @@ export class UsuarioProvider {
    
             return new Promise( (resolve, reject) => {
                     this.http.post( url, usuario)
-            
-                  
-             
-                     // this.http.post( '/api', usuario)
-                      
-                         .subscribe(  (data) => {
-                               console.log("Listo Data");
-                               console.log( data );
-                               if ( data['res'] === 'ok'){
+                     .subscribe(  (data) => {
+                              if ( data['res'] === 'ok'){
                                  let respuesta = {
                                   'mensaje': 'exito'
                                 }
-                                console.log("Voy a listar el user email");
-                                console.log( user.email );
-                                       
                                 resolve (respuesta);
                                 this.guardarPago( data['customer']['id']);
                                 this.guardoPagoEnDB( user, data );
@@ -570,7 +483,7 @@ export class UsuarioProvider {
 
     
 
-       guardarPago( cus: any ){
+guardarPago( cus: any ){
          console.log("Guardo el Cus");
           if ( this.platform.is('cordova') ) {
             this.storage.set('cus', cus);
@@ -582,7 +495,7 @@ export class UsuarioProvider {
       }
        
 
-       chequeoPago() {
+chequeoPago() {
         return new Promise( (resolve, reject ) => {
 
           if ( this.platform.is("cordova") ) {
@@ -591,15 +504,12 @@ export class UsuarioProvider {
               .then( () => {
                 this.storage.get('cus')
                   .then( cus => {
-                    
-                    console.log( "Voy a imprimir el el cus en storage")
-                    console.log( cus );
                     if ( !cus ) {
-                      console.log("Sali por el resolve false");
+                     
                       resolve(false);
                     }else{
-                      console.log("Sali por el resolve true");
-                      console.log(cus);
+                      
+                  
                       let customer = {
                         'pago': true,
                         'customer': cus
@@ -613,17 +523,16 @@ export class UsuarioProvider {
                   });
                 
           }else{
-            console.log("No es cordova en chequeo pago");
-            console.log(localStorage.getItem('cus'));
+            
               if ( !localStorage.getItem('cus') ) {
-                console.log("Entro al if de localstorage");
+               
                 let customer = {
                   'pago': false
                 }
                 resolve(customer);
                 
               }else{
-                console.log("Existe el cus en localstorage");
+                
                 let cus = localStorage.getItem('cus');
                 let customer = {
                   'pago': true,
@@ -636,13 +545,13 @@ export class UsuarioProvider {
        });
       }
 
-      guardoPagoEnDB( usuario, data ){
-        console.log("Voy a imprimir el usuario que tengo en GuardoPagoen Db");
+guardoPagoEnDB( usuario, data ){
+        
         let user = {
           'email': usuario.email,
           'cus': data.customer.id
         }
-        console.log(user);
+        
         this.http.post( URL_SERVICIOS + 'usuarios/pagar', user)
         .subscribe( ( data ) => {
           if ( data['error']== true ){
@@ -653,13 +562,13 @@ export class UsuarioProvider {
         });
       }
 
-      guardoPagoEnDBUni( usuario, data ){
-        console.log("Voy a imprimir el usuario que tengo en GuardoPagoen Db");
+guardoPagoEnDBUni( usuario, data ){
+        
         let user = {
           'email': usuario.email,
           'cus': data.customer
         }
-        console.log(user);
+        
         this.http.post( URL_SERVICIOS + 'usuarios/pagar', user)
         .subscribe( ( data ) => {
           if ( data['error']== true ){
@@ -670,7 +579,7 @@ export class UsuarioProvider {
         });
       }
 
-      obtengoCustomer( cus ){
+obtengoCustomer( cus ){
         let url: string;
         if ( this.platform.is('cordova') ) {
           url = URL_PAGOS+'obtengoCustomer';
@@ -678,8 +587,7 @@ export class UsuarioProvider {
           url = '/customer';
          
         }
-        console.log("Imprimo Cus en obtengoCustomer");
-        console.log(cus);
+        
         let customer = {
           'cus': cus
         }
@@ -691,8 +599,7 @@ export class UsuarioProvider {
             })
         })
       }
-
-      crearDonacion( charge ){
+crearDonacion( charge ){
         
         let url: string;
         if ( this.platform.is('cordova') ) {
@@ -704,7 +611,7 @@ export class UsuarioProvider {
         return new Promise( (resolve, reject) => {
             this.http.post( url, charge )
               .subscribe( (data) =>{
-                  console.log(data);
+                  
                     if ( data['res'] === 'ok' ){
                       resolve(data);
                     }else{
@@ -720,15 +627,7 @@ export class UsuarioProvider {
                      
                      
                     }        
-               
-                
-              
-
-             
-              
-              
         }, err =>{
-          console.log( err );
           let error = {
             status: err.status,
             message: err.statusText,
@@ -741,7 +640,7 @@ export class UsuarioProvider {
         
       }
 
-      pruebaMetodo( userID ){
+pruebaMetodo( userID ){
         let user = {
           "userID": userID
         }
@@ -757,13 +656,13 @@ export class UsuarioProvider {
         });
       }
 
-      cerrarSesion(){
+cerrarSesion(){
         
-        console.log("Voy a imprimir el login en usuario");
-        console.log(this.login);
+        
         return new Promise( (resolve, reject ) => {
           this.cargar_storage()
               .then( () => {
+                //console.log( "Entro a cargar_storage");
                 if ( this.platform.is('cordova')){
                     this.storage.remove('token');
                     this.storage.remove('idUsuario');
@@ -778,11 +677,10 @@ export class UsuarioProvider {
                       localStorage.removeItem('cus');
                     }
                   }
+
+
                   this.us = []; 
                   this.login = {};
-                  console.log("Voy a imprimir el login en usuario después de borrarlo");
-                  console.log(this.login);
-
                   resolve();             
                   } )
               .catch( ( err )=> {
@@ -794,18 +692,62 @@ export class UsuarioProvider {
 
 
 
-        });
+       });
             
 
       
       }
 
-      recuperarPass( user ){
+recuperarPass( user ){
         this.http.post( URL_SERVICIOS + 'usuarios/cambiarPass', user)
         .subscribe( ( data ) => {
-           console.log("Ya envié el mail");
-            console.log( data )
+          
           });
       }
 
-    } 
+
+contratar( worker, user ){
+  console.log("Contratado");
+  console.log(worker);
+  console.log("Contratante");
+  console.log(user);
+  let usuarios = {
+    'idContratante': user.id,
+    'idContratado':worker.id
+  }
+  return new Promise( ( resolve, reject ) => {
+    this.http.post( URL_SERVICIOS + 'usuarios/contratar', usuarios)
+      .subscribe( data => {
+        if( data['error'] === true ){
+          reject( data );
+        }
+        resolve(data);
+    });
+});
+}
+
+valorar( user, valor){
+  console.log( user );
+  let valores = {
+    'id': user.idUser,
+    'valoracion': valor
+  }
+  console.log(valores);
+  return new Promise( ( resolve, reject ) => {
+    this.http.post( URL_SERVICIOS + 'usuarios/valorar', valores )
+      .subscribe( data => {
+        if( data['error'] === true ){
+          reject( data );
+        }
+        resolve(data);
+    });
+});
+}
+
+
+
+
+
+
+
+} 

@@ -11,6 +11,7 @@ import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { CentralMensajesPage } from '../central-mensajes/central-mensajes';
 import { NuevoUsuarioPage } from '../nuevo-usuario/nuevo-usuario';
 import { RecuperaPassPage } from '../recupera-pass/recupera-pass';
+import { ActivaUsuarioPage } from '../activa-usuario/activa-usuario';
 
 declare var FB;
 
@@ -25,6 +26,10 @@ user: User = {
 };
 msg: string = '';
 fbid: any;
+passwordType: string = 'password';
+passwordIcon: string = 'eye-off';
+
+
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -167,4 +172,20 @@ fbid: any;
                 console.log("Terminó");
   });
   }
+
+  activarUsuario(){
+    let modal = this.modal.create( ActivaUsuarioPage, { user: this.user } );
+            modal.present();
+             modal.onDidDismiss( (data) =>{
+                console.log("Terminó");
+  });
+
+}
+
+hideShowPassword() {
+  
+     this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
+     this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye';
+ }
+
 }

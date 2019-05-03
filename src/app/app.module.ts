@@ -62,6 +62,9 @@ import { CerrarPage } from '../pages/cerrar/cerrar';
 import {MuestraMensajePageModule } from '../pages/muestra-mensaje/muestra-mensaje.module';
 import { RootPageProvider } from '../providers/root-page/root-page';
 import { RecuperaPassPageModule } from '../pages/recupera-pass/recupera-pass.module';
+import { ActivaUsuarioPageModule } from '../pages/activa-usuario/activa-usuario.module';
+import { SMS } from '@ionic-native/sms';
+
 
 
 
@@ -96,7 +99,8 @@ export const firebaseConfig = {
     NuevoUsuario2Page,
     CentralMensajesPage,
     CobraServicioPage,
-    DonarPage
+    DonarPage,
+   
     
  
     
@@ -121,7 +125,8 @@ export const firebaseConfig = {
     FormsModule,
     ReactiveFormsModule,
     MuestraMensajePageModule,
-    RecuperaPassPageModule
+    RecuperaPassPageModule,
+    ActivaUsuarioPageModule
    
   ],
   bootstrap: [IonicApp],
@@ -165,7 +170,9 @@ export const firebaseConfig = {
     ChatsProvider,
     OneSignal,
     OneSignalApiProvider,
-    RootPageProvider
+    RootPageProvider,
+    SMS
+    
    
     
 

@@ -6,5 +6,6 @@ export interface Msg {
     messagejpg?: string;
     datemsg?:Date;
     tituloMsg?: string;
+    cartelera?: number;
   
 }

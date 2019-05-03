@@ -7,6 +7,7 @@ import { CentralMensajesPage } from '../central-mensajes/central-mensajes';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RootPageProvider } from '../../providers/root-page/root-page';
 import { MyApp } from '../../app/app.component';
+import { PortadaPage } from '../portada/portada';
 
 /**
  * Generated class for the NuevoUsuario2Page page.
@@ -30,6 +31,7 @@ export class NuevoUsuario2Page {
   myForm: FormGroup;
   editar: boolean = false;
   comu: any;
+  validado: boolean = false;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -136,8 +138,9 @@ crearUsuario() {
   this.usuarios.editaChapel( this.chapel )
     .then( ( data ) => {
       console.log(data);
-      this.rp.rootPage = CentralMensajesPage;
-      this.navCtrl.setRoot( CentralMensajesPage, { user: this.user } );
+    /*  this.rp.rootPage = CentralMensajesPage;
+      this.navCtrl.setRoot( CentralMensajesPage, { user: this.user } );*/
+      this.validado = true;
     })
     .catch( ( err ) =>{
       console.log("Ocurrió el error " + err);
@@ -161,8 +164,9 @@ this.usuarios.nuevoUsuario( this.user )
     console.log( resp['existe'] );
     if (resp['token']) {
     console.log( "Estoy intentando cargar el usuario" );
-    this.rp.rootPage = CentralMensajesPage;
-    this.navCtrl.setRoot( CentralMensajesPage, { user: this.user } );
+    /*this.rp.rootPage = CentralMensajesPage;
+    this.navCtrl.setRoot( CentralMensajesPage, { user: this.user } );*/
+    this.validado = true;
   } 
 });
 
@@ -170,6 +174,10 @@ this.usuarios.nuevoUsuario( this.user )
 
 
 
+}
+
+close(){
+  this.navCtrl.setRoot( PortadaPage );
 }
 
 }

@@ -139,6 +139,7 @@ export class NuevoUsuarioPage {
           console.log('Image URI: ' + results[i]);
           this.imgpreview = 'data:image/jpeg;base64,' + results[i]; 
           this.img64 = results[i];
+          this.user.imagen = this.imgpreview;
       }
     }, (err) => { 
       console.log("error seleccionando foto", JSON.stringify(err));
@@ -158,6 +159,7 @@ export class NuevoUsuarioPage {
      // If it's base64 (DATA_URL):
      this.imgpreview = 'data:image/jpeg;base64,' + imageData;
      this.img64 = imageData;
+     this.user.imagen = this.imgpreview;
      console.log(this.img64);
     }, (err) => {
          console.log( "Error ", JSON.stringify( err ));

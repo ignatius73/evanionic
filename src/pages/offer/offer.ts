@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, LoadingController, ModalController, Platform, Navbar } from 'ionic-angular';
 import { OfferedProvider } from '../../providers/offered/offered';
 import { Works } from '../../interfaces/work.interface';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
@@ -25,6 +25,7 @@ import { URL_SERVICIOS } from '../../config/url.servicios';
   templateUrl: 'offer.html'
 })
 export class OfferPage {
+  @ViewChild(Navbar) navBar: Navbar;
   worke: Works = {};
   hab: Works[] = [];
   objeto: any; 
@@ -32,29 +33,29 @@ export class OfferPage {
   catsel: boolean = false;
   ruta: any = URL_SERVICIOS;
   user: any;
+  atras: any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public offer: OfferedProvider,
               private loading: LoadingController,
               private usuarios: UsuarioProvider,
-              private modal: ModalController
+              private modal: ModalController,
+              private platform: Platform
               
  ) {
-     
-  console.log("Voy a imprimir el navParams.data.user");
-      console.log(navParams.data.user);
-      console.log('Constructor OfferPage');
-
-      //Chequeo si el usuario pagó
-      
-        
-    //  console.log( this.hab.length );
-
+     this.offer.oficios = [];
+     this.offer.skills = [];
+     this.atras = this.navParams.data.back;
       
   }
 
   ionViewDidLoad() {
+    
+    this.navBar.backButtonClick = (e:UIEvent)=>{
+      this.navCtrl.setRoot( this.navParams.data.back.component, { user: this.navParams.data.user, back: this.navCtrl.getActive() });
+     
+   }
     this.offer.cargar_categorias();
     if ( typeof this.navParams.data.user !== undefined){
       this.user = this.navParams.data.user;
@@ -62,11 +63,7 @@ export class OfferPage {
       this.user = this.usuarios.us[0];
     }
     
-    console.log( this.user );
-      console.log( "Voy a chequear si pagó");
-      /*Descomentar para Cobrar en Producción
-     */
-      this.usuarios.pago( this.user )
+    this.usuarios.pago( this.user )
         .then( ( resp =>{
           console.log("Tiene que cobrar o no?");
           console.log ( resp );
@@ -143,7 +140,8 @@ export class OfferPage {
     this.offer.agrega_skills_user( email, this.hab )
       .then( () => {});
     this.hab = [];
-    this.navCtrl.push( NuevoHomePage, { user: this.navParams.data.user });
+    
+    this.navCtrl.setRoot( NuevoHomePage, { user: this.navParams.data.user, back: this.navCtrl.getActive() });
   }
 
   filtraWork( ev: any ) {
@@ -173,6 +171,13 @@ export class OfferPage {
 }
 
 borralo( o ){
+  console.log(this.hab);
+  this.hab = this.hab.filter(delhab => {
+    return delhab.idWork !== o.idWork;
+});
   console.log(o);
+  console.log( this.hab );
 }
+
+
 }

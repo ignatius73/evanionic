@@ -3,12 +3,12 @@
     <ion-grid>
         <ion-row no-padding>
             <ion-col text-center>
-                <img src="./../../assets/imgs/CinC_logo.jpeg">
+                <img src="./../../assets/imgs/iso.png">
             </ion-col>
         </ion-row>
         <ion-row>
             <ion-col text-center>
-                <h5>Conectando Comunidades en Cristo</h5>
+                <h5>Comunidades en Cristo</h5>
             </ion-col>
 
         </ion-row>
@@ -18,17 +18,25 @@
         <ion-row>
             <ion-col>
                 <form #forma="ngForm">
-                    <ion-input block class='loginItem' type="email" [(ngModel)]="user.email" name='email' placeholder="Email" required></ion-input>
-                    <p></p>
-                    <ion-input block class='loginItem' type='password' [(ngModel)]="user.password" name='password' placeholder="Password" required></ion-input>
-                    <p text-center block *ngIf="msg !==''">
-                        <span block color='white'> {{ msg }}  <a href='' (tap)="cambiarPassword()">Forgot password?</a> </span></p>
+                    <ion-item>
+                        <ion-input block class='loginItem' type="email" [(ngModel)]="user.email" name='email' placeholder="Email" required></ion-input>
+                    </ion-item>
 
+
+                    <ion-item>
+                        <ion-input [type]="passwordType" [(ngModel)]="user.password" name='password' placeholder="Password" required></ion-input>
+                        <ion-icon item-end [name]="passwordIcon" class="passwordIcon" (tap)='hideShowPassword()'></ion-icon>
+                    </ion-item>
+
+                    <p text-center block *ngIf="msg ==='The password is wrong'">
+                        <span block color='white'> {{ msg }}  <a href='' (tap)="cambiarPassword()">Forgot password?</a> </span></p>
+                    <p text-center block *ngIf="msg ==='El usuario no está activado'">
+                        <span block color='white'> {{ msg }}  <a href='' (tap)="activarUsuario()">Activate?</a> </span></p>
                     <p></p>
                     <button ion-button color='facebook' icon-left block (click)='signInWithEmail()' [disabled]='!forma.form.valid'>
                     <ion-icon name='log-in'> Sign In</ion-icon>    
                     </button>
-                    <p></p>
+
 
                 </form>
                 <!--   <button ion-button color='facebook' icon-left block (click)='signUp()'>

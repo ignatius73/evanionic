@@ -2,7 +2,7 @@
     <ion-navbar>
         <ion-title text-center>Servicios</ion-title>
         <!-- <ion-buttons> -->
-        <button right margin-right ion-button menuToggle icon-only>
+        <button left margin-right ion-button menuToggle icon-only>
                         <ion-icon name="menu"></ion-icon>
                 </button>
 
@@ -14,7 +14,7 @@
 
 
 <ion-content padding *ngIf="selected === false">
-    <ion-label text-center *ngIf="!catsel">Selecciona la Categoría</ion-label>
+
     <ion-label text-center *ngIf="catsel">Search for the Worker closer to you</ion-label>
     <ion-searchbar (ionInput)="filtraWork($event)"></ion-searchbar>
     <ion-item *ngIf="works.respuesta">
@@ -44,6 +44,9 @@
             </ion-item>
         </ion-list>
     </ion-item>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>
 
 <ion-content padding *ngIf="selected === true">
@@ -70,32 +73,36 @@
             <ion-grid>
 
                 <ion-row justify-content-center>
-                    <ion-col col-2></ion-col>
-                    <ion-col col-8>
+                    <ion-col col-3></ion-col>
+                    <ion-col col-1 *ngFor="let o of [1,2,3,4,5]">
 
-                        <span *ngFor="let o of [1,2,3,4,5]">
-                            
-                                <ion-icon *ngIf="item.valoracion <= o" name="star-outline"></ion-icon>
-                                <ion-icon *ngIf="item.valoracion >= o" name="star"></ion-icon>
-                            
-                        </span>
+
+                        <ion-icon text-justify *ngIf="item.valoracion <= o" name="star-outline"></ion-icon>
+                        <ion-icon text-justify *ngIf="item.valoracion >= o" name="star"></ion-icon>
+
+
                     </ion-col>
-                    <ion-col col-2></ion-col>
+                    <ion-col col-3></ion-col>
                 </ion-row>
                 <ion-row>
+
                     <ion-col text-center col-6>
-                        <ion-icon name="thumbs-up" (click)="positivo()"></ion-icon>
+                        <ion-icon name="thumbs-up" (click)="positivo(item)">
+                            <ion-badge end color="danger">{{ item.mas }}</ion-badge>
+                        </ion-icon>
                     </ion-col>
                     <ion-col text-center col-6>
-                        <ion-icon name="thumbs-down" (click)="negativo()"></ion-icon>
+                        <ion-icon name="thumbs-down" (click)="negativo(item)">
+                            <ion-badge end color="danger">{{ item.menos }}</ion-badge>
+                        </ion-icon>
                     </ion-col>
 
                 </ion-row>
 
 
             </ion-grid>
-            <button block ion-button (tap)="contratar(item)">Hire</button>
-            <button block ion-button (tap)="sendMessage(item)">Enviar Mensaje</button>
+            <button block ion-button (tap)="contratar(item)">Contratar</button>
+
             <button block ion-button (tap)="iniciarChat(item)">Iniciar Chat</button>
         </ion-card-content>
     </ion-card>

@@ -87,7 +87,7 @@ generoTags( user ){
  /* })*/
 
 }
-/*
+
 agregarMensaje() {
   this.avisos = this.avisos + 1
   
@@ -96,6 +96,8 @@ agregarMensaje() {
 
 getMensajes$(): Observable<any> {
   return this.clientes$.asObservable();
-}*/
+}
+
+
 
 }

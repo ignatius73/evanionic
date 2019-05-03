@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, LoadingController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, ViewController, LoadingController, Navbar } from 'ionic-angular';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { User } from '../../interfaces/user.interface';
 import { CentralMensajesPage } from '../central-mensajes/central-mensajes';
@@ -19,7 +19,7 @@ declare var Stripe;
   templateUrl: 'cobraservicio.html',
 })
 export class CobraServicioPage {
-
+@ViewChild(Navbar) navBar: Navbar;
 stripe = Stripe('pk_test_DF1o1fSjVXokHlz4p2lWqdz9');
 card: any;
 source: any;
@@ -43,6 +43,10 @@ user: User = {};
 
   
     ionViewDidLoad() {
+      this.navBar.backButtonClick = (e:UIEvent)=>{
+        this.navCtrl.setRoot( CentralMensajesPage, { user: this.navParams.data.user, back: this.navCtrl.getActive() });
+       
+     }
       this.setupStripe();
     }
 

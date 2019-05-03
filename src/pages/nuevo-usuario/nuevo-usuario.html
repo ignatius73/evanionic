@@ -3,7 +3,7 @@
     <ion-navbar>
 
         <ion-title text-center>Personal Information</ion-title>
-        <button ion-button right padding-right menuToggle icon-only>
+        <button ion-button left padding-right menuToggle icon-only>
                 <ion-icon name="menu"></ion-icon>
                 
             </button>
@@ -56,7 +56,7 @@
 
             </ion-item>
 
-            {{ myForm.status }}
+
             <ion-item>
                 <ion-input block type='number' [(ngModel)]="user.age" name='age' placeholder="Ages/Edad" formControlName="age"></ion-input>
             </ion-item>

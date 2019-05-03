@@ -11,7 +11,7 @@ import { URL_SERVICIOS } from '../../config/url.servicios';
 */
 @Injectable()
 export class TrabajadorProvider {
-
+pag:number = 0;
 workers: any[];  
 workersFilter: any[];
   constructor(public http: HttpClient) {
@@ -19,16 +19,16 @@ workersFilter: any[];
   }
 
 
-getAllWorkers( pag ){
+getAllWorkers( ){
   return new Promise((resolve, reject) => {
-    this.http.get(URL_SERVICIOS+'Workers/todos/'+ pag)
+    this.http.get(URL_SERVICIOS+'Workers/todos/'+ this.pag)
       .subscribe( (data: any)  =>{
             if( data['error']=== true ){
               reject( data['error']);
             }
             this.workers = [];
             this.workers.push( ...data['workers']); 
-            
+            this.pag +=1;
             resolve(this.workers);
                
             });
@@ -39,7 +39,7 @@ getAllWorkers( pag ){
 
 getWorkersBy( term ){
   return new Promise((resolve, reject) => {
-    this.http.get(URL_SERVICIOS+'Workers/filtrados/'+ term)
+    this.http.post(URL_SERVICIOS+'Workers/filtrados/', term)
       .subscribe( (data: any)  =>{
             if( data['error']=== true ){
               reject( data['error']);

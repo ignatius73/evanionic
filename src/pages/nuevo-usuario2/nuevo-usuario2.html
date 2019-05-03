@@ -13,7 +13,7 @@
 
 
 <ion-content padding>
-    <ion-list>
+    <ion-list *ngIf='validado === false'>
         <ion-item>
             <ion-input #comu name="nombre" [(ngModel)]="zipCode" type="text" placeholder="Ingrese el Nombre"></ion-input>
         </ion-item>
@@ -65,5 +65,19 @@
         </form>
 
     </ion-list>
+
+    <ion-card *ngIf='validado == true'>
+        <img src="../../assets/imgs/dory.png" />
+        <ion-card-content>
+            <ion-card-title text-center>
+                Bienvenido a CinC
+            </ion-card-title>
+            <p text-justify-center>
+                Le enviamos un email a su correo electrónico con instrucciones para activar su cuenta. Muchas gracias por registrarse.
+            </p>
+        </ion-card-content>
+        <button ion-button block (tap)="close()">Cerrar</button>
+    </ion-card>
+
 
 </ion-content>

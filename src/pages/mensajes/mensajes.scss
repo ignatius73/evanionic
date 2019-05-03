@@ -1,3 +1,16 @@
 page-mensajes {
-
+    input[type=text] {
+        padding: 15px 15px 15px 25px;
+        margin-top: 12px;
+        //border: 2px solid black;
+        border-bottom: 2px solid black;
+    }
+    .textarea {
+        padding: 15px 15px 15px 25px;
+        margin-top: 12px;
+        margin-left: 5px;
+        border-bottom: 2px solid black;
+        width: 97%;
+        //  border-bottom: 2px solid red 
+    }
 }

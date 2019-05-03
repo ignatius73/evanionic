@@ -2,7 +2,7 @@ page-offer {
     .headerPadd {
         height: 200px;
         width: 100%;
-        position: absolute;
+        /*position: absolute;
         /*  background: grey;
         color: red;
         text-align: center;
@@ -15,5 +15,8 @@ page-offer {
     }
     .back-button {
         display: block;
+    }
+    img {
+        width: 35%;
     }
 }

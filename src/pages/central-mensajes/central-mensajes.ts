@@ -77,7 +77,7 @@ export class CentralMensajesPage {
   anunciar(){
     console.log( this.navParams );
     console.log( this.navParams.data.user );
-    this.navCtrl.setRoot( OfferPage, { user: this.navParams.data.user} );
+    this.navCtrl.setRoot( OfferPage, { user: this.navParams.data.user, back: this.navCtrl.getActive() } );
   }
 
   
