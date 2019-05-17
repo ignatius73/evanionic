@@ -49,6 +49,8 @@ import { PipesModule } from '../pipes/pipes.module';
 import { DonarPage } from '../pages/donar/donar';
 import { TrabajadorProvider } from '../providers/trabajador/trabajador';
 import { PushnotProvider } from '../providers/pushnot/pushnot';
+
+
 //import { AmountPipe } from '../pipes/amount/amount';
 
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
@@ -63,7 +65,9 @@ import {MuestraMensajePageModule } from '../pages/muestra-mensaje/muestra-mensaj
 import { RootPageProvider } from '../providers/root-page/root-page';
 import { RecuperaPassPageModule } from '../pages/recupera-pass/recupera-pass.module';
 import { ActivaUsuarioPageModule } from '../pages/activa-usuario/activa-usuario.module';
+
 import { SMS } from '@ionic-native/sms';
+import { NuevoWorkPage } from '../pages/nuevo-work/nuevo-work';
 
 
 
@@ -100,6 +104,8 @@ export const firebaseConfig = {
     CentralMensajesPage,
     CobraServicioPage,
     DonarPage,
+    NuevoWorkPage
+    
    
     
  
@@ -127,6 +133,7 @@ export const firebaseConfig = {
     MuestraMensajePageModule,
     RecuperaPassPageModule,
     ActivaUsuarioPageModule
+    
    
   ],
   bootstrap: [IonicApp],
@@ -146,7 +153,9 @@ export const firebaseConfig = {
     DonarPage,
     ChatPage,
     ChatroomPage,
-    CerrarPage
+    CerrarPage,
+    NuevoWorkPage
+    
     
     
   ],

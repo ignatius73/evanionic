@@ -110,6 +110,11 @@ export class OfferedProvider {
   }*/
 
   agrega_skills_user( email, hab ){
+    console.log("email" );
+    console.log( email );
+
+    console.log( "hab" );
+    console.log( hab );
     console.log("Entro a agrega_skills_user");
     let data = { 'email': email,
                   'habilidades' : hab };

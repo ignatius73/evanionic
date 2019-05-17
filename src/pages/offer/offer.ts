@@ -7,6 +7,7 @@ import { CobraServicioPage } from '../cobraservicio/cobraservicio';
 import { NuevoHomePage } from '../nuevo-home/nuevo-home';
 import { CentralMensajesPage } from '../central-mensajes/central-mensajes';
 import { URL_SERVICIOS } from '../../config/url.servicios';
+import { NuevoWorkPage } from '../nuevo-work/nuevo-work';
 
 
 
@@ -47,11 +48,12 @@ export class OfferPage {
      this.offer.oficios = [];
      this.offer.skills = [];
      this.atras = this.navParams.data.back;
+
       
   }
 
   ionViewDidLoad() {
-    
+    console.log("Entro a offer");
     this.navBar.backButtonClick = (e:UIEvent)=>{
       this.navCtrl.setRoot( this.navParams.data.back.component, { user: this.navParams.data.user, back: this.navCtrl.getActive() });
      
@@ -115,11 +117,18 @@ export class OfferPage {
   }
 
   picked( i ) {
+    console.log("Seleccioné");
     console.log(i);
     this.worke.idWork = i.id;
     this.worke.description = i.nombre;
     
-     for ( let w of this.hab ) {
+    let modal = this.modal.create( NuevoWorkPage, { worker: this.worke, user:this.user } );
+      modal.onDidDismiss( data => {
+          console.log( data );
+      })
+    modal.present();
+    
+    /* for ( let w of this.hab ) {
         if ( w.idWork == this.worke.idWork ){
          return;
        }
@@ -127,7 +136,7 @@ export class OfferPage {
 
     this.hab.push( this.worke)
     this.worke = {};
-    
+    */
     }
 
   cargaSkills() {
