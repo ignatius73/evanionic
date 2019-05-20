@@ -72,7 +72,8 @@ export class SearchWorkerPage {
   }
 
   filtraWork( ev: any ) {
-    this.term = ev
+  console.log(ev);
+   this.term = ev
    this.skills = []; 
    this.works.skills = [];
    let valor = ev.target.value;
@@ -88,7 +89,7 @@ export class SearchWorkerPage {
     this.workers.getWorkersBy( valor )
     .then( ( resp ) => {
       console.log(resp);
-      loader.dismiss();
+      
       if ( this.workers.workersFilter.length > 0 ){
         this.arr_workers = this.workers.workersFilter;
 
@@ -97,10 +98,12 @@ export class SearchWorkerPage {
         console.log(respuesta);
       }
       console.log( resp );
+      //loader.dismiss();
     })
 
    });
   
+
   }
   }
 

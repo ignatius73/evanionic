@@ -13,7 +13,7 @@
 
 
 
-<ion-content padding *ngIf="selected === false">
+<ion-content class="card-background-page" padding *ngIf="selected === false">
 
     <ion-label text-center *ngIf="catsel">Search for the Worker closer to you</ion-label>
     <ion-searchbar (ionInput)="filtraWork($event)"></ion-searchbar>
@@ -24,23 +24,22 @@
         <ion-list avatar-list no-margin no-padding *ngFor="let i of workers.workers">
 
             <ion-item (tap)="buscaWorker(i)">
-                <ion-avatar item-start>
-                    <img [src]="i.imagen">
-                </ion-avatar>
-                <h2>{{ i.name }}{{ i.surname }}</h2>
-                <p>{{ i.nombre }} {{ i.valoracion }}</p>
+                <ion-card>
+                    <img [src]="i.image" />
+                    <div class="card-title">{{ i.titulo }}</div>
+                    <div class="card-subtitle">{{ i.description }}</div>
+                </ion-card>
             </ion-item>
         </ion-list>
     </ion-item>
     <ion-item *ngIf="term">
         <ion-list avatar-list no-margin no-padding *ngFor="let i of arr_workers">
-
             <ion-item (tap)="buscaWorker(i)">
-                <ion-avatar item-start>
-                    <img [src]="i.imagen">
-                </ion-avatar>
-                <h2>{{ i.name }} {{ i.surname }}</h2>
-                <p>{{ i.nombre }} {{i.valoracion}}</p>
+                <ion-card>
+                    <img [src]="i.image" />
+                    <div class="card-title">{{ i.titulo }}</div>
+                    <div class="card-subtitle">{{ i.description }}</div>
+                </ion-card>
             </ion-item>
         </ion-list>
     </ion-item>
@@ -57,7 +56,7 @@
         <ion-row>
             <ion-col col-12>
                 <img *ngIf="item.imagen === ''" src="../../assets/icon/no-picture-available-icon-20.jpg " />
-                <img *ngIf="item.imagen !== ''" [src]="item.imagen" />
+                <img *ngIf="item.imagen !== ''" [src]="item.image" />
             </ion-col>
         </ion-row>
 
@@ -66,7 +65,7 @@
                 {{ item.name }} {{ item.surname }}
             </ion-card-title>
             <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corporis, minima placeat. Facilis quasi alias illum.
+                {{ item.description }}
             </p>
 
 

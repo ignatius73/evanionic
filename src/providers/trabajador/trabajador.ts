@@ -20,6 +20,7 @@ workersFilter: any[];
 
 
 getAllWorkers( ){
+  console.log("Entro por getallworkers");
   return new Promise((resolve, reject) => {
     this.http.get(URL_SERVICIOS+'Workers/todos/'+ this.pag)
       .subscribe( (data: any)  =>{
@@ -38,9 +39,15 @@ getAllWorkers( ){
 }
 
 getWorkersBy( term ){
+
+  let data = { "nombre": term
+                 };
+  console.log("Entro por getWorkersBy");
   return new Promise((resolve, reject) => {
-    this.http.post(URL_SERVICIOS+'Workers/filtrados/', term)
+    this.http.post(URL_SERVICIOS+'Workers/filtrados/', data)
       .subscribe( (data: any)  =>{
+        console.log("Imprimo data que devuelve la busqueda filtrada");
+            console.log(data);
             if( data['error']=== true ){
               reject( data['error']);
             }
