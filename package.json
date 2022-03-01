@@ -56,7 +56,7 @@
         "ng-socket-io": "^0.2.4",
         "onesignal-cordova-plugin": "2.4.6",
         "phonegap-plugin-multidex": "1.0.0",
-        "plist": "^3.0.1",
+        "plist": "^3.0.4",
         "promise-polyfill": "^8.1.0",
         "rxjs": "^6.4.0",
         "rxjs-compat": "^6.4.0",
